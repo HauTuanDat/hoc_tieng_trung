@@ -1,0 +1,258 @@
+<UserControl x:Class="QuizApp.Views.LearnedVocabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:LearnedVocabViewModel}"
+             d:DesignHeight="850" d:DesignWidth="1050">
+    <Grid Margin="32,20,32,32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Top Header & Actions -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Từ Vựng Đã Học" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                <Border Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="6" Padding="10,4" Margin="12,0,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding ProgressSummaryText}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" />
+                </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="🚀 Bắt đầu 20 từ tiếp theo" Command="{Binding StartLearningNewBatchCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0" />
+                <Button Content="← Trang tổng quan" Command="{Binding BackCommand}" Style="{StaticResource OutlineButton}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- HSK Level Selector Tabs (Dynamic Glowing Active Tab) -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+            <Button Content="HSK 1" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 1" Margin="0,0,8,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 1">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="HSK 2" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 2" Margin="0,0,8,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 2">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="HSK 3" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 3" Margin="0,0,8,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 3">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="HSK 4" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 4" Margin="0,0,8,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 4">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="HSK 5" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 5" Margin="0,0,8,0">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 5">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="HSK 6" Command="{Binding FilterLevelCommand}" CommandParameter="HSK 6">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="18,9" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedLevel}" Value="HSK 6">
+                                <Setter Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Effect" Value="{StaticResource ButtonGlowShadow}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+
+        <!-- Level Summary & Actions Bar -->
+        <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20,16" Margin="0,0,0,16" Effect="{StaticResource CardShadow}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectedLevel, StringFormat='Danh sách từ vựng đã học • {0}'}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                    </StackPanel>
+                    <ProgressBar Margin="0,8,0,0" Value="{Binding ProgressPercent, Mode=OneWay}" Maximum="100" Height="6" Style="{StaticResource ModernProgressBarStyle}" Width="320" HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBox Width="200" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" ToolTip="Tìm trong từ đã học..." Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <Button Content="{Binding PinyinToggleText}" Command="{Binding TogglePinyinCommand}" Style="{StaticResource OutlineButton}" Margin="0,0,10,0" ToolTip="Bật / Tắt hiển thị Pinyin (Mặc định: Ẩn Pinyin)" />
+                    <Button Content="🎯 Ôn tập các từ này" Command="{Binding ReviewLearnedQuizCommand}" Style="{StaticResource OutlineButton}" Margin="0,0,10,0" />
+                    <Button Content="↺ Đặt lại HSK này" Command="{Binding ResetLevelProgressCommand}" Style="{StaticResource OutlineButton}" Foreground="{StaticResource ErrorBrush}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Body: Empty State OR Learned Words List -->
+        <Border Grid.Row="3" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="16" Effect="{StaticResource CardShadow}">
+            <Grid>
+                <!-- EMPTY STATE (No learned words yet) -->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="32" Visibility="{Binding HasLearnedWords, Converter={StaticResource InverseBoolToVisibility}}">
+                    <Border Width="72" Height="72" CornerRadius="36" Background="#EEF2FF" HorizontalAlignment="Center">
+                        <TextBlock Text="📖" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="{Binding SelectedLevel, StringFormat='Chưa có từ vựng đã học thuộc {0}'}" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,16,0,0" />
+                    <TextBlock Text="Các từ bạn hoàn thành bài trắc nghiệm (đạt ≥ 70%) sẽ tự động được lưu vào đây và không lặp lại trong các lượt thi mới!" 
+                               FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" TextAlignment="Center" MaxWidth="500" Margin="0,6,0,0" TextWrapping="Wrap" />
+                    <Button Content="🚀 Bắt đầu học 20 từ đầu tiên ➔" Command="{Binding StartLearningNewBatchCommand}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Center" Margin="0,20,0,0" />
+                </StackPanel>
+
+                <!-- LEARNED WORDS LIST -->
+                <ListBox ItemsSource="{Binding LearnedWords}" 
+                         Visibility="{Binding HasLearnedWords, Converter={StaticResource BoolToVisibility}}"
+                         BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,0,0,10" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="#FBFBFE" BorderBrush="#EEF2F6" BorderThickness="1" CornerRadius="14" Padding="18,14">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Level & Mastered Tag -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                                <Border Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="8" Padding="8,4" VerticalAlignment="Center">
+                                    <TextBlock Text="✓ Đã học" FontSize="11" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" />
+                                </Border>
+                                <TextBlock Text="{Binding OrderNumber, StringFormat='#{0}'}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" Margin="8,0,0,0" />
+                            </StackPanel>
+
+                            <!-- Hanzi & Pinyin with Pronunciation Button -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,16,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Word}" FontSize="26" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                    <Button Content="🔊"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.PlayAudioCommand}"
+                                            CommandParameter="{Binding Word}"
+                                            Style="{StaticResource OutlineButton}"
+                                            Padding="6,2"
+                                            Margin="8,0,0,0"
+                                            FontSize="13"
+                                            VerticalAlignment="Center"
+                                            ToolTip="Nghe phát âm chuẩn Xiaoxiao" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Pinyin}" 
+                                           Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.IsPinyinVisible, Converter={StaticResource BoolToVisibility}}"
+                                           FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,2,0,0" />
+                            </StackPanel>
+
+                            <!-- Meaning & Example Sentences -->
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,16,0">
+                                <TextBlock Text="{Binding Meaning}" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0" Visibility="{Binding ExampleHanzi, Converter={StaticResource StringToVisibility}}">
+                                    <TextBlock Text="Ví dụ: " FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" />
+                                    <TextBlock Text="{Binding ExampleHanzi}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.IsPinyinVisible, Converter={StaticResource BoolToVisibility}}">
+                                        <TextBlock Text=" • " Foreground="{StaticResource TextMutedBrush}" />
+                                        <TextBlock Text="{Binding ExamplePinyin}" FontSize="13" Foreground="{StaticResource TextMutedBrush}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock Text="{Binding ExampleMeaning}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" FontStyle="Italic" Margin="0,2,0,0" Visibility="{Binding ExampleMeaning, Converter={StaticResource StringToVisibility}}" />
+                            </StackPanel>
+
+                            <!-- Practiced Info & Unlearn Button -->
+                            <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <TextBlock Text="{Binding PracticeCount, StringFormat='Luyện tập: {0} lần'}" FontSize="11" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Right" Margin="0,0,0,4" />
+                                <Button Content="Bỏ đánh dấu (Học lại)"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UnlearnWordCommand}"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource OutlineButton}"
+                                        FontSize="11"
+                                        Padding="10,4" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Border>
+</Grid>
+</UserControl>

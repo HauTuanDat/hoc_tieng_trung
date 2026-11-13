@@ -1,0 +1,258 @@
+<UserControl x:Class="QuizApp.Views.ResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:ResultViewModel}"
+             d:DesignHeight="850" d:DesignWidth="980">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel HorizontalAlignment="Center" Margin="0,24,0,48">
+            <Border Width="780"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderLightBrush}"
+                    BorderThickness="1"
+                    CornerRadius="20"
+                    Padding="36,32"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <!-- Header -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Đánh giá kết quả luyện tập" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                        <Border Background="#EEF2FF" BorderBrush="#E0E7FF" BorderThickness="1" CornerRadius="6" Padding="8,3" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Level, StringFormat='ĐỢT 20 CÂU • {0}'}" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Score Card & Passing Status -->
+                    <Border Margin="0,22,0,0"
+                            BorderThickness="1.5"
+                            CornerRadius="16"
+                            Padding="24">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPassing}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource SuccessBgBrush}" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource SuccessBorderBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsPassing}" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource ErrorBgBrush}" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <StackPanel HorizontalAlignment="Center">
+                            <!-- Status Badge -->
+                            <Border CornerRadius="8" Padding="12,4" HorizontalAlignment="Center" Margin="0,0,0,12">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsPassing}" Value="True">
+                                                <Setter Property="Background" Value="#A7F3D0" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsPassing}" Value="False">
+                                                <Setter Property="Background" Value="#FECACA" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock FontWeight="Bold" FontSize="12">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPassing}" Value="True">
+                                                    <Setter Property="Text" Value="✓ ĐẠT YÊU CẦU: TRÊN 70%" />
+                                                    <Setter Property="Foreground" Value="#065F46" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsPassing}" Value="False">
+                                                    <Setter Property="Text" Value="⚠️ CHƯA ĐẠT YÊU CẦU: DƯỚI 70% (BẮT BUỘC THI LẠI)" />
+                                                    <Setter Property="Foreground" Value="#991B1B" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Border>
+
+                            <!-- Big Score -->
+                            <TextBlock Text="{Binding ScoreSummaryText}" FontSize="36" FontWeight="ExtraBold" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsPassing}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsPassing}" Value="False">
+                                                <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <!-- Requirement Notice Text -->
+                            <TextBlock Text="{Binding RequirementNotice}"
+                                       FontSize="14" FontWeight="Medium"
+                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="650"
+                                       Margin="0,10,0,0" />
+
+                            <!-- Stats Row -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Đúng lượt đầu: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="{Binding CorrectCount}" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" FontSize="13" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Sai lượt đầu: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="{Binding IncorrectCount}" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" FontSize="13" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="⏱ Thời gian: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="{Binding DurationText}" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- ACTION BUTTONS: Passing vs Must Retry Branching -->
+                    <Border Margin="0,22,0,0" Background="#F8FAFC" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="14" Padding="20">
+                        <StackPanel>
+                            <!-- If Must Retry (< 70%) -->
+                            <StackPanel Visibility="{Binding MustRetry, Converter={StaticResource BoolToVisibility}}">
+                                <TextBlock Text="Bạn chưa đạt mốc 70%, vui lòng thi lại đợt này để ôn tập từ vựng:" 
+                                           FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource ErrorBrush}" HorizontalAlignment="Center" Margin="0,0,0,14" />
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="🔄 Bắt buộc thi lại 20 câu này ➔"
+                                            Command="{Binding RetryBatchCommand}"
+                                            Style="{StaticResource PrimaryButton}"
+                                            Background="{StaticResource ErrorBrush}"
+                                            Padding="28,12"
+                                            Margin="0,0,14,0" />
+
+                                    <Button Content="🏠 Dừng lại &amp; Về trang chính"
+                                            Command="{Binding BackToHomeCommand}"
+                                            Style="{StaticResource OutlineButton}" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- If Passing (>= 70%) -->
+                            <StackPanel Visibility="{Binding IsPassing, Converter={StaticResource BoolToVisibility}}">
+                                <TextBlock Text="Bạn đã đạt chuẩn! Hãy chọn tiếp tục với 20 từ mới hoặc dừng lại:" 
+                                           FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}" HorizontalAlignment="Center" Margin="0,0,0,14" />
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="🚀 Tiếp tục với 20 từ tiếp theo ➔"
+                                            Command="{Binding ContinueNextBatchCommand}"
+                                            Style="{StaticResource PrimaryButton}"
+                                            Padding="28,12"
+                                            Margin="0,0,14,0" />
+
+                                    <Button Content="🏠 Dừng lại &amp; Về trang chính"
+                                            Command="{Binding BackToHomeCommand}"
+                                            Style="{StaticResource OutlineButton}"
+                                            Margin="0,0,14,0" />
+
+                                    <Button Content="↺ Luyện lại đợt này"
+                                            Command="{Binding RetryBatchCommand}"
+                                            Style="{StaticResource OutlineButton}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Detailed Answer Review List -->
+                    <TextBlock Text="Chi tiết các câu hỏi trong đợt làm bài"
+                               FontSize="16" FontWeight="Bold"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Margin="0,26,0,12" />
+
+                    <ItemsControl ItemsSource="{Binding UserAnswers}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,10"
+                                        Background="#FFFFFF"
+                                        BorderBrush="{StaticResource BorderLightBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="16,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Status Icon -->
+                                        <Border Grid.Column="0" Width="30" Height="30" CornerRadius="15" Margin="0,0,14,0" VerticalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource SuccessBgBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsCorrect}" Value="False">
+                                                            <Setter Property="Background" Value="{StaticResource ErrorBgBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="13">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                                                <Setter Property="Text" Value="✓" />
+                                                                <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsCorrect}" Value="False">
+                                                                <Setter Property="Text" Value="✕" />
+                                                                <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+
+                                        <!-- Question & Details -->
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Question.Prompt}" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <TextBlock Text="Bạn đã chọn: " FontSize="13" Foreground="{StaticResource TextMutedBrush}" />
+                                                <TextBlock Text="{Binding SelectedOption}" FontWeight="Bold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                                                <TextBlock Text=" - " Foreground="{StaticResource TextMutedBrush}" />
+                                                <TextBlock Text="{Binding SelectedText}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                                <TextBlock Text="Đáp án đúng: " FontSize="13" Foreground="{StaticResource SuccessBrush}" FontWeight="Medium" />
+                                                <TextBlock Text="{Binding Question.CorrectAnswer}" FontWeight="Bold" FontSize="13" Foreground="{StaticResource SuccessBrush}" />
+                                                <TextBlock Text=" - " Foreground="{StaticResource SuccessBrush}" />
+                                                <TextBlock Text="{Binding CorrectText}" FontSize="13" Foreground="{StaticResource SuccessBrush}" FontWeight="Medium" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

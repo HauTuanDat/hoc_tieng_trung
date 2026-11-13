@@ -1,0 +1,685 @@
+<UserControl x:Class="QuizApp.Views.SentenceScrambleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:SentenceScrambleViewModel}"
+             Background="{StaticResource WindowBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32,20" MaxWidth="1160">
+
+            <!-- ======================================================== -->
+            <!-- 1. TOP BANNER: XẾP CÂU (Mộc Ngữ Artwork & Panda 加油!)    -->
+            <!-- ======================================================== -->
+            <Border CornerRadius="18"
+                    Background="White"
+                    BorderBrush="{StaticResource BorderLightBrush}"
+                    BorderThickness="1"
+                    Padding="24,18"
+                    Margin="0,0,0,16"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Red Puzzle Icon -> Jade Green -->
+                        <Border Width="48" Height="48" CornerRadius="14" Background="{StaticResource PrimaryBrush}" Margin="0,0,16,0">
+                            <TextBlock Text="🧩" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Xếp câu" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                            <TextBlock Text="Sắp xếp các từ tiếng Trung theo đúng thứ tự để tạo thành câu hoàn chỉnh."
+                                       FontSize="13" Foreground="{StaticResource TextMutedBrush}" FontWeight="Medium" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Mascot Panda Cheering on Right -->
+                    <Border Grid.Column="1" Background="#FAF6F0" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1" CornerRadius="14" Padding="12,6" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="加油! " FontSize="13" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="🐼" FontSize="26" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- ======================================================== -->
+            <!-- 2. HORIZONTAL LEVEL TABS (Tất cả, HSK 1..6, Chuyên ngành) -->
+            <!-- ======================================================== -->
+            <ItemsControl ItemsSource="{Binding Tabs}" Margin="0,0,0,16">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding DataContext.SelectTabCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}"
+                                Cursor="Hand"
+                                Margin="0,0,8,6"
+                                BorderThickness="0"
+                                Background="Transparent">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="tabBorder"
+                                                        Background="White"
+                                                        BorderBrush="{StaticResource BorderLightBrush}"
+                                                        BorderThickness="1"
+                                                        CornerRadius="12"
+                                                        Padding="16,8">
+                                                    <TextBlock x:Name="tabText"
+                                                               Text="{Binding}"
+                                                               FontSize="13"
+                                                               FontWeight="Medium"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Check if this tab is currently selected -->
+                                                    <DataTrigger Value="True">
+                                                        <DataTrigger.Binding>
+                                                            <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                                                <Binding Path="" />
+                                                                <Binding Path="DataContext.SelectedTab" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                                            </MultiBinding>
+                                                        </DataTrigger.Binding>
+                                                        <Setter TargetName="tabBorder" Property="Background" Value="{StaticResource PrimaryBrush}" />
+                                                        <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
+                                                        <Setter TargetName="tabText" Property="Foreground" Value="White" />
+                                                        <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="tabBorder" Property="BorderBrush" Value="{StaticResource PrimaryLightBorderBrush}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- ======================================================== -->
+            <!-- 3. MAIN WORKSPACE: 2-COLUMN GRID (Exercise | Widgets)    -->
+            <!-- ======================================================== -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.45*" />
+                    <ColumnDefinition Width="290" />
+                </Grid.ColumnDefinitions>
+
+                <!-- ==================================================== -->
+                <!-- LEFT COLUMN: MAIN EXERCISE CARD                     -->
+                <!-- ==================================================== -->
+                <Border Grid.Column="0"
+                        Background="White"
+                        BorderBrush="{StaticResource BorderLightBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="26,24"
+                        Margin="0,0,18,0"
+                        Effect="{StaticResource CardShadow}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!-- 0: Sub Header & Progress -->
+                            <RowDefinition Height="Auto" />
+                            <!-- 1: Vietnamese Meaning Banner -->
+                            <RowDefinition Height="Auto" />
+                            <!-- 2: Question Prompt & Word Pool -->
+                            <RowDefinition Height="Auto" />
+                            <!-- 3: Target Drop Zone -->
+                            <RowDefinition Height="Auto" />
+                            <!-- 4: Result Feedback Bar -->
+                            <RowDefinition Height="Auto" />
+                            <!-- 5: Bottom Action Buttons -->
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Row 0: Sub Header & Progress Step -->
+                        <Grid Grid.Row="0" Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Background="{StaticResource PrimaryTintBrush}" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="📗 " FontSize="11" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding SelectedLevel}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock Text="{Binding LessonHeader}" FontSize="14.5" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <!-- Progress 3/15 -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding ProgressText}" FontSize="12.5" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                <ProgressBar Value="{Binding ProgressPercentage, Mode=OneWay}" Width="90" Height="6" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Row 1: Vietnamese Meaning Box with Panda Mascot -->
+                        <Border Grid.Row="1"
+                                Background="#FFFDFB"
+                                BorderBrush="{StaticResource BorderLightBrush}"
+                                BorderThickness="1"
+                                CornerRadius="16"
+                                Padding="20,16"
+                                Margin="0,0,0,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="💡 " FontSize="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Nghĩa tiếng Việt:" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding CurrentQuestion.VietnameseMeaning}"
+                                               FontSize="17"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource TextPrimaryBrush}"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <!-- Panda Mascot Speech Bubble: 你可以的! -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0" HorizontalAlignment="Right">
+                                    <Border Background="{StaticResource PrimaryTintBrush}" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="8,3" HorizontalAlignment="Center" Margin="0,0,0,4">
+                                        <TextBlock Text="你可以的! ✨" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                                    </Border>
+                                    <TextBlock Text="🐼" FontSize="36" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row 2: Prompt Title & Available Word Token Pool -->
+                        <StackPanel Grid.Row="2" Margin="0,0,0,16">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                                <Border Width="22" Height="22" CornerRadius="11" Background="{StaticResource PrimaryBrush}" Margin="0,0,8,0">
+                                    <TextBlock Text="1" FontSize="12" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="Hãy sắp xếp các từ sau để tạo thành câu đúng" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <!-- Available Word Tokens List -->
+                            <ItemsControl ItemsSource="{Binding AvailablePool}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.SelectTokenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                Cursor="Hand"
+                                                Margin="6"
+                                                BorderThickness="0"
+                                                Background="Transparent">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="tokenBorder"
+                                                                        Background="White"
+                                                                        BorderBrush="#EDE5D8"
+                                                                        BorderThickness="1.5"
+                                                                        CornerRadius="14"
+                                                                        Padding="16,10"
+                                                                        Effect="{StaticResource CardShadow}">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <!-- Drag handle dots icon :: -->
+                                                                        <TextBlock Text=":: " FontSize="13" Foreground="#BDB2A5" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0" />
+
+                                                                        <StackPanel VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding Hanzi}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" />
+                                                                            <TextBlock Text="{Binding Pinyin, StringFormat='({0})'}" FontSize="12" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                        <Setter TargetName="tokenBorder" Property="Opacity" Value="0.25" />
+                                                                        <Setter TargetName="tokenBorder" Property="Background" Value="#F1ECE4" />
+                                                                        <Setter TargetName="tokenBorder" Property="BorderBrush" Value="#E2D8C9" />
+                                                                    </DataTrigger>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="tokenBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                                                        <Setter TargetName="tokenBorder" Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- Row 3: Target Drop Tray (Answer Area) with Dashed Border -->
+                        <Border Grid.Row="3"
+                                MinHeight="96"
+                                Background="#FAF8F4"
+                                BorderBrush="#DED6CA"
+                                BorderThickness="1.5"
+                                CornerRadius="16"
+                                Padding="16,12"
+                                Margin="0,0,0,20">
+                            <!-- Dashed effect via Border and visual hints -->
+                            <Grid>
+                                <!-- Placeholder when empty: Puzzle icon & text -->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Visibility="{Binding HasSelectedTokens, Converter={StaticResource InverseBoolToVisibility}}">
+                                    <TextBlock Text="🧩 " FontSize="18" Foreground="#A89F93" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <TextBlock Text="Kéo thả từ vào đây theo đúng thứ tự (hoặc bấm vào thẻ từ ở trên)"
+                                               FontSize="13.5"
+                                               Foreground="#9E968B"
+                                               FontWeight="Medium"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Ordered Tokens in Selected Tray -->
+                                <ItemsControl ItemsSource="{Binding SelectedTray}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.RemoveTokenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Cursor="Hand"
+                                                    Margin="6"
+                                                    BorderThickness="0"
+                                                    Background="Transparent"
+                                                    ToolTip="Bấm để trả từ lại khay">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <Border x:Name="trayTokenBorder"
+                                                                            Background="White"
+                                                                            BorderBrush="{StaticResource PrimaryBrush}"
+                                                                            BorderThickness="1.8"
+                                                                            CornerRadius="14"
+                                                                            Padding="18,10"
+                                                                            Effect="{StaticResource CardShadow}">
+                                                                        <StackPanel VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding Hanzi}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" />
+                                                                            <TextBlock Text="{Binding Pinyin, StringFormat='({0})'}" FontSize="12" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                                                            <Setter TargetName="trayTokenBorder" Property="Background" Value="{StaticResource SuccessBgBrush}" />
+                                                                            <Setter TargetName="trayTokenBorder" Property="BorderBrush" Value="{StaticResource SuccessBrush}" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsCorrect}" Value="False">
+                                                                            <Setter TargetName="trayTokenBorder" Property="Background" Value="{StaticResource ErrorBgBrush}" />
+                                                                            <Setter TargetName="trayTokenBorder" Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
+                                                                        </DataTrigger>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter TargetName="trayTokenBorder" Property="Background" Value="#FDF2F0" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row 4: Result Feedback Bar (When Checked) -->
+                        <Border Grid.Row="4"
+                                CornerRadius="12"
+                                Padding="16,12"
+                                Margin="0,0,0,16"
+                                Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibility}}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="{StaticResource SuccessBgBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessBorderBrush}" />
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCorrect}" Value="False">
+                                            <Setter Property="Background" Value="{StaticResource ErrorBgBrush}" />
+                                            <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock FontSize="15" FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="🎉 Xuất sắc! Câu ghép hoàn toàn chính xác." />
+                                                <Setter Property="Foreground" Value="{StaticResource SuccessTextBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCorrect}" Value="False">
+                                                        <Setter Property="Text" Value="❌ Chưa chính xác! Thứ tự đúng là:" />
+                                                        <Setter Property="Foreground" Value="{StaticResource ErrorTextBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                        <TextBlock Text="{Binding CurrentQuestion.TargetSentence}" FontWeight="Bold" FontSize="15" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding CurrentQuestion.TargetPinyin}" FontSize="13" Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Play Full Sentence Audio Button -->
+                                <Button Grid.Column="1"
+                                        Command="{Binding PlayNormalAudioCommand}"
+                                        Style="{StaticResource OutlineButton}"
+                                        Padding="12,6"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="🔊 Nghe câu" FontSize="12.5" />
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row 5: Bottom Navigation Action Buttons -->
+                        <Grid Grid.Row="5">
+                            <!-- Left: Skip / Pass Button -->
+                            <Button Command="{Binding SkipCommand}"
+                                    Style="{StaticResource OutlineButton}"
+                                    HorizontalAlignment="Left"
+                                    Height="44"
+                                    Padding="20,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🔄 " FontSize="13" VerticalAlignment="Center" />
+                                    <TextBlock Text="Bỏ qua" FontSize="13.5" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Right: Hint & Check Button -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <!-- Hint Button -->
+                                <Button Command="{Binding HintCommand}"
+                                        Style="{StaticResource OutlineButton}"
+                                        Height="44"
+                                        Padding="18,0"
+                                        Margin="0,0,12,0"
+                                        Background="#FFFBF2"
+                                        BorderBrush="#FDE68A">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="💡 " FontSize="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Gợi ý" FontSize="13.5" FontWeight="SemiBold" Foreground="#B45309" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Check Button (Changes to Next when checked) -->
+                                <Button Height="44"
+                                        Padding="28,0"
+                                        Cursor="Hand"
+                                        BorderThickness="0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Command" Value="{Binding CheckAnswerCommand}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="b" Background="{StaticResource PrimaryButtonGradientBrush}" CornerRadius="12">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect BlurRadius="12" ShadowDepth="3" Direction="270" Color="#208B58" Opacity="0.28" />
+                                                    </Border.Effect>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock Text="🚀 " FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                                        <TextBlock Text="Kiểm tra" FontSize="14.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="b" Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="b" Property="Background" Value="#D6CEC4" />
+                                                        <Setter TargetName="b" Property="Effect" Value="{x:Null}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <!-- When Checked, switch command and text to NEXT QUESTION -->
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked}" Value="True">
+                                            <Setter Property="Command" Value="{Binding NextQuestionCommand}" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="b" Background="{StaticResource PrimaryHoverBrush}" CornerRadius="12">
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <TextBlock Text="Tiếp theo " FontSize="14.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                                                                <TextBlock Text="➜" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- ==================================================== -->
+                <!-- RIGHT COLUMN: STATS, LESSONS & MOTIVATION MASCOT     -->
+                <!-- ==================================================== -->
+                <StackPanel Grid.Column="1">
+                    <!-- Widget 1: Tiến độ học tập (Progress Gauge & Stats) -->
+                    <Border Background="White"
+                            BorderBrush="{StaticResource BorderLightBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18,16"
+                            Margin="0,0,0,16"
+                            Effect="{StaticResource CardShadow}">
+                        <StackPanel>
+                            <TextBlock Text="Tiến độ học tập" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,14" />
+
+                            <!-- Gauge & Completed Lessons Text -->
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Green Circle 53% -->
+                                <Border Grid.Column="0" Width="72" Height="72" CornerRadius="36" BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="4" Background="{StaticResource PrimaryTintBrush}" Margin="0,0,14,0">
+                                    <TextBlock Text="{Binding CompletionRate, StringFormat='{}{0}%'}"
+                                               FontSize="16"
+                                               FontWeight="ExtraBold"
+                                               Foreground="{StaticResource PrimaryBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Đã hoàn thành" FontSize="12" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,3" />
+                                    <TextBlock Text="{Binding CompletedLessonsText}" FontSize="15" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- 3 Mini Metric Badges: [Từ mới 5 từ] | [✔ Đúng 7 câu] | [✖ Sai 1 câu] -->
+                            <UniformGrid Columns="3">
+                                <!-- Từ mới -->
+                                <Border Background="#FAF6F0" CornerRadius="10" Padding="6,8" Margin="0,0,3,0">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="🌱 Từ mới" FontSize="10.5" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding NewWordsCount, StringFormat='{}{0} từ'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Đúng -->
+                                <Border Background="#F0FDF4" CornerRadius="10" Padding="6,8" Margin="3,0,3,0">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="✔ Đúng" FontSize="10.5" Foreground="#166534" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding CorrectCount, StringFormat='{}{0} câu'}" FontSize="12" FontWeight="Bold" Foreground="#166534" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Sai -->
+                                <Border Background="#FEF2F2" CornerRadius="10" Padding="6,8" Margin="3,0,0,0">
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock Text="✖ Sai" FontSize="10.5" Foreground="#991B1B" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding WrongCount, StringFormat='{}{0} câu'}" FontSize="12" FontWeight="Bold" Foreground="#991B1B" HorizontalAlignment="Center" Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Widget 2: Danh sách bài học (Lesson List) -->
+                    <Border Background="White"
+                            BorderBrush="{StaticResource BorderLightBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18,16"
+                            Margin="0,0,0,16"
+                            Effect="{StaticResource CardShadow}">
+                        <StackPanel>
+                            <TextBlock Text="Danh sách bài học" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,12" />
+
+                            <ItemsControl ItemsSource="{Binding LessonItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.SelectLessonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                Cursor="Hand"
+                                                BorderThickness="0"
+                                                Background="Transparent"
+                                                Margin="0,0,0,6">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="itemBorder"
+                                                                        CornerRadius="10"
+                                                                        Padding="10,8"
+                                                                        Background="Transparent"
+                                                                        BorderBrush="Transparent"
+                                                                        BorderThickness="1">
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="22" />
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <ColumnDefinition Width="Auto" />
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock x:Name="numText" Text="{Binding Number}" FontSize="12" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" />
+                                                                        <TextBlock x:Name="titleText" Grid.Column="1" Text="{Binding Title}" FontSize="12.5" Foreground="{StaticResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+
+                                                                        <!-- Status Icons -->
+                                                                        <TextBlock x:Name="statusIcon" Grid.Column="2" Text="" FontSize="12" VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <!-- Hover Effect (Theme Jade Green) -->
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="itemBorder" Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                                        <Setter TargetName="itemBorder" Property="BorderBrush" Value="{StaticResource PrimaryLightBorderBrush}" />
+                                                                        <Setter TargetName="titleText" Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                                        <Setter TargetName="titleText" Property="FontWeight" Value="SemiBold" />
+                                                                        <Setter TargetName="numText" Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                                    </Trigger>
+                                                                    <!-- Completed -> Green Checkmark -->
+                                                                    <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                                                        <Setter TargetName="statusIcon" Property="Text" Value="✔" />
+                                                                        <Setter TargetName="statusIcon" Property="Foreground" Value="{StaticResource SuccessBrush}" />
+                                                                    </DataTrigger>
+                                                                    <!-- Active -> Jade Green highlight border and bg -->
+                                                                    <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                                        <Setter TargetName="itemBorder" Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                                        <Setter TargetName="itemBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                                                        <Setter TargetName="itemBorder" Property="BorderThickness" Value="1.5" />
+                                                                        <Setter TargetName="titleText" Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                                        <Setter TargetName="titleText" Property="FontWeight" Value="Bold" />
+                                                                        <Setter TargetName="numText" Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                                        <Setter TargetName="numText" Property="FontWeight" Value="Bold" />
+                                                                        <Setter TargetName="statusIcon" Property="Text" Value="⭕" />
+                                                                        <Setter TargetName="statusIcon" Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                                    </DataTrigger>
+                                                                    <!-- Locked -> Lock Icon -->
+                                                                    <DataTrigger Binding="{Binding IsLocked}" Value="True">
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                        <Setter TargetName="itemBorder" Property="Opacity" Value="0.5" />
+                                                                        <Setter TargetName="statusIcon" Property="Text" Value="🔒" />
+                                                                        <Setter TargetName="statusIcon" Property="Foreground" Value="#A89F93" />
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Widget 3: Card Cố lên! (Encouragement Mascot) -->
+                    <Border Background="#F5F9F6"
+                            BorderBrush="{StaticResource PrimaryLightBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18,16"
+                            Effect="{StaticResource CardShadow}">
+                        <Grid>
+                            <StackPanel Margin="0,0,60,0">
+                                <TextBlock Text="Cố lên!" FontSize="18" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,4" />
+                                <TextBlock Text="Mỗi câu đúng là một bước tiến đến mục tiêu của bạn!"
+                                           FontSize="12"
+                                           FontStyle="Italic"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+
+                            <!-- Cheering Panda Mascot -->
+                            <TextBlock Text="🐼" FontSize="44" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

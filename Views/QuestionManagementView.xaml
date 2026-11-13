@@ -1,0 +1,258 @@
+<UserControl x:Class="QuizApp.Views.QuestionManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:QuestionManagementViewModel}"
+             d:DesignHeight="750" d:DesignWidth="980">
+    <Grid Margin="24,16,24,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Top Header & Actions -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Ngân hàng câu hỏi SQL Server" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                <Border Background="#EEF2FF" CornerRadius="6" Padding="8,3" Margin="10,0,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Questions.Count, StringFormat='{}{0} câu hỏi'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                </Border>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="🔄 Làm mới" Command="{Binding RefreshCommand}" Style="{StaticResource OutlineButton}" Margin="0,0,10,0" />
+                <Button Content="+ Thêm mới" Command="{Binding NewQuestionCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0" />
+                <Button Content="← Quay lại bài học" Command="{Binding BackCommand}" Style="{StaticResource OutlineButton}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Main Content Area: Split 2 columns (Left: Question List, Right: Form) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="420" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: Questions List Card -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderLightBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16"
+                    Padding="16"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Danh sách câu hỏi trong CSDL" FontWeight="SemiBold" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}" Margin="4,0,0,12" />
+
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Questions}"
+                             SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0,0,0,8" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="ItemBorder"
+                                                    Background="#FFFFFF"
+                                                    BorderBrush="#E2E8F0"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10"
+                                                    Padding="12,10"
+                                                    Cursor="Hand">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="ItemBorder" Property="Background" Value="#F8FAFC" />
+                                                    <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#CBD5E1" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                    <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                                    <Setter TargetName="ItemBorder" Property="BorderThickness" Value="1.5" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Question ID badge -->
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#F1F5F9" Margin="0,0,10,0">
+                                        <TextBlock Text="{Binding Id}" FontSize="12" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <!-- Prompt and Answer -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Prompt}" FontWeight="SemiBold" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock FontSize="12" Foreground="{StaticResource TextMutedBrush}" TextTrimming="CharacterEllipsis" Margin="0,2,0,0">
+                                            <Run Text="Đáp án đúng: " />
+                                            <Run Text="{Binding CorrectAnswer}" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" />
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <Border Grid.Column="2" Background="#F3E8FF" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Category}" FontSize="10" FontWeight="Bold" Foreground="#7C3AED" />
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- Right: Edit / Create Form Card -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderLightBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16"
+                    Padding="24"
+                    Effect="{StaticResource CardShadow}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <TextBlock Text="{Binding FormTitle}" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,16" />
+
+                        <!-- Nghĩa của từ (Prompt) -->
+                        <TextBlock Text="Nghĩa của từ (Tiếng Việt) *" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Prompt, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,14" />
+
+                        <!-- Giải thích câu -->
+                        <TextBlock Text="Giải thích câu / Ý nghĩa chi tiết" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                        <TextBox Text="{Binding Explanation, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,14" />
+
+                        <!-- 2 columns: Loại từ & Tag -->
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Loại từ / Ngữ pháp" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding PartOfSpeech, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Chủ đề / Nhãn" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding Tag, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- 4 Options A, B, C, D -->
+                        <TextBlock Text="Các lựa chọn đáp án tiếng Anh *" FontWeight="SemiBold" FontSize="14" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,6,0,10" />
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Option A -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Lựa chọn A" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
+                                <TextBox Text="{Binding OptionA, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+
+                            <!-- Option B -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Lựa chọn B" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
+                                <TextBox Text="{Binding OptionB, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Option C -->
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Lựa chọn C" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
+                                <TextBox Text="{Binding OptionC, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+
+                            <!-- Option D -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Lựa chọn D" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4" />
+                                <TextBox Text="{Binding OptionD, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Đáp án đúng & Giải thích sau câu -->
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Đáp án đúng *" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                                <ComboBox SelectedValue="{Binding CorrectAnswer, Mode=TwoWay}"
+                                          SelectedValuePath="Content"
+                                          Height="40" FontSize="14" VerticalContentAlignment="Center" Padding="8,4">
+                                    <ComboBoxItem Content="A" />
+                                    <ComboBoxItem Content="B" />
+                                    <ComboBoxItem Content="C" />
+                                    <ComboBoxItem Content="D" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Giải thích sau khi chọn" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,6" />
+                                <TextBox Text="{Binding ExplanationAfterAnswer, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Form Actions -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                            <Button Content="🗑 Xóa câu hỏi"
+                                    Command="{Binding DeleteQuestionCommand}"
+                                    Style="{StaticResource OutlineButton}"
+                                    Foreground="{StaticResource ErrorBrush}"
+                                    Margin="0,0,12,0" />
+
+                            <Button Content="💾 Lưu vào SQL Server"
+                                    Command="{Binding SaveQuestionCommand}"
+                                    Style="{StaticResource PrimaryButton}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- Status Message Banner -->
+        <Border Grid.Row="2" Margin="0,14,0,0" Padding="12,8" Background="#F1F5F9" CornerRadius="8">
+            <TextBlock Text="{Binding StatusMessage}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+        </Border>
+    </Grid>
+</UserControl>

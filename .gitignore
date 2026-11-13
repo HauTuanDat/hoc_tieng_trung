@@ -1,0 +1,61 @@
+## ====================================================================
+## Visual Studio & .NET .gitignore for WPF C# (QuizApp)
+## ====================================================================
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+[Pp]ackages/
+Generated\ Files/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+*.VisualState.xml
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# User / Local configuration (tránh lộ chuỗi kết nối cá nhân)
+appsettings.*.local.json
+appsettings.local.json
+*.local.config
+
+# Logs and Crash Dumps
+*.log
+*.tlog
+*.dump
+*.dmp
+*.crash
+
+# Test and Code Coverage
+TestResult*/
+[Tt]est[Rr]esults/
+*.trx
+*.coverage
+*.coveragexml
+
+# SQL Server local / temp files (nếu có để nhầm trong repo)
+*.mdf
+*.ldf
+*.ndf
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.DS_Store

@@ -1,0 +1,73 @@
+<UserControl x:Class="QuizApp.Views.DatabaseSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:DatabaseSettingsViewModel}"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border Width="680"
+                Background="{StaticResource CardBackgroundBrush}"
+                BorderBrush="{StaticResource BorderLightBrush}"
+                BorderThickness="1"
+                CornerRadius="20"
+                Padding="36,32"
+                Effect="{StaticResource CardShadow}">
+            <StackPanel>
+                <!-- Title -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" CornerRadius="10" Background="{StaticResource PrimaryTintBrush}" Margin="0,0,14,0">
+                        <TextBlock Text="⚙" FontSize="20" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Cấu hình kết nối SQL Server" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                        <TextBlock Text="Thiết lập chuỗi kết nối và quản lý cơ sở dữ liệu QuizDb" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Connection String Input -->
+                <TextBlock Text="Connection String" FontWeight="SemiBold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,24,0,8" />
+                <TextBox Text="{Binding ConnectionString, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource ModernTextBox}"
+                         TextWrapping="Wrap"
+                         Height="70"
+                         VerticalContentAlignment="Top" />
+
+                <TextBlock Text="Mặc định: Server=.\SQLEXPRESS;Database=QuizDb;Trusted_Connection=True;TrustServerCertificate=True;"
+                           FontSize="12" Foreground="{StaticResource TextMutedBrush}" Margin="2,6,0,0" />
+
+                <!-- Status Feedback Box -->
+                <Border Margin="0,20,0,0"
+                        Padding="16,12"
+                        CornerRadius="10"
+                        Background="#F8FAFC"
+                        BorderBrush="{StaticResource BorderLightBrush}"
+                        BorderThickness="1"
+                        Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibility}}">
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="13" TextWrapping="Wrap" Foreground="{StaticResource TextPrimaryBrush}" />
+                </Border>
+
+                <!-- Buttons -->
+                <Grid Margin="0,24,0,0">
+                    <Button Content="← Quay lại"
+                            Command="{Binding BackCommand}"
+                            Style="{StaticResource OutlineButton}"
+                            HorizontalAlignment="Left" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Kiểm tra kết nối"
+                                Command="{Binding TestConnectionCommand}"
+                                Style="{StaticResource OutlineButton}"
+                                Margin="0,0,12,0" />
+
+                        <Button Content="Lưu &amp; Khởi tạo CSDL"
+                                Command="{Binding SaveAndInitCommand}"
+                                Style="{StaticResource PrimaryButton}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

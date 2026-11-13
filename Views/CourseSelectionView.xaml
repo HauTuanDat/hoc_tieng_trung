@@ -1,0 +1,149 @@
+<UserControl x:Class="QuizApp.Views.CourseSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:CourseSelectionViewModel}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32,24" MaxWidth="1100">
+            <!-- Header Banner -->
+            <Grid Margin="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="Chọn khóa học" FontSize="26" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="Hành trình chinh phục tiếng Trung của bạn bắt đầu từ đây! Lộ trình chuẩn hóa theo từng cấp bậc." FontSize="14" Foreground="{StaticResource TextMutedBrush}" />
+                </StackPanel>
+            </Grid>
+
+            <!-- HSK 1 ~ 6 Grid (3 columns x 2 rows) -->
+            <TextBlock Text="Lộ trình Chuẩn HSK 1 ~ 6" FontSize="17" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,14" />
+            <ItemsControl ItemsSource="{Binding HskCourses}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White"
+                                BorderBrush="{StaticResource BorderLightBrush}"
+                                BorderThickness="1"
+                                CornerRadius="16"
+                                Padding="20"
+                                Margin="0,0,16,16"
+                                Effect="{StaticResource CardShadow}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Top Icon & Info -->
+                                <Grid Grid.Row="0" Margin="0,0,0,14">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                        <TextBlock Text="{Binding Subtitle}" FontSize="13" Foreground="{StaticResource TextMutedBrush}" FontWeight="Medium" Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding LessonCountText}" FontSize="12" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold" Margin="0,4,0,0" />
+                                    </StackPanel>
+
+                                    <!-- Pagoda Chinese Icon -->
+                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="52" Height="52" CornerRadius="14" Background="{Binding BgTint}">
+                                        <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- Progress bar & Percentage -->
+                                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0,10,0,14">
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Text="Tiến độ học" FontSize="11.5" Foreground="{StaticResource TextMutedBrush}" />
+                                        <TextBlock Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                    <ProgressBar Value="{Binding ProgressPercent, Mode=OneWay}" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" Height="7" />
+                                </StackPanel>
+
+                                <!-- Action Button -->
+                                <Button Grid.Row="2"
+                                        Command="{Binding DataContext.SelectCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding LevelKey}"
+                                        Style="{StaticResource PrimaryButton}"
+                                        Height="38"
+                                        Padding="0"
+                                        FontSize="13">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Vào học ngay " FontWeight="Bold" />
+                                        <TextBlock Text="➜" FontWeight="Bold" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Specialized Courses Section -->
+            <TextBlock Text="Khóa học Chuyên ngành Thực chiến" FontSize="17" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,12,0,14" />
+            <ItemsControl ItemsSource="{Binding SpecializedCourses}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White"
+                                BorderBrush="{StaticResource BorderLightBrush}"
+                                BorderThickness="1"
+                                CornerRadius="16"
+                                Padding="20"
+                                Margin="0,0,16,16"
+                                Effect="{StaticResource CardShadow}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- Top -->
+                                <Grid Grid.Row="0" Margin="0,0,0,14">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Title}" FontSize="17" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                        <TextBlock Text="{Binding Subtitle}" FontSize="12" Foreground="{StaticResource TextMutedBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding LessonCountText}" FontSize="12" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="48" Height="48" CornerRadius="12" Background="{Binding BgTint}">
+                                        <TextBlock Text="{Binding Icon}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- Progress -->
+                                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0,10,0,14">
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Text="Tiến độ học" FontSize="11.5" Foreground="{StaticResource TextMutedBrush}" />
+                                        <TextBlock Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Right" />
+                                    </Grid>
+                                    <ProgressBar Value="{Binding ProgressPercent, Mode=OneWay}" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" Height="7" />
+                                </StackPanel>
+
+                                <!-- Action -->
+                                <Button Grid.Row="2"
+                                        Command="{Binding DataContext.SelectCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding LevelKey}"
+                                        Style="{StaticResource OutlineButton}"
+                                        Height="38"
+                                        Padding="0"
+                                        FontSize="13">
+                                    <TextBlock Text="Khám phá từ vựng ➜" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+

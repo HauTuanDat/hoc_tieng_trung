@@ -1,0 +1,6 @@
+5. Mô phỏng Đề thi Thử HSK Chuẩn
+Đề thi thử HSK thật (Mock Test Simulation):
+Thiết kế bài thi 3 phần đúng chuẩn định dạng Hanban: Nghe hiểu, Đọc hiểu, và Viết.
+Có đồng hồ đếm ngược áp lực thời gian (ví dụ HSK 3: 300 từ, 80 câu trong 85 phút).
+Chấm điểm tự động thang điểm 300 (đạt từ 180 điểm trở lên là đỗ) và xuất biểu đồ radar phân tích điểm mạnh/yếu của người học.
+6. các mini game , và có các mức rank 
