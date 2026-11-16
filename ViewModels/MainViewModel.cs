@@ -75,6 +75,13 @@ public class MainViewModel : ViewModelBase
         });
         LogoutCommand = new RelayCommand(Logout);
         ToggleSoundCommand = new RelayCommand(() => IsSoundMuted = !IsSoundMuted);
+        ToggleThemeCommand = new RelayCommand(() => ThemeService.Instance.ToggleTheme());
+
+        ThemeService.Instance.ThemeChanged += _ =>
+        {
+            OnPropertyChanged(nameof(ThemeToggleIcon));
+            OnPropertyChanged(nameof(ThemeToggleTooltip));
+        };
 
         // Start at Login View
         NavigateToLogin();
@@ -154,6 +161,10 @@ public class MainViewModel : ViewModelBase
     public string SoundToggleIcon => IsSoundMuted ? "🔇" : "🔊";
     public string SoundToggleTooltip => IsSoundMuted ? "Âm thanh: Đang tắt" : "Âm thanh: Đang bật";
 
+    public string ThemeToggleIcon => ThemeService.Instance.IsDarkMode ? "☀️" : "🌙";
+    public string ThemeToggleTooltip => ThemeService.Instance.IsDarkMode ? "Chuyển sang chế độ Sáng" : "Chuyển sang chế độ Tối";
+    public ICommand ToggleThemeCommand { get; }
+
     public ICommand NavigateToDashboardCommand { get; }
     public ICommand NavigateToCoursesCommand { get; }
     public ICommand NavigateToPracticeCenterCommand { get; }
@@ -179,7 +190,7 @@ public class MainViewModel : ViewModelBase
         CurrentViewModel = new LoginViewModel(_databaseService, OnLoginSuccess);
     }
 
-    private void OnLoginSuccess(User user)
+    public void OnLoginSuccess(User user)
     {
         CurrentUser = user;
         IsLoggedIn = true;

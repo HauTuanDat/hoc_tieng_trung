@@ -1,4 +1,4 @@
-<UserControl x:Class="QuizApp.Views.PracticeCenterView"
+﻿<UserControl x:Class="QuizApp.Views.PracticeCenterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,14 +11,14 @@
         <StackPanel Margin="36,28" MaxWidth="1050">
             <!-- Header Title -->
             <StackPanel Margin="0,0,0,24">
-                <TextBlock Text="Trung tâm luyện tập" FontSize="26" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,4" />
-                <TextBlock Text="Luyện tập đều đặn • Thành thạo kỹ năng • Tự tin giao tiếp tiếng Trung mỗi ngày" FontSize="14" Foreground="{StaticResource TextMutedBrush}" />
+                <TextBlock Text="Trung tâm luyện tập" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,4" />
+                <TextBlock Text="Luyện tập đều đặn • Thành thạo kỹ năng • Tự tin giao tiếp tiếng Trung mỗi ngày" FontSize="14" Foreground="{DynamicResource TextMutedBrush}" />
             </StackPanel>
 
             <!-- 6 Practice Skill Cards in 2 columns -->
             <UniformGrid Columns="2" Margin="0,0,0,28">
                 <!-- Skill 1: Luyện nói -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -27,18 +27,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="🎙" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Luyện nói" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Luyện nói" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Phát âm chuẩn xác cùng AI, chấm điểm ngữ điệu" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Phát âm chuẩn xác cùng AI, chấm điểm ngữ điệu" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/10 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/10 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="Speaking"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -48,7 +48,7 @@
                 </Border>
 
                 <!-- Skill 2: Luyện từ vựng -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -57,18 +57,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="📖" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Luyện từ vựng" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Luyện từ vựng" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Ghi nhớ hiệu quả, lâu dài qua phản xạ trắc nghiệm" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Ghi nhớ hiệu quả, lâu dài qua phản xạ trắc nghiệm" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/20 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/20 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="VocabStudy"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -78,7 +78,7 @@
                 </Border>
 
                 <!-- Skill 3: Luyện nghe -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -87,18 +87,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="🎧" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Luyện nghe" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Luyện nghe" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Nghe hiểu phản xạ nhanh, phân biệt thanh điệu" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Nghe hiểu phản xạ nhanh, phân biệt thanh điệu" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/15 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/15 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="Listening"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -108,7 +108,7 @@
                 </Border>
 
                 <!-- Skill 4: Luyện viết & gõ -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -117,18 +117,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="✍" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Luyện viết" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Luyện viết" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Nét chữ đẹp, đúng nét, gõ Pinyin chuẩn xác" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Nét chữ đẹp, đúng nét, gõ Pinyin chuẩn xác" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/12 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/12 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="Typing"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -138,7 +138,7 @@
                 </Border>
 
                 <!-- Skill 5: Đọc hiểu -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -147,18 +147,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="📖" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Đọc hiểu" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Đọc hiểu" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Nắm ý chính, hiểu sâu ngữ cảnh đoạn văn HSK" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Nắm ý chính, hiểu sâu ngữ cảnh đoạn văn HSK" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/10 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/10 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="Reading"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -168,7 +168,7 @@
                 </Border>
 
                 <!-- Skill 6: Sắp xếp câu -->
-                <Border Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{StaticResource CardShadow}">
+                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,16,16" Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -177,18 +177,18 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                 <TextBlock Text="🧩" FontSize="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Sắp xếp câu" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Sắp xếp câu" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Tư duy logic ngữ pháp, ghép từ hoàn chỉnh" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,14" />
+                            <TextBlock Text="Tư duy logic ngữ pháp, ghép từ hoàn chỉnh" FontSize="12.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,14" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="0/8 bài" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,16,0" />
-                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                <TextBlock Text="0/8 bài" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,16,0" />
+                                <TextBlock Text="0%" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" />
                             </StackPanel>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 Command="{Binding OpenSkillCommand}"
                                 CommandParameter="Scramble"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 VerticalAlignment="Center"
                                 Padding="16,8"
                                 FontSize="13">
@@ -200,7 +200,7 @@
 
             <!-- Big Bottom CTA Button -->
             <Button Command="{Binding GoToCoursesCommand}"
-                    Style="{StaticResource PrimaryButton}"
+                    Style="{DynamicResource PrimaryButton}"
                     Height="50"
                     MaxWidth="400"
                     HorizontalAlignment="Center"

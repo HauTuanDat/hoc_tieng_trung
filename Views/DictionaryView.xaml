@@ -1,4 +1,4 @@
-<UserControl x:Class="QuizApp.Views.DictionaryView"
+﻿<UserControl x:Class="QuizApp.Views.DictionaryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,7 +19,7 @@
         <!-- ROW 0: SEARCH BAR & QUICK SUGGESTION CHIPS               -->
         <!-- ======================================================== -->
         <Border Grid.Row="0"
-                Background="White"
+                Background="{DynamicResource CardBackgroundBrush}"
                 BorderBrush="#E2E8F0"
                 BorderThickness="0,0,0,1"
                 Padding="28,16">
@@ -123,7 +123,7 @@
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border CornerRadius="14" Background="#E2E8F0">
-                                            <TextBlock Text="✕" FontSize="11" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <TextBlock Text="✕" FontSize="13" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
@@ -243,7 +243,7 @@
             <Border Visibility="{Binding HasNoResults, Converter={StaticResource BoolToVisibility}}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-                <Border Background="White" CornerRadius="20" Padding="36,32" BorderBrush="#E2E8F0" BorderThickness="1" MaxWidth="480">
+                <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="20" Padding="36,32" BorderBrush="#E2E8F0" BorderThickness="1" MaxWidth="480">
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock Text="🔎" FontSize="44" HorizontalAlignment="Center" Margin="0,0,0,12" />
                         <TextBlock Text="Không tìm thấy từ phù hợp" FontSize="18" FontWeight="Bold" Foreground="#1E293B" HorizontalAlignment="Center" />
@@ -253,7 +253,7 @@
                                 Command="{Binding QuickSearchCommand}"
                                 CommandParameter="你好"
                                 Cursor="Hand"
-                                Style="{StaticResource PrimaryButton}"
+                                Style="{DynamicResource PrimaryButton}"
                                 HorizontalAlignment="Center"
                                 Padding="16,8" />
                     </StackPanel>
@@ -285,7 +285,7 @@
 
                 <!-- ================= LEFT: MATCHED WORDS LIST ================= -->
                 <Border Grid.Column="0"
-                        Background="White"
+                        Background="{DynamicResource CardBackgroundBrush}"
                         BorderBrush="#E2E8F0"
                         BorderThickness="1"
                         CornerRadius="18"
@@ -298,8 +298,8 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Margin="6,2,6,10">
-                            <TextBlock Text="KẾT QUẢ TÌM KIẾM" FontSize="11" FontWeight="Bold" Foreground="#64748B" />
-                            <TextBlock Text="{Binding SearchResults.Count, StringFormat='{}{0} từ vựng phù hợp'}" FontSize="13" FontWeight="Bold" Foreground="#1E293B" Margin="0,2,0,0" />
+                            <TextBlock Text="KẾT QUẢ TÌM KIẾM" FontSize="13" FontWeight="Bold" Foreground="#64748B" />
+                            <TextBlock Text="{Binding SearchResults.Count, StringFormat='{}{0} từ vựng phù hợp'}" FontSize="14" FontWeight="Bold" Foreground="#1E293B" Margin="0,2,0,0" />
                         </StackPanel>
 
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -334,8 +334,8 @@
                                                                     <TextBlock Text="{Binding Pinyin, StringFormat='  {0}'}" FontSize="13" FontWeight="SemiBold" Foreground="#2563EB" VerticalAlignment="Center" />
                                                                 </StackPanel>
                                                                 <!-- Han Viet & Meaning -->
-                                                                <TextBlock Text="{Binding HanViet, StringFormat='Hán Việt: {0}'}" FontSize="11.5" FontWeight="Bold" Foreground="#D97706" Margin="0,2,0,0" />
-                                                                <TextBlock Text="{Binding PrimaryMeaning}" FontSize="12" Foreground="#475569" TextTrimming="CharacterEllipsis" Margin="0,2,0,0" />
+                                                                <TextBlock Text="{Binding HanViet, StringFormat='Hán Việt: {0}'}" FontSize="13" FontWeight="SemiBold" Foreground="#D97706" Margin="0,2,0,0" />
+                                                                <TextBlock Text="{Binding PrimaryMeaning}" FontSize="13.5" Foreground="#475569" TextTrimming="CharacterEllipsis" Margin="0,2,0,0" />
                                                             </StackPanel>
 
                                                             <!-- HSK Badge -->
@@ -368,7 +368,7 @@
                 <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0,0,8,0">
                         <!-- 1. Hero Word Banner Card -->
-                        <Border Background="White"
+                        <Border Background="{DynamicResource CardBackgroundBrush}"
                                 BorderBrush="#E2E8F0"
                                 BorderThickness="1"
                                 CornerRadius="20"
@@ -497,7 +497,7 @@
                         </Border>
 
                         <!-- 2. Meanings & Mnemonic Card -->
-                        <Border Background="White"
+                        <Border Background="{DynamicResource CardBackgroundBrush}"
                                 BorderBrush="#E2E8F0"
                                 BorderThickness="1"
                                 CornerRadius="20"
@@ -519,7 +519,7 @@
 
                                                     <!-- Part of speech pill -->
                                                     <Border Grid.Column="0" Background="#DBEAFE" CornerRadius="8" Padding="8,3" Margin="0,0,12,0" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding PartOfSpeech}" FontSize="11" FontWeight="Bold" Foreground="#1D4ED8" />
+                                                        <TextBlock Text="{Binding PartOfSpeech}" FontSize="13" FontWeight="Bold" Foreground="#1D4ED8" />
                                                     </Border>
 
                                                     <!-- Vietnamese definition -->
@@ -545,8 +545,8 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="💡" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Top" />
                                         <StackPanel Grid.Column="1">
-                                            <TextBlock Text="Mẹo ghi nhớ chữ Hán (Chiết tự):" FontSize="12" FontWeight="Bold" Foreground="#A16207" />
-                                            <TextBlock Text="{Binding SelectedWord.Mnemonic}" FontSize="13.5" Foreground="#713F12" TextWrapping="Wrap" Margin="0,3,0,0" LineHeight="20" />
+                                            <TextBlock Text="Mẹo ghi nhớ chữ Hán (Chiết tự):" FontSize="13.5" FontWeight="Bold" Foreground="#A16207" />
+                                            <TextBlock Text="{Binding SelectedWord.Mnemonic}" FontSize="14" Foreground="#713F12" TextWrapping="Wrap" Margin="0,3,0,0" LineHeight="20" />
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -554,7 +554,7 @@
                         </Border>
 
                         <!-- 3. Multiple Example Sentences Card (KÈM NHIỀU VÍ DỤ THỰC TẾ) -->
-                        <Border Background="White"
+                        <Border Background="{DynamicResource CardBackgroundBrush}"
                                 BorderBrush="#E2E8F0"
                                 BorderThickness="1"
                                 CornerRadius="20"
@@ -567,12 +567,12 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="📖 CÂU VÍ DỤ THỰC TẾ &amp; ỨNG DỤNG" FontSize="12" FontWeight="Bold" Foreground="#64748B" />
+                                        <TextBlock Text="📖 CÂU VÍ DỤ THỰC TẾ &amp; ỨNG DỤNG" FontSize="13" FontWeight="Bold" Foreground="#64748B" />
                                         <TextBlock Text="{Binding ExamplesCount, StringFormat='{}Có {0} câu ví dụ kèm phiên âm và phát âm chuẩn'}"
-                                                   FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,2,0,0" />
+                                                   FontSize="14.5" FontWeight="Bold" Foreground="#0F172A" Margin="0,2,0,0" />
                                     </StackPanel>
                                     <Border Grid.Column="1" Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="10" Padding="10,4" VerticalAlignment="Center">
-                                        <TextBlock Text="✨ Nghe phát âm từng câu" FontSize="11.5" FontWeight="Bold" Foreground="#059669" />
+                                        <TextBlock Text="✨ Nghe phát âm từng câu" FontSize="13" FontWeight="Bold" Foreground="#059669" />
                                     </Border>
                                 </Grid>
 

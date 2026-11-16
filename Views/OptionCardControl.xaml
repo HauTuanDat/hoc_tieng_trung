@@ -1,4 +1,4 @@
-<UserControl x:Class="QuizApp.Views.OptionCardControl"
+﻿<UserControl x:Class="QuizApp.Views.OptionCardControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,12 +15,12 @@
             <ControlTemplate TargetType="Button">
                 <Border x:Name="CardBorder"
                         Background="#FFFFFF"
-                        BorderBrush="{StaticResource BorderLightBrush}"
+                        BorderBrush="{DynamicResource BorderLightBrush}"
                         BorderThickness="1.5"
                         CornerRadius="16"
                         Padding="18,14"
                         SnapsToDevicePixels="True"
-                        Effect="{StaticResource CardShadow}">
+                        Effect="{DynamicResource CardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -39,7 +39,7 @@
                                        Text="{Binding Key}"
                                        FontWeight="Bold"
                                        FontSize="15"
-                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
                         </Border>
@@ -50,7 +50,7 @@
                                    Text="{Binding Text}"
                                    FontSize="20"
                                    FontWeight="Bold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
                                    VerticalAlignment="Center"
                                    Margin="16,0,10,0"
                                    TextTrimming="CharacterEllipsis" />
@@ -84,7 +84,7 @@
                             <Condition Binding="{Binding IsAnswerChecked}" Value="False" />
                         </MultiDataTrigger.Conditions>
                         <Setter TargetName="CardBorder" Property="Background" Value="#F8FAFC" />
-                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource PrimaryLightBorderBrush}" />
+                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource PrimaryLightBorderBrush}" />
                         <Setter TargetName="CardBorder" Property="Effect" Value="{StaticResource CardHoverShadow}" />
                     </MultiDataTrigger>
 
@@ -94,14 +94,14 @@
                             <Condition Binding="{Binding IsSelected}" Value="True" />
                             <Condition Binding="{Binding IsAnswerChecked}" Value="False" />
                         </MultiDataTrigger.Conditions>
-                        <Setter TargetName="CardBorder" Property="Background" Value="{StaticResource PrimaryTintBrush}" />
-                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                        <Setter TargetName="CardBorder" Property="Background" Value="{DynamicResource PrimaryTintBrush}" />
+                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                         <Setter TargetName="CardBorder" Property="BorderThickness" Value="2" />
                         <Setter TargetName="CardBorder" Property="Effect" Value="{StaticResource SelectedOptionShadow}" />
-                        <Setter TargetName="KeyBadge" Property="Background" Value="{StaticResource PrimaryGradientBrush}" />
+                        <Setter TargetName="KeyBadge" Property="Background" Value="{DynamicResource PrimaryGradientBrush}" />
                         <Setter TargetName="KeyText" Property="Foreground" Value="White" />
-                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{StaticResource PrimaryBrush}" />
-                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
                         <Setter TargetName="IndicatorIcon" Property="Text" Value="✓" />
                     </MultiDataTrigger>
 
