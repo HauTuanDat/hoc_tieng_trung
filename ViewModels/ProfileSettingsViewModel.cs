@@ -60,6 +60,19 @@ public class ProfileSettingsViewModel : ViewModelBase
         TestDbConnectionCommand = new RelayCommand(async () => await TestDbConnectionAsync());
         LogoutCommand = new RelayCommand(_onLogout);
         BackCommand = new RelayCommand(_onBack);
+
+        SetLightThemeCommand = new RelayCommand(() => { });
+        SetDarkThemeCommand = new RelayCommand(() => { });
+        ToggleThemeCommand = new RelayCommand(() => { });
+
+        ThemeService.Instance.ThemeChanged += OnThemeChanged;
+    }
+
+    private void OnThemeChanged(AppTheme theme)
+    {
+        OnPropertyChanged(nameof(IsDarkMode));
+        OnPropertyChanged(nameof(IsLightMode));
+        OnPropertyChanged(nameof(CurrentThemeDescription));
     }
 
     public string FullName
@@ -181,6 +194,14 @@ public class ProfileSettingsViewModel : ViewModelBase
         get => _isNotificationEnabled;
         set => SetProperty(ref _isNotificationEnabled, value);
     }
+
+    public bool IsDarkMode => false;
+    public bool IsLightMode => true;
+    public string CurrentThemeDescription => "Chế độ sáng (Light Mode)";
+
+    public ICommand SetLightThemeCommand { get; }
+    public ICommand SetDarkThemeCommand { get; }
+    public ICommand ToggleThemeCommand { get; }
 
     public ICommand SaveProfileCommand { get; }
     public ICommand ChangePasswordCommand { get; }

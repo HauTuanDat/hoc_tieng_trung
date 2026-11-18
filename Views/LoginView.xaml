@@ -1,4 +1,4 @@
-<UserControl x:Class="QuizApp.Views.LoginView"
+﻿<UserControl x:Class="QuizApp.Views.LoginView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,557 +6,906 @@
              xmlns:vm="clr-namespace:QuizApp.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
-             Background="#FAF7F2"
-             Loaded="UserControl_Loaded">
+             FontFamily="{StaticResource AppFontFamily}"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             RenderOptions.ClearTypeHint="Enabled"
+             UseLayoutRounding="True"
+             SnapsToDevicePixels="True"
+             Background="#F7F6F1"
+             Loaded="UserControl_Loaded"
+             SizeChanged="UserControl_SizeChanged">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Themes/LightTheme.xaml" />
+                <ResourceDictionary Source="/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Fixed Light Mode Theme Brushes for Login Screen (Always Light, Immune to Dark Mode) -->
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#198754" />
+            <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#157347" />
+            <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#0F5132" />
+            <SolidColorBrush x:Key="PrimaryTintBrush" Color="#EBF7F0" />
+            <SolidColorBrush x:Key="PrimaryLightBorderBrush" Color="#C3E8D2" />
+            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#26352D" />
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#59685F" />
+            <SolidColorBrush x:Key="TextMutedBrush" Color="#78867D" />
+            <SolidColorBrush x:Key="BorderLightBrush" Color="#E2DDD3" />
+            <SolidColorBrush x:Key="BorderSubtleBrush" Color="#DCD6CB" />
+
+            <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#198754" Offset="0" />
+                <GradientStop Color="#157347" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="PrimaryButtonGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1EA768" Offset="0" />
+                <GradientStop Color="#198754" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="PrimaryHoverGradientBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#187347" Offset="0" />
+                <GradientStop Color="#0F5132" Offset="1" />
+            </LinearGradientBrush>
+
+            <DropShadowEffect x:Key="CardShadow" BlurRadius="20" ShadowDepth="3" Direction="270" Color="#26352D" Opacity="0.06" />
+            <DropShadowEffect x:Key="ButtonGlowShadow" BlurRadius="16" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.28" />
+
+            <!-- Fixed Style for Social Login Buttons: Never changes color when switching mode (Image 2) -->
+            <Style x:Key="SocialLoginButton" TargetType="Button">
+                <Setter Property="Background" Value="#FFFFFF" />
+                <Setter Property="BorderBrush" Value="#E5DDD0" />
+                <Setter Property="BorderThickness" Value="1.2" />
+                <Setter Property="Foreground" Value="#4A403A" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="10"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#F5F2EC" />
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#D6CFC4" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#EDE8E0" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid>
-        <!-- 1. Background Image with Failover Loading (Subtle oriental watercolor texture) -->
+        <!-- ======================================================== -->
+        <!-- 1. RESPONSIVE DYNAMIC BACKGROUNDS                        -->
+        <!-- ======================================================== -->
+        <!-- Desktop Background: 16:9 Landscape Lake & Pagoda (Image 1) -->
         <Image x:Name="BackgroundImage"
                Stretch="UniformToFill"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Opacity="0.12" />
+               Opacity="1.0"
+               Visibility="{Binding IsDesktopMode, Converter={StaticResource BoolToVisibility}}" />
 
-        <!-- 2. Subtle Warm Oriental Texture Overlay -->
-        <Border Background="#15FAF7F2" />
+        <!-- Mobile Background: 9:16 Portrait Lake, Pagoda & Pier (Image 2) -->
+        <Image x:Name="MobileBackgroundImage"
+               Stretch="UniformToFill"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Opacity="1.0"
+               Visibility="{Binding IsMobileMode, Converter={StaticResource BoolToVisibility}}" />
 
-        <!-- 3. Top-Right Language Pill Selector: [🌐 Tiếng Việt ▾] -->
-        <Border HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,22,40,0"
-                Background="#EEFFFFFF"
-                BorderBrush="#E5DDD0"
-                BorderThickness="1"
-                CornerRadius="14"
-                Padding="12,5"
-                Cursor="Hand"
-                Panel.ZIndex="10"
-                Effect="{StaticResource CardShadow}">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="🌐" FontSize="13" Foreground="#4A403A" Margin="0,0,6,0" VerticalAlignment="Center" />
-                <TextBlock Text="Tiếng Việt" FontSize="12.5" FontWeight="Medium" Foreground="#4A403A" VerticalAlignment="Center" Margin="0,0,6,0" />
-                <TextBlock Text="▾" FontSize="11" Foreground="#7D746D" VerticalAlignment="Center" />
-            </StackPanel>
-        </Border>
-
-        <!-- 4. Main 2-Column Responsive Layout -->
-        <Grid Margin="40,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="420" />
-                <ColumnDefinition Width="470" />
-            </Grid.ColumnDefinitions>
-
-            <!-- ============================================== -->
-            <!-- LEFT COLUMN: Mộc Ngữ Brand, Highlights & Mascot-->
-            <!-- ============================================== -->
-            <Grid Grid.Column="0" Margin="0,0,40,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <!-- Top Brand Header: [ 语 ] Mộc Ngữ -->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,20">
-                    <Border Width="48" Height="48" CornerRadius="14" Background="{StaticResource PrimaryBrush}" Margin="0,0,14,0" Effect="{StaticResource ButtonGlowShadow}">
-                        <TextBlock Text="语" FontSize="26" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Mộc Ngữ" FontSize="24" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryBrush}" />
-                        <TextBlock Text="Học tiếng Trung - Kết nối thế giới" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" FontWeight="Medium" />
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- Center Content: Slogan, Highlights & Mascot -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel VerticalAlignment="Center" Margin="0,10,20,10">
-                        <!-- Slogan Header -->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                            <TextBlock Text="Học tiếng Trung" FontSize="36" FontWeight="ExtraBold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center" />
-                            <Border Background="{StaticResource PrimaryTintBrush}" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1.5" CornerRadius="8" Padding="10,2" Margin="14,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="中文" FontSize="18" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
-                            </Border>
-                        </StackPanel>
-
-                        <TextBlock Text="Dễ dàng hơn mỗi ngày" FontSize="32" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,14" />
-
-                        <TextBlock Text="Cùng Mộc Ngữ khám phá hành trình chinh phục tiếng Trung với lộ trình khoa học, nội dung phong phú và trải nghiệm học tập thú vị!"
-                                   FontSize="14.5" LineHeight="24" TextWrapping="Wrap" Foreground="{StaticResource TextSecondaryBrush}" MaxWidth="600" Margin="0,0,0,24" />
-
-                        <!-- 4 Feature Pills in 2x2 Grid -->
-                        <UniformGrid Columns="2" MaxWidth="560" HorizontalAlignment="Left" Margin="0,0,0,24">
-                            <!-- Feature 1 -->
-                            <Border Background="White" BorderBrush="#E6DFD5" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,10" Effect="{StaticResource CardShadow}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📖" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="Đa dạng khóa học" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Lộ trình HSK 1 ~ 6" FontSize="11" Foreground="{StaticResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Feature 2 -->
-                            <Border Background="White" BorderBrush="#E6DFD5" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,10" Effect="{StaticResource CardShadow}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📈" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="Theo dõi tiến độ" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Thống kê bài học chi tiết" FontSize="11" Foreground="{StaticResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Feature 3 -->
-                            <Border Background="White" BorderBrush="#E6DFD5" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,0" Effect="{StaticResource CardShadow}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="🎧" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="Luyện tập đa kỹ năng" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Nghe, Nói, Đọc, Viết, Xếp câu" FontSize="11" Foreground="{StaticResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Feature 4 -->
-                            <Border Background="White" BorderBrush="#E6DFD5" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,0" Effect="{StaticResource CardShadow}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="⭐" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="Học mọi lúc mọi nơi" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Linh hoạt và hiệu quả" FontSize="11" Foreground="{StaticResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                        </UniformGrid>
-
-                        <!-- Mascot Graphic & Motivational Speech Bubble -->
-                        <Border Background="#FDF8F2" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1" CornerRadius="16" Padding="18,14" HorizontalAlignment="Left" MaxWidth="560">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="🐼" FontSize="42" Margin="0,0,14,0" VerticalAlignment="Center" />
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="&quot;Bắt đầu từ hôm nay để chạm tới ước mơ của bạn! ❤&quot;" FontSize="13.5" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,2" />
-                                    <TextBlock Text="&quot;Tiếng Trung không chỉ là ngôn ngữ mà còn là cánh cửa mở ra thế giới!&quot;" FontSize="12" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </ScrollViewer>
-
-                <!-- Bottom Status -->
-                <TextBlock Grid.Row="2" Text="© 2026 Mộc Ngữ • Nền tảng học tiếng Trung toàn diện" FontSize="11.5" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center" Margin="4,10,0,0" />
-            </Grid>
-
-            <!-- ============================================== -->
-            <!-- RIGHT COLUMN: Interactive Login / Register Card-->
-            <!-- ============================================== -->
-            <Border Grid.Column="1"
-                    Background="White"
-                    BorderBrush="#EDE6DC"
+        <!-- ======================================================== -->
+        <!-- 2. DESKTOP / WEB VIEW (Image 1 Layout - Width >= 940px)  -->
+        <!-- ======================================================== -->
+        <Grid Visibility="{Binding IsDesktopMode, Converter={StaticResource BoolToVisibility}}">
+            <!-- Top-Right Language Pill Selector: [🌐 Tiếng Việt ▾] -->
+            <Border HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,22,36,0"
+                    Background="#F0FFFFFF"
+                    BorderBrush="#DDD5CA"
                     BorderThickness="1"
-                    CornerRadius="24"
-                    Padding="36,32"
-                    VerticalAlignment="Center">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="36" ShadowDepth="4" Direction="270" Color="#1F2923" Opacity="0.08" />
-                </Border.Effect>
+                    CornerRadius="14"
+                    Padding="14,6"
+                    Cursor="Hand"
+                    Panel.ZIndex="10"
+                    Effect="{DynamicResource CardShadow}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="🌐" FontSize="14" Foreground="#26352D" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <TextBlock Text="Tiếng Việt" FontSize="13.5" FontWeight="SemiBold" Foreground="#26352D" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <TextBlock Text="▾" FontSize="12" Foreground="#59685F" VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
 
-                <Grid>
+            <!-- Main 2-Column Responsive Layout -->
+            <Grid Margin="44,20,36,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.18*" MinWidth="480" />
+                    <ColumnDefinition Width="0.82*" MinWidth="440" />
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT COLUMN: Mộc Ngữ Brand, Highlights & Mascot -->
+                <Grid Grid.Column="0" Margin="0,0,28,0" MaxWidth="580" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Top Dual Tabs: [ Đăng nhập ] | [ Đăng ký ] -->
-                    <Grid Grid.Row="0" Margin="0,0,0,24">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="14" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Tab 1: Đăng nhập -->
-                        <Button Grid.Column="0"
-                                Command="{Binding SwitchToLoginTabCommand}"
-                                Cursor="Hand"
-                                Height="42"
-                                BorderThickness="0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="tabBorder"
-                                                        CornerRadius="14"
-                                                        Background="#FAF8F5"
-                                                        BorderBrush="#E8E0D5"
-                                                        BorderThickness="1">
-                                                    <TextBlock x:Name="tabText"
-                                                               Text="Đăng nhập"
-                                                               FontSize="14"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="#4A403A"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <DataTrigger Binding="{Binding IsLoginTab}" Value="True">
-                                                        <Setter TargetName="tabBorder" Property="Background" Value="{StaticResource PrimaryBrush}" />
-                                                        <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
-                                                        <Setter TargetName="tabText" Property="Foreground" Value="White" />
-                                                        <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-                                                    </DataTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <!-- Tab 2: Đăng ký -->
-                        <Button Grid.Column="2"
-                                Command="{Binding SwitchToRegisterTabCommand}"
-                                Cursor="Hand"
-                                Height="42"
-                                BorderThickness="0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="tabBorder"
-                                                        CornerRadius="14"
-                                                        Background="#FAF8F5"
-                                                        BorderBrush="#E8E0D5"
-                                                        BorderThickness="1">
-                                                    <TextBlock x:Name="tabText"
-                                                               Text="Đăng ký"
-                                                               FontSize="14"
-                                                               FontWeight="SemiBold"
-                                                               Foreground="#4A403A"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <DataTrigger Binding="{Binding IsRegisterTab}" Value="True">
-                                                        <Setter TargetName="tabBorder" Property="Background" Value="{StaticResource PrimaryBrush}" />
-                                                        <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
-                                                        <Setter TargetName="tabText" Property="Foreground" Value="White" />
-                                                        <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-                                                    </DataTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </Grid>
-
-                    <!-- Feedback Alert Messages -->
-                    <StackPanel Grid.Row="1" Margin="0,0,0,14">
-                        <!-- Error Alert -->
-                        <Border Background="#FEF2F2"
-                                BorderBrush="#FECACA"
-                                BorderThickness="1"
-                                CornerRadius="10"
-                                Padding="12,9"
-                                Margin="0,0,0,6"
-                                Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="⚠️ " FontSize="13" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding ErrorMessage}" Foreground="#991B1B" FontSize="12.5" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
-                            </StackPanel>
+                    <!-- Top Brand Header: [ 语 ] Mộc Ngữ -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,20">
+                        <Border Width="48" Height="48" CornerRadius="14" Background="{DynamicResource PrimaryBrush}" Margin="0,0,14,0" Effect="{StaticResource ButtonGlowShadow}">
+                            <TextBlock Text="语" FontFamily="{StaticResource ChineseFontFamily}" FontSize="26" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-
-                        <!-- Success Alert -->
-                        <Border Background="#F0FDF4"
-                                BorderBrush="#BBF7D0"
-                                BorderThickness="1"
-                                CornerRadius="10"
-                                Padding="12,9"
-                                Margin="0,0,0,6"
-                                Visibility="{Binding HasSuccess, Converter={StaticResource BoolToVisibility}}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="✅ " FontSize="13" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SuccessMessage}" Foreground="#166534" FontSize="12.5" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Mộc Ngữ" FontSize="26" FontWeight="Bold" Foreground="#198754" />
+                            <TextBlock Text="Học tiếng Trung - Kết nối thế giới" FontSize="14" Foreground="#26352D" FontWeight="SemiBold" />
+                        </StackPanel>
                     </StackPanel>
 
-                    <!-- ============================================== -->
-                    <!-- TAB 1: LOGIN FORM                              -->
-                    <!-- ============================================== -->
-                    <StackPanel Grid.Row="2" Visibility="{Binding IsLoginTab, Converter={StaticResource BoolToVisibility}}">
-                        <TextBlock Text="Chào mừng trở lại!" FontSize="25" FontWeight="Bold" Foreground="#1A1513" Margin="0,0,0,5" />
-                        <TextBlock Text="Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn" FontSize="13" Foreground="#7D746D" Margin="0,0,0,22" />
+                    <!-- Center Content: Slogan, Highlights & Mascot -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel VerticalAlignment="Center" Margin="0,10,20,10">
+                            <!-- Slogan Header -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="Học tiếng Trung" FontSize="36" FontWeight="Bold" Foreground="#26352D" VerticalAlignment="Center">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.6" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <Border Background="#F4FAF6" BorderBrush="#198754" BorderThickness="1.5" CornerRadius="8" Padding="10,2" Margin="14,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="中文" FontFamily="{StaticResource ChineseFontFamily}" FontSize="18" FontWeight="Bold" Foreground="#198754" />
+                                </Border>
+                            </StackPanel>
 
-                        <!-- Input 1: Email hoặc số điện thoại -->
-                        <Border Background="#FAF8F5"
-                                BorderBrush="#E5DFD7"
-                                BorderThickness="1.2"
-                                CornerRadius="12"
-                                Height="48"
-                                Padding="14,0"
-                                Margin="0,0,0,14">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="✉" FontSize="15" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                <TextBox Grid.Column="1"
-                                         Text="{Binding LoginUsername, UpdateSourceTrigger=PropertyChanged}"
-                                         BorderThickness="0"
-                                         Background="Transparent"
-                                         FontSize="13.5"
-                                         Foreground="#1A1513"
-                                         VerticalContentAlignment="Center" />
-                            </Grid>
-                        </Border>
+                            <TextBlock Text="Dễ dàng hơn mỗi ngày" FontSize="32" FontWeight="Bold" Foreground="#198754" Margin="0,0,0,14">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.6" />
+                                </TextBlock.Effect>
+                            </TextBlock>
 
-                        <!-- Input 2: Mật khẩu -->
-                        <Border Background="#FAF8F5"
-                                BorderBrush="#E5DFD7"
-                                BorderThickness="1.2"
-                                CornerRadius="12"
-                                Height="48"
-                                Padding="14,0"
-                                Margin="0,0,0,16">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="🔒" FontSize="15" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
+                            <TextBlock Text="Cùng Mộc Ngữ khám phá hành trình chinh phục tiếng Trung với lộ trình nội dung phong phú và trải nghiệm học tập thú vị!"
+                                       FontSize="15" LineHeight="24" TextWrapping="Wrap" Foreground="#26352D" FontWeight="Medium" MaxWidth="560" Margin="0,0,0,22">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.7" />
+                                </TextBlock.Effect>
+                            </TextBlock>
 
-                                <PasswordBox x:Name="LoginPasswordBox"
-                                             Grid.Column="1"
-                                             PasswordChanged="LoginPasswordBox_PasswordChanged"
-                                             BorderThickness="0"
-                                             Background="Transparent"
-                                             FontSize="14"
-                                             Foreground="#1A1513"
-                                             VerticalContentAlignment="Center"
-                                             Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibility}}" />
-
-                                <TextBox x:Name="LoginPasswordTextBox"
-                                         Grid.Column="1"
-                                         Text="{Binding LoginPassword, UpdateSourceTrigger=PropertyChanged}"
-                                         TextChanged="LoginPasswordTextBox_TextChanged"
-                                         BorderThickness="0"
-                                         Background="Transparent"
-                                         FontSize="13.5"
-                                         Foreground="#1A1513"
-                                         VerticalContentAlignment="Center"
-                                         Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibility}}" />
-
-                                <Button Grid.Column="2"
-                                        Command="{Binding TogglePasswordVisibilityCommand}"
-                                        Cursor="Hand"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Padding="4"
-                                        VerticalAlignment="Center">
-                                    <TextBlock Text="👁" FontSize="15" Foreground="#9E968F" />
-                                </Button>
-                            </Grid>
-                        </Border>
-
-                        <!-- Remember Me & Forgot Password Row -->
-                        <Grid Margin="0,0,0,20">
-                            <CheckBox IsChecked="{Binding RememberMe}" VerticalAlignment="Center">
-                                <TextBlock Text="Nhớ tài khoản" FontSize="13" Foreground="#4A403A" VerticalAlignment="Center" Margin="4,0,0,0" />
-                            </CheckBox>
-                            <TextBlock Text="Quên mật khẩu?" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12.5" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" Cursor="Hand" />
-                        </Grid>
-
-                        <!-- Large Primary Login Button -->
-                        <Button Command="{Binding LoginCommand}"
-                                Cursor="Hand"
-                                Height="48"
-                                BorderThickness="0"
-                                Margin="0,0,0,12">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="btnBorder"
-                                            Background="{StaticResource PrimaryButtonGradientBrush}"
-                                            CornerRadius="14">
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="14" ShadowDepth="3" Direction="270" Color="#208B58" Opacity="0.30" />
-                                        </Border.Effect>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <TextBlock Text="➔ " FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0" />
-                                            <TextBlock Text="Đăng nhập" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                            <!-- 4 Feature Pills in 2x2 Grid -->
+                            <UniformGrid Columns="2" MaxWidth="560" HorizontalAlignment="Left" Margin="0,0,0,22">
+                                <!-- Feature 1 -->
+                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,10" Effect="{DynamicResource CardShadow}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="📖" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="Đa dạng khóa học" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
+                                            <TextBlock Text="Lộ trình HSK 1 - 6" FontSize="13" Foreground="#59685F" />
                                         </StackPanel>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource PrimaryPressedBrush}" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
+                                    </StackPanel>
+                                </Border>
 
-                        <!-- Quick Demo Account Fill Button -->
-                        <Button Command="{Binding QuickDemoLoginCommand}"
-                                Style="{StaticResource OutlineButton}"
-                                Height="36"
-                                Padding="0"
-                                Margin="0,0,0,18"
-                                BorderBrush="#E5DDD0">
-                            <TextBlock Text="✨ Đăng nhập nhanh tài khoản mẫu: Minh Đạt" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" />
-                        </Button>
+                                <!-- Feature 2 -->
+                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,10" Effect="{DynamicResource CardShadow}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="📈" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="Theo dõi tiến độ" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
+                                            <TextBlock Text="Thống kê bài học chi tiết" FontSize="13" Foreground="#59685F" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
 
-                        <!-- Social Login Divider -->
-                        <Grid Margin="0,0,0,16">
+                                <!-- Feature 3 -->
+                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,0" Effect="{DynamicResource CardShadow}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="🎧" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="Luyện tập đa kỹ năng" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
+                                            <TextBlock Text="Nghe, Nói, Đọc, Viết, Xếp câu" FontSize="13" Foreground="#59685F" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 4 -->
+                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,0" Effect="{DynamicResource CardShadow}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="⭐" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="Học mọi lúc mọi nơi" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
+                                            <TextBlock Text="Linh hoạt và hiệu quả" FontSize="13" Foreground="#59685F" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+
+                            <!-- Mascot Graphic & Motivational Speech Bubble -->
+                            <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="16" Padding="18,14" HorizontalAlignment="Left" MaxWidth="560" Effect="{DynamicResource CardShadow}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🐼" FontSize="42" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="&quot;Bắt đầu từ hôm nay để chạm tới ước mơ của bạn! 💚&quot;" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,3" />
+                                        <TextBlock Text="&quot;Tiếng Trung không chỉ là ngôn ngữ mà còn là cánh cửa mở ra thế giới!&quot;" FontSize="13.5" Foreground="#59685F" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Bottom Status -->
+                    <TextBlock Grid.Row="2" Text="© 2026 Mộc Ngữ • Nền tảng học tiếng Trung toàn diện" FontSize="13" Foreground="#59685F" FontWeight="Medium" VerticalAlignment="Center" Margin="4,8,0,0" />
+                </Grid>
+
+                <!-- RIGHT COLUMN: Desktop Login / Register Card -->
+                <Border Grid.Column="1"
+                        Width="440"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        BorderBrush="#EDE6DC"
+                        BorderThickness="1"
+                        CornerRadius="24"
+                        Padding="36,30">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="36" ShadowDepth="4" Direction="270" Color="#1F2923" Opacity="0.12" />
+                    </Border.Effect>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Top Dual Tabs: [ Đăng nhập ] | [ Đăng ký ] -->
+                        <Grid Grid.Row="0" Margin="0,0,0,24">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="14" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Height="1" Background="#EDE5DA" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="Hoặc đăng nhập bằng" FontSize="11.5" Foreground="#8C837C" Margin="14,0" />
-                            <Border Grid.Column="2" Height="1" Background="#EDE5DA" VerticalAlignment="Center" />
+
+                            <!-- Tab 1: Đăng nhập -->
+                            <Button Grid.Column="0" Command="{Binding SwitchToLoginTabCommand}" Cursor="Hand" Height="42" BorderThickness="0">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="tabBorder" CornerRadius="14" Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1">
+                                                        <TextBlock x:Name="tabText" Text="Đăng nhập" FontSize="14.5" FontWeight="SemiBold" Foreground="#59685F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding IsLoginTab}" Value="True">
+                                                            <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                            <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
+                                                            <Setter TargetName="tabText" Property="Foreground" Value="White" />
+                                                            <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <!-- Tab 2: Đăng ký -->
+                            <Button Grid.Column="2" Command="{Binding SwitchToRegisterTabCommand}" Cursor="Hand" Height="42" BorderThickness="0">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="tabBorder" CornerRadius="14" Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1">
+                                                        <TextBlock x:Name="tabText" Text="Đăng ký" FontSize="14.5" FontWeight="SemiBold" Foreground="#59685F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding IsRegisterTab}" Value="True">
+                                                            <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                            <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
+                                                            <Setter TargetName="tabText" Property="Foreground" Value="White" />
+                                                            <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
 
-                        <!-- 3 Social Buttons -->
-                        <UniformGrid Columns="3" Margin="0,0,0,18">
-                            <Button Style="{StaticResource OutlineButton}" Height="38" Padding="0" Margin="0,0,5,0" BorderBrush="#E5DDD0">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="G" FontWeight="ExtraBold" Foreground="#EA4335" FontSize="14" Margin="0,0,6,0" />
-                                    <TextBlock Text="Google" FontSize="12" Foreground="#4A403A" />
+                        <!-- Alerts -->
+                        <StackPanel Grid.Row="1" Margin="0,0,0,14">
+                            <Border Background="#FEF2F2" BorderBrush="#FECACA" BorderThickness="1" CornerRadius="10" Padding="12,9" Margin="0,0,0,6" Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚠️ " FontSize="13" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding ErrorMessage}" Foreground="#991B1B" FontSize="13" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
                                 </StackPanel>
-                            </Button>
-                            <Button Style="{StaticResource OutlineButton}" Height="38" Padding="0" Margin="3,0,3,0" BorderBrush="#E5DDD0">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="f" FontWeight="ExtraBold" Foreground="#1877F2" FontSize="14" Margin="0,0,6,0" />
-                                    <TextBlock Text="Facebook" FontSize="12" Foreground="#4A403A" />
+                            </Border>
+                            <Border Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1" CornerRadius="10" Padding="12,9" Margin="0,0,0,6" Visibility="{Binding HasSuccess, Converter={StaticResource BoolToVisibility}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="✅ " FontSize="13" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding SuccessMessage}" Foreground="#166534" FontSize="13" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
                                 </StackPanel>
-                            </Button>
-                            <Button Style="{StaticResource OutlineButton}" Height="38" Padding="0" Margin="5,0,0,0" BorderBrush="#E5DDD0">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="" FontWeight="ExtraBold" Foreground="#1A1513" FontSize="14" Margin="0,0,6,0" />
-                                    <TextBlock Text="Apple" FontSize="12" Foreground="#4A403A" />
-                                </StackPanel>
-                            </Button>
-                        </UniformGrid>
-
-                        <!-- Bottom Switch to Register Link -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Chưa có tài khoản? " FontSize="13" Foreground="#7D746D" />
-                            <TextBlock Text="Đăng ký ngay >" FontSize="13" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Cursor="Hand">
-                                <TextBlock.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToRegisterTabCommand}" />
-                                </TextBlock.InputBindings>
-                            </TextBlock>
+                            </Border>
                         </StackPanel>
-                    </StackPanel>
 
-                    <!-- ============================================== -->
-                    <!-- TAB 2: REGISTER FORM                           -->
-                    <!-- ============================================== -->
-                    <StackPanel Grid.Row="2" Visibility="{Binding IsRegisterTab, Converter={StaticResource BoolToVisibility}}">
-                        <TextBlock Text="Tạo tài khoản mới!" FontSize="25" FontWeight="Bold" Foreground="#1A1513" Margin="0,0,0,5" />
-                        <TextBlock Text="Đăng ký thành viên Mộc Ngữ để bắt đầu lộ trình học bài bản" FontSize="13" Foreground="#7D746D" Margin="0,0,0,20" />
+                        <!-- TAB 1: LOGIN FORM -->
+                        <StackPanel Grid.Row="2" Visibility="{Binding IsLoginTab, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock Text="Chào mừng trở lại!" FontSize="28" FontWeight="Bold" Foreground="#26352D" Margin="0,0,0,6" />
+                            <TextBlock Text="Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn" FontSize="14" Foreground="#59685F" Margin="0,0,0,22" />
 
-                        <!-- Input 1: Họ và tên -->
-                        <Border Background="#FAF8F5" BorderBrush="#E5DFD7" BorderThickness="1.2" CornerRadius="12" Height="46" Padding="14,0" Margin="0,0,0,12">
-                            <Grid>
+                            <!-- Input 1: Email -->
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,14">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="✉" FontSize="15" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <TextBox Grid.Column="1" Text="{Binding LoginUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Input 2: Password -->
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,16">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🔒" FontSize="15" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <PasswordBox x:Name="LoginPasswordBox" Grid.Column="1" PasswordChanged="LoginPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibility}}" />
+                                    <TextBox x:Name="LoginPasswordTextBox" Grid.Column="1" Text="{Binding LoginPassword, UpdateSourceTrigger=PropertyChanged}" TextChanged="LoginPasswordTextBox_TextChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibility}}" />
+                                    <Button Grid.Column="2" Command="{Binding TogglePasswordVisibilityCommand}" Cursor="Hand" Background="Transparent" BorderThickness="0" Padding="4" VerticalAlignment="Center">
+                                        <TextBlock Text="👁" FontSize="15" Foreground="#78867D" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                            <!-- Remember Me & Forgot Password -->
+                            <Grid Margin="0,0,0,20">
+                                <CheckBox IsChecked="{Binding RememberMe}" VerticalAlignment="Center">
+                                    <TextBlock Text="Nhớ tài khoản" FontSize="14" Foreground="#26352D" VerticalAlignment="Center" Margin="6,0,0,0" />
+                                </CheckBox>
+                                <TextBlock Text="Quên mật khẩu?" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand" />
+                            </Grid>
+
+                            <!-- Login Button -->
+                            <Button Command="{Binding LoginCommand}" Cursor="Hand" Height="48" BorderThickness="0" Margin="0,0,0,12">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="btnBorder" Background="{DynamicResource PrimaryButtonGradientBrush}" CornerRadius="14">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="14" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.30" />
+                                            </Border.Effect>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="➔ " FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                                <TextBlock Text="Đăng nhập" FontSize="15" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryPressedBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <!-- Demo Quick Login Button -->
+                            <Button Command="{Binding QuickDemoLoginCommand}" Cursor="Hand" Height="40" Margin="0,0,0,18" BorderThickness="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="btnBorder" Background="#F2F9F5" BorderBrush="#CDE7D9" BorderThickness="1" CornerRadius="12">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="➔ " FontSize="13.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                                <TextBlock Text="Đăng nhập nhanh tài khoản mẫu: Minh Đạt" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="#E3F4EB" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="#D2EDDF" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <!-- Divider -->
+                            <Grid Margin="0,0,0,16">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="👤" FontSize="14" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                <TextBox Grid.Column="1" Text="{Binding RegisterFullName, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="13.5" Foreground="#1A1513" VerticalContentAlignment="Center" />
+                                <Border Height="1" Background="#E2DDD3" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="Hoặc đăng nhập bằng" FontSize="13" Foreground="#78867D" Margin="14,0" />
+                                <Border Grid.Column="2" Height="1" Background="#E2DDD3" VerticalAlignment="Center" />
                             </Grid>
-                        </Border>
 
-                        <!-- Input 2: Email / Username -->
-                        <Border Background="#FAF8F5" BorderBrush="#E5DFD7" BorderThickness="1.2" CornerRadius="12" Height="46" Padding="14,0" Margin="0,0,0,12">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="✉" FontSize="14" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                <TextBox Grid.Column="1" Text="{Binding RegisterUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="13.5" Foreground="#1A1513" VerticalContentAlignment="Center" />
-                            </Grid>
-                        </Border>
+                            <!-- 3 Social Buttons (Never change color when switching theme) -->
+                            <UniformGrid Columns="3" Margin="0,0,0,18">
+                                <Button Style="{StaticResource SocialLoginButton}" Height="40" Margin="0,0,5,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="G" FontWeight="ExtraBold" Foreground="#EA4335" FontSize="14" Margin="0,0,6,0" />
+                                        <TextBlock Text="Google" FontSize="13" Foreground="#4A403A" FontWeight="Medium" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{StaticResource SocialLoginButton}" Height="40" Margin="3,0,3,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="f" FontWeight="ExtraBold" Foreground="#1877F2" FontSize="14" Margin="0,0,6,0" />
+                                        <TextBlock Text="Facebook" FontSize="13" Foreground="#4A403A" FontWeight="Medium" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{StaticResource SocialLoginButton}" Height="40" Margin="5,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="" FontWeight="ExtraBold" Foreground="#1A1513" FontSize="14" Margin="0,0,6,0" />
+                                        <TextBlock Text="Apple" FontSize="13" Foreground="#4A403A" FontWeight="Medium" />
+                                    </StackPanel>
+                                </Button>
+                            </UniformGrid>
 
-                        <!-- Input 3: Password -->
-                        <Border Background="#FAF8F5" BorderBrush="#E5DFD7" BorderThickness="1.2" CornerRadius="12" Height="46" Padding="14,0" Margin="0,0,0,12">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="🔒" FontSize="14" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                <PasswordBox x:Name="RegisterPasswordBox" PasswordChanged="RegisterPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#1A1513" VerticalContentAlignment="Center" />
-                            </Grid>
-                        </Border>
+                            <!-- Switch to Register Link -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="Chưa có tài khoản? " FontSize="14" Foreground="#59685F" />
+                                <TextBlock Text="Đăng ký ngay >" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToRegisterTabCommand}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
 
-                        <!-- Input 4: Confirm Password -->
-                        <Border Background="#FAF8F5" BorderBrush="#E5DFD7" BorderThickness="1.2" CornerRadius="12" Height="46" Padding="14,0" Margin="0,0,0,18">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="🔒" FontSize="14" Foreground="#9E968F" VerticalAlignment="Center" Margin="0,0,12,0" />
-                                <PasswordBox x:Name="RegisterConfirmPasswordBox" PasswordChanged="RegisterConfirmPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#1A1513" VerticalContentAlignment="Center" />
-                            </Grid>
-                        </Border>
+                        <!-- TAB 2: REGISTER FORM -->
+                        <StackPanel Grid.Row="2" Visibility="{Binding IsRegisterTab, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock Text="Tạo tài khoản mới!" FontSize="28" FontWeight="Bold" Foreground="#26352D" Margin="0,0,0,6" />
+                            <TextBlock Text="Đăng ký thành viên Mộc Ngữ để bắt đầu lộ trình học bài bản" FontSize="14" Foreground="#59685F" Margin="0,0,0,20" />
 
-                        <!-- Register Button -->
-                        <Button Command="{Binding RegisterCommand}"
-                                Cursor="Hand"
-                                Height="48"
-                                BorderThickness="0"
-                                Margin="0,0,0,16">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="btnBorder" Background="{StaticResource PrimaryButtonGradientBrush}" CornerRadius="14">
-                                        <Border.Effect>
-                                            <DropShadowEffect BlurRadius="14" ShadowDepth="3" Direction="270" Color="#208B58" Opacity="0.30" />
-                                        </Border.Effect>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <TextBlock Text="✨ " FontSize="14" VerticalAlignment="Center" Foreground="White" />
-                                            <TextBlock Text="Đăng ký tài khoản" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="👤" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <TextBox Grid.Column="1" Text="{Binding RegisterFullName, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="✉" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <TextBox Grid.Column="1" Text="{Binding RegisterUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🔒" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <PasswordBox x:Name="RegisterPasswordBox" PasswordChanged="RegisterPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,18">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🔒" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                    <PasswordBox x:Name="RegisterConfirmPasswordBox" PasswordChanged="RegisterConfirmPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <Button Command="{Binding RegisterCommand}" Cursor="Hand" Height="48" BorderThickness="0" Margin="0,0,0,16">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="btnBorder" Background="{DynamicResource PrimaryButtonGradientBrush}" CornerRadius="14">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="14" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.30" />
+                                            </Border.Effect>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="✨ " FontSize="14" VerticalAlignment="Center" Foreground="White" />
+                                                <TextBlock Text="Đăng ký tài khoản" FontSize="15" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="Đã có tài khoản? " FontSize="14" Foreground="#59685F" />
+                                <TextBlock Text="Đăng nhập ngay >" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToLoginTabCommand}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ======================================================== -->
+        <!-- 3. MOBILE VIEW (Image 2 - Auto-scales to fit any phone)  -->
+        <!-- ======================================================== -->
+        <Grid Visibility="{Binding IsMobileMode, Converter={StaticResource BoolToVisibility}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <Viewbox Stretch="Uniform" StretchDirection="DownOnly" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14,10,14,12">
+                    <Grid Width="390">
+                        <StackPanel>
+                            <!-- Centered Mobile Brand Header -->
+                            <StackPanel HorizontalAlignment="Center" Margin="0,8,0,10">
+                                <!-- Icon [语] -->
+                                <Border Width="68" Height="68"
+                                        CornerRadius="18"
+                                        Background="{DynamicResource PrimaryBrush}"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,6"
+                                        Effect="{StaticResource ButtonGlowShadow}">
+                                    <TextBlock Text="语" FontFamily="{StaticResource ChineseFontFamily}" FontSize="34" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Title: Mộc Ngữ -->
+                                <TextBlock Text="Mộc Ngữ"
+                                           FontSize="28"
+                                           FontWeight="ExtraBold"
+                                           Foreground="#198754"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,2">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.8" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+
+                                <!-- Subtitle -->
+                                <TextBlock Text="Học tiếng Trung - Kết nối thế giới"
+                                           FontSize="13.5"
+                                           FontWeight="SemiBold"
+                                           Foreground="#26352D"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,6">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.8" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+
+                                <!-- Delicate Flourish Ornament Line -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
+                                    <Border Width="50" Height="1" Background="#7F9C8D" VerticalAlignment="Center" />
+                                    <TextBlock Text=" ❖ " FontSize="10" Foreground="#198754" VerticalAlignment="Center" Margin="6,0" />
+                                    <Border Width="50" Height="1" Background="#7F9C8D" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Mobile Login / Register Card -->
+                            <Border Background="White"
+                                    BorderBrush="#E2DDD3"
+                                    BorderThickness="1"
+                                    CornerRadius="26"
+                                    Padding="22,18">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="28" ShadowDepth="4" Direction="270" Color="#12241A" Opacity="0.14" />
+                                </Border.Effect>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Dual Tabs: [ Đăng nhập ] | [ Đăng ký ] -->
+                                    <Grid Grid.Row="0" Margin="0,0,0,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Tab 1: Đăng nhập -->
+                                        <Button Grid.Column="0" Command="{Binding SwitchToLoginTabCommand}" Cursor="Hand" Height="38" BorderThickness="0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="tabBorder" CornerRadius="12" Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1">
+                                                                    <TextBlock x:Name="tabText" Text="Đăng nhập" FontSize="13.5" FontWeight="SemiBold" Foreground="#59685F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsLoginTab}" Value="True">
+                                                                        <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                                        <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
+                                                                        <Setter TargetName="tabText" Property="Foreground" Value="White" />
+                                                                        <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <!-- Tab 2: Đăng ký -->
+                                        <Button Grid.Column="2" Command="{Binding SwitchToRegisterTabCommand}" Cursor="Hand" Height="38" BorderThickness="0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="tabBorder" CornerRadius="12" Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1">
+                                                                    <TextBlock x:Name="tabText" Text="Đăng ký" FontSize="13.5" FontWeight="SemiBold" Foreground="#59685F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRegisterTab}" Value="True">
+                                                                        <Setter TargetName="tabBorder" Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                                        <Setter TargetName="tabBorder" Property="BorderThickness" Value="0" />
+                                                                        <Setter TargetName="tabText" Property="Foreground" Value="White" />
+                                                                        <Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </Grid>
+
+                                    <!-- Alerts -->
+                                    <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                                        <Border Background="#FEF2F2" BorderBrush="#FECACA" BorderThickness="1" CornerRadius="10" Padding="10,6" Margin="0,0,0,4" Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="⚠️ " FontSize="12" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding ErrorMessage}" Foreground="#991B1B" FontSize="12" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1" CornerRadius="10" Padding="10,6" Margin="0,0,0,4" Visibility="{Binding HasSuccess, Converter={StaticResource BoolToVisibility}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="✅ " FontSize="12" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding SuccessMessage}" Foreground="#166534" FontSize="12" FontWeight="Medium" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- MOBILE TAB 1: LOGIN FORM -->
+                                    <StackPanel Grid.Row="2" Visibility="{Binding IsLoginTab, Converter={StaticResource BoolToVisibility}}">
+                                        <TextBlock Text="Chào mừng trở lại!" FontSize="24" FontWeight="Bold" Foreground="#26352D" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                        <TextBlock Text="Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn" FontSize="13" Foreground="#59685F" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,14" />
+
+                                        <!-- Mobile Input 1: Email -->
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="44" Padding="12,0" Margin="0,0,0,10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="✉" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <TextBox Grid.Column="1" Text="{Binding LoginUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="13.5" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Mobile Input 2: Password -->
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="44" Padding="12,0" Margin="0,0,0,12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="🔒" FontSize="14" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <PasswordBox x:Name="MobileLoginPasswordBox" Grid.Column="1" PasswordChanged="LoginPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="13.5" Foreground="#26352D" VerticalContentAlignment="Center" Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibility}}" />
+                                                <TextBox x:Name="MobileLoginPasswordTextBox" Grid.Column="1" Text="{Binding LoginPassword, UpdateSourceTrigger=PropertyChanged}" TextChanged="LoginPasswordTextBox_TextChanged" BorderThickness="0" Background="Transparent" FontSize="13.5" Foreground="#26352D" VerticalContentAlignment="Center" Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibility}}" />
+                                                <Button Grid.Column="2" Command="{Binding TogglePasswordVisibilityCommand}" Cursor="Hand" Background="Transparent" BorderThickness="0" Padding="4" VerticalAlignment="Center">
+                                                    <TextBlock Text="👁" FontSize="14" Foreground="#78867D" />
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+
+                                        <!-- Remember Me & Forgot Password -->
+                                        <Grid Margin="0,0,0,14">
+                                            <CheckBox IsChecked="{Binding RememberMe}" VerticalAlignment="Center">
+                                                <TextBlock Text="Nhớ tài khoản" FontSize="13" Foreground="#26352D" VerticalAlignment="Center" Margin="4,0,0,0" />
+                                            </CheckBox>
+                                            <TextBlock Text="Quên mật khẩu?" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand" />
+                                        </Grid>
+
+                                        <!-- Mobile Login Button -->
+                                        <Button Command="{Binding LoginCommand}" Cursor="Hand" Height="44" BorderThickness="0" Margin="0,0,0,12">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="btnBorder" Background="{DynamicResource PrimaryButtonGradientBrush}" CornerRadius="12">
+                                                        <Border.Effect>
+                                                            <DropShadowEffect BlurRadius="12" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.25" />
+                                                        </Border.Effect>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <TextBlock Text="➔ " FontSize="14" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                                            <TextBlock Text="Đăng nhập" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <!-- Divider -->
+                                        <Grid Margin="0,0,0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Height="1" Background="#E2DDD3" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="Hoặc đăng nhập bằng" FontSize="12" Foreground="#78867D" Margin="10,0" />
+                                            <Border Grid.Column="2" Height="1" Background="#E2DDD3" VerticalAlignment="Center" />
+                                        </Grid>
+
+                                        <!-- 3 Social Buttons (Never change color when switching theme) -->
+                                        <UniformGrid Columns="3" Margin="0,0,0,14">
+                                            <Button Style="{StaticResource SocialLoginButton}" Height="36" Margin="0,0,4,0">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="G" FontWeight="ExtraBold" Foreground="#EA4335" FontSize="13" Margin="0,0,5,0" />
+                                                    <TextBlock Text="Google" FontSize="12" Foreground="#4A403A" FontWeight="Medium" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource SocialLoginButton}" Height="36" Margin="2,0,2,0">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="f" FontWeight="ExtraBold" Foreground="#1877F2" FontSize="13" Margin="0,0,5,0" />
+                                                    <TextBlock Text="Facebook" FontSize="12" Foreground="#4A403A" FontWeight="Medium" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource SocialLoginButton}" Height="36" Margin="4,0,0,0">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="" FontWeight="ExtraBold" Foreground="#1A1513" FontSize="13" Margin="0,0,5,0" />
+                                                    <TextBlock Text="Apple" FontSize="12" Foreground="#4A403A" FontWeight="Medium" />
+                                                </StackPanel>
+                                            </Button>
+                                        </UniformGrid>
+
+                                        <!-- Switch to Register Link -->
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Chưa có tài khoản? " FontSize="13" Foreground="#59685F" />
+                                            <TextBlock Text="Đăng ký ngay >" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand">
+                                                <TextBlock.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToRegisterTabCommand}" />
+                                                </TextBlock.InputBindings>
+                                            </TextBlock>
                                         </StackPanel>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="btnBorder" Property="Background" Value="{StaticResource PrimaryHoverBrush}" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
+                                    </StackPanel>
 
-                        <!-- Bottom Switch to Login Link -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="Đã có tài khoản? " FontSize="13" Foreground="#7D746D" />
-                            <TextBlock Text="Đăng nhập ngay >" FontSize="13" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Cursor="Hand">
-                                <TextBlock.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToLoginTabCommand}" />
-                                </TextBlock.InputBindings>
-                            </TextBlock>
+                                    <!-- MOBILE TAB 2: REGISTER FORM -->
+                                    <StackPanel Grid.Row="2" Visibility="{Binding IsRegisterTab, Converter={StaticResource BoolToVisibility}}">
+                                        <TextBlock Text="Tạo tài khoản mới!" FontSize="24" FontWeight="Bold" Foreground="#26352D" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                        <TextBlock Text="Đăng ký thành viên Mộc Ngữ để bắt đầu lộ trình học bài bản" FontSize="13" Foreground="#59685F" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,14" />
+
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="42" Padding="12,0" Margin="0,0,0,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="👤" FontSize="13" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <TextBox Grid.Column="1" Text="{Binding RegisterFullName, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="13" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="42" Padding="12,0" Margin="0,0,0,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="✉" FontSize="13" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <TextBox Grid.Column="1" Text="{Binding RegisterUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" FontSize="13" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="42" Padding="12,0" Margin="0,0,0,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="🔒" FontSize="13" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <PasswordBox x:Name="MobileRegisterPasswordBox" PasswordChanged="RegisterPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="13" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="42" Padding="12,0" Margin="0,0,0,12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="🔒" FontSize="13" Foreground="#78867D" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                                <PasswordBox x:Name="MobileRegisterConfirmPasswordBox" PasswordChanged="RegisterConfirmPasswordBox_PasswordChanged" BorderThickness="0" Background="Transparent" FontSize="13" Foreground="#26352D" VerticalContentAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+
+                                        <Button Command="{Binding RegisterCommand}" Cursor="Hand" Height="44" BorderThickness="0" Margin="0,0,0,12">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="btnBorder" Background="{DynamicResource PrimaryButtonGradientBrush}" CornerRadius="12">
+                                                        <Border.Effect>
+                                                            <DropShadowEffect BlurRadius="12" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.25" />
+                                                        </Border.Effect>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <TextBlock Text="✨ " FontSize="13" VerticalAlignment="Center" Foreground="White" />
+                                                            <TextBlock Text="Đăng ký tài khoản" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Đã có tài khoản? " FontSize="13" Foreground="#59685F" />
+                                            <TextBlock Text="Đăng nhập ngay >" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Cursor="Hand">
+                                                <TextBlock.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SwitchToLoginTabCommand}" />
+                                                </TextBlock.InputBindings>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </Border>
+                    </Grid>
+                </Viewbox>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

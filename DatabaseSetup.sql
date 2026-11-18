@@ -257,6 +257,13 @@ BEGIN
     INSERT INTO Users (Username, Email, FullName, PasswordHash, AvatarUrl, IsPremium, WordsLearnedCount, ListeningCount, WritingCount, ReadingCount, SentenceCount, StreakDays, CurrentLevel)
     VALUES (N'minhdat', N'minhdat@gmail.com', N'Minh Đạt', N'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', N'Assets/avatar_minhdat.png', 1, 0, 0, 0, 0, 0, 0, N'HSK 1');
 END
+ELSE
+BEGIN
+    UPDATE Users 
+    SET FullName = N'Minh Đạt' 
+    WHERE (Username = N'minhdat' OR Email = N'minhdat@gmail.com') 
+      AND (FullName LIKE N'%Ä%' OR FullName LIKE N'%?%' OR FullName != N'Minh Đạt');
+END
 GO
 
 
