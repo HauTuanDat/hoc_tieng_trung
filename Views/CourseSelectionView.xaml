@@ -5,20 +5,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:QuizApp.ViewModels"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=vm:CourseSelectionViewModel}">
+             d:DataContext="{d:DesignInstance Type=vm:CourseSelectionViewModel}"
+             Background="#F8FAFC">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="32,24" MaxWidth="1100">
-            <!-- Header Banner -->
-            <Grid Margin="0,0,0,24">
-                <StackPanel>
-                    <TextBlock Text="Chọn khóa học" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6" />
-                    <TextBlock Text="Hành trình chinh phục tiếng Trung của bạn bắt đầu từ đây! Lộ trình chuẩn hóa theo từng cấp bậc." FontSize="15" Foreground="{DynamicResource TextSecondaryBrush}" />
-                </StackPanel>
-            </Grid>
+        <StackPanel Margin="36,24,36,36" MaxWidth="1180">
 
-            <!-- HSK 1 ~ 6 Grid (3 columns x 2 rows) -->
-            <TextBlock Text="Lộ trình Chuẩn HSK 1 ~ 6" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,14" />
+            <!-- ============================================== -->
+            <!-- 1. TOP HEADER BANNER (ORIENTAL BLUE THEME)     -->
+            <!-- ============================================== -->
+            <Border CornerRadius="20" Margin="0,0,0,26" ClipToBounds="True" Padding="28,22">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#F0F8FF" Offset="0.0" />
+                        <GradientStop Color="#E0F2FE" Offset="0.55" />
+                        <GradientStop Color="#EBF5FF" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Graduation Icon + Title + Subtitle -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Border Width="48" Height="48" CornerRadius="14" Background="#0284C7" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <TextBlock Text="🎓" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                            </Border>
+                            <TextBlock Text="Chọn khóa học" FontSize="28" FontWeight="ExtraBold" Foreground="#0F172A" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="Hành trình chinh phục tiếng Trung của bạn bắt đầu từ đây! Lộ trình chuẩn hóa theo từng cấp bậc."
+                                   FontSize="14.5" Foreground="#475569" FontWeight="Medium" />
+                    </StackPanel>
+
+                    <!-- Right: Landscape Oriental Art (Pagoda & Flying Birds) -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0" Opacity="0.9">
+                        <TextBlock Text="🕊️" FontSize="16" Foreground="#0284C7" Margin="0,-22,6,0" />
+                        <TextBlock Text="🕊️" FontSize="12" Foreground="#0284C7" Margin="0,-36,18,0" />
+                        <TextBlock Text="🏯" FontSize="58" VerticalAlignment="Center" />
+                        <TextBlock Text="🌸" FontSize="24" Margin="-10,22,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ============================================== -->
+            <!-- 2. HSK 1 ~ 6 COURSES GRID SECTION              -->
+            <!-- ============================================== -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16" VerticalAlignment="Center">
+                <Border Width="4.5" Height="22" Background="#0284C7" CornerRadius="2" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <TextBlock Text="Lộ trình Chuẩn HSK 1 ~ 6" FontSize="20" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
+            </StackPanel>
+
             <ItemsControl ItemsSource="{Binding HskCourses}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -27,55 +66,111 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{DynamicResource CardBackgroundBrush}"
-                                BorderBrush="{DynamicResource BorderLightBrush}"
-                                BorderThickness="1"
-                                CornerRadius="16"
-                                Padding="20"
-                                Margin="0,0,16,16"
+                        <Border Background="#FFFFFF"
+                                BorderBrush="#E2E8F0"
+                                BorderThickness="1.2"
+                                CornerRadius="20"
+                                Padding="20,18"
+                                Margin="0,0,18,18"
                                 Effect="{DynamicResource CardShadow}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <!-- Top Icon & Info -->
+                                <!-- Top: Left Info & Right Landmark Art -->
                                 <Grid Grid.Row="0" Margin="0,0,0,14">
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="{Binding Subtitle}" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Medium" Margin="0,2,0,0" />
-                                        <TextBlock Text="{Binding LessonCountText}" FontSize="13.5" Foreground="{DynamicResource PrimaryBrush}" FontWeight="SemiBold" Margin="0,4,0,0" />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Left Details -->
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <!-- Blue Badge HSK 1 -->
+                                        <Border Background="#0EA5E9" CornerRadius="10" Padding="10,3" HorizontalAlignment="Left" Margin="0,0,0,6">
+                                            <TextBlock Text="{Binding LevelKey}" FontSize="12" FontWeight="ExtraBold" Foreground="White" />
+                                        </Border>
+
+                                        <!-- Title HSK 1 -->
+                                        <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="ExtraBold" Foreground="#0F172A" Margin="0,0,0,4" />
+
+                                        <!-- Subtitle -->
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                                            <TextBlock Text="📖 " FontSize="12.5" Foreground="#0284C7" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Subtitle}" FontSize="13" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <!-- Lesson count -->
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="👥 " FontSize="12.5" Foreground="#0284C7" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding LessonCountText}" FontSize="13" FontWeight="SemiBold" Foreground="#0284C7" VerticalAlignment="Center" />
+                                        </StackPanel>
                                     </StackPanel>
 
-                                    <!-- Pagoda Chinese Icon -->
-                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="52" Height="52" CornerRadius="14" Background="{Binding BgTint}">
-                                        <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <!-- Right Architectural Illustration Container -->
+                                    <Border Grid.Column="1" Width="106" Height="90" CornerRadius="20" Margin="8,0,0,0" VerticalAlignment="Center">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#F0F9FF" Offset="0" />
+                                                <GradientStop Color="#E0F2FE" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Icon}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <TextBlock Text="☁️" FontSize="13" Opacity="0.4" HorizontalAlignment="Center" Margin="0,-4,0,0" />
+                                        </StackPanel>
                                     </Border>
                                 </Grid>
 
-                                <!-- Progress bar & Percentage -->
-                                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0,10,0,14">
-                                    <Grid Margin="0,0,0,6">
-                                        <TextBlock Text="Tiến độ học" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
-                                        <TextBlock Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" FontSize="13.5" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Right" />
-                                    </Grid>
-                                    <ProgressBar Value="{Binding ProgressPercent, Mode=OneWay}" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" Height="7" />
-                                </StackPanel>
+                                <!-- Middle: Progress Stats -->
+                                <Grid Grid.Row="1" Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="📊 " FontSize="12.5" VerticalAlignment="Center" />
+                                        <TextBlock Text="Tiến độ học" FontSize="13" Foreground="#64748B" FontWeight="Medium" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" FontSize="14.5" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
+                                </Grid>
 
-                                <!-- Action Button -->
+                                <!-- Bottom: Full-width Pill Blue Gradient Button -->
                                 <Button Grid.Row="2"
                                         Command="{Binding DataContext.SelectCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding LevelKey}"
-                                        Style="{DynamicResource PrimaryButton}"
-                                        Height="40"
-                                        Padding="0"
-                                        FontSize="14">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Vào học ngay " FontWeight="SemiBold" />
-                                        <TextBlock Text="➜" FontWeight="SemiBold" />
-                                    </StackPanel>
+                                        Height="42"
+                                        Cursor="Hand"
+                                        BorderThickness="0"
+                                        Padding="0">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="btnBorder" CornerRadius="21">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#0284C7" Offset="0" />
+                                                        <GradientStop Color="#38BDF8" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock Text="▶ " FontSize="11" Foreground="White" VerticalAlignment="Center" Margin="0,0,4,0" />
+                                                    <TextBlock Text="Vào học ngay" FontSize="14" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                                                    <TextBlock Text=" ➔" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="4,0,0,0" />
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="btnBorder" Property="Opacity" Value="0.9" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="btnBorder" Property="Opacity" Value="0.8" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
                                 </Button>
                             </Grid>
                         </Border>
@@ -83,8 +178,14 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <!-- Specialized Courses Section -->
-            <TextBlock Text="Khóa học Chuyên ngành Thực chiến" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,12,0,14" />
+            <!-- ============================================== -->
+            <!-- 3. SPECIALIZED INDUSTRY COURSES SECTION        -->
+            <!-- ============================================== -->
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,16" VerticalAlignment="Center">
+                <Border Width="4.5" Height="22" Background="#0284C7" CornerRadius="2" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <TextBlock Text="Khóa học Chuyên ngành Thực chiến" FontSize="20" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
+            </StackPanel>
+
             <ItemsControl ItemsSource="{Binding SpecializedCourses}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -93,57 +194,66 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{DynamicResource CardBackgroundBrush}"
-                                BorderBrush="{DynamicResource BorderLightBrush}"
-                                BorderThickness="1"
-                                CornerRadius="16"
-                                Padding="20"
-                                Margin="0,0,16,16"
-                                Effect="{DynamicResource CardShadow}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                        <Button Command="{Binding DataContext.SelectCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding LevelKey}"
+                                Cursor="Hand"
+                                Margin="0,0,18,14"
+                                BorderThickness="0"
+                                Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="specCard"
+                                            Background="#FFFFFF"
+                                            BorderBrush="#E2E8F0"
+                                            BorderThickness="1.2"
+                                            CornerRadius="22"
+                                            Padding="18,14"
+                                            Effect="{DynamicResource CardShadow}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
 
-                                <!-- Top -->
-                                <Grid Grid.Row="0" Margin="0,0,0,14">
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="{Binding Subtitle}" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
-                                        <TextBlock Text="{Binding LessonCountText}" FontSize="13.5" Foreground="{DynamicResource PrimaryBrush}" FontWeight="SemiBold" Margin="0,4,0,0" />
-                                    </StackPanel>
-                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="48" Height="48" CornerRadius="12" Background="{Binding BgTint}">
-                                        <TextBlock Text="{Binding Icon}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <!-- Left Circular Icon Badge -->
+                                            <Border Grid.Column="0" Width="44" Height="44" CornerRadius="22" Background="{Binding BgTint}" Margin="0,0,14,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Icon}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+
+                                            <!-- Center Title & Subtitle -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="Bold" Foreground="#0F172A" TextTrimming="CharacterEllipsis" Margin="0,0,0,2" />
+                                                <TextBlock Text="{Binding Subtitle}" FontSize="12.5" Foreground="#64748B" TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+
+                                            <!-- Right Arrow Circle Button -->
+                                            <Border Grid.Column="2" Width="36" Height="36" CornerRadius="18" Background="#F1F5F9" VerticalAlignment="Center" Margin="8,0,0,0">
+                                                <TextBlock Text="➔" FontSize="14" FontWeight="Bold" Foreground="#475569" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </Grid>
                                     </Border>
-                                </Grid>
-
-                                <!-- Progress -->
-                                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0,10,0,14">
-                                    <Grid Margin="0,0,0,6">
-                                        <TextBlock Text="Tiến độ học" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
-                                        <TextBlock Text="{Binding ProgressPercent, StringFormat='{}{0}%'}" FontSize="13.5" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Right" />
-                                    </Grid>
-                                    <ProgressBar Value="{Binding ProgressPercent, Mode=OneWay}" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" Height="7" />
-                                </StackPanel>
-
-                                <!-- Action -->
-                                <Button Grid.Row="2"
-                                        Command="{Binding DataContext.SelectCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding LevelKey}"
-                                        Style="{StaticResource OutlineButton}"
-                                        Height="40"
-                                        Padding="0"
-                                        FontSize="14">
-                                    <TextBlock Text="Khám phá từ vựng ➜" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" />
-                                </Button>
-                            </Grid>
-                        </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="specCard" Property="BorderBrush" Value="#0284C7" />
+                                            <Setter TargetName="specCard" Property="Effect" Value="{StaticResource CardHoverShadow}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
+            <!-- ============================================== -->
+            <!-- 4. FOOTER MOTIVATIONAL SLOGAN                  -->
+            <!-- ============================================== -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,8">
+                <TextBlock Text="🏆 " FontSize="14" VerticalAlignment="Center" />
+                <TextBlock Text="Học tiếng Trung – Mở rộng cơ hội, vươn tới tương lai" FontSize="13.5" FontStyle="Italic" Foreground="#64748B" VerticalAlignment="Center" />
+            </StackPanel>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>
-

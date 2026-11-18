@@ -17,6 +17,7 @@ public class MainViewModel : ViewModelBase
 
     private User? _currentUser;
     private bool _isLoggedIn = false;
+    private bool _isSidebarVisible = true;
 
     // Track active quiz batch for retrying
     private List<Question> _lastBatchQuestions = new();
@@ -63,6 +64,7 @@ public class MainViewModel : ViewModelBase
             string lvl = param as string ?? "HSK 1";
             NavigateToTypingPractice(lvl);
         });
+        NavigateToGameMapCommand = new RelayCommand(NavigateToGameMap);
         NavigateToManageQuestionsCommand = new RelayCommand(NavigateToQuestionManagement);
 
         // App-wide actions
@@ -76,6 +78,7 @@ public class MainViewModel : ViewModelBase
         LogoutCommand = new RelayCommand(Logout);
         ToggleSoundCommand = new RelayCommand(() => IsSoundMuted = !IsSoundMuted);
         ToggleThemeCommand = new RelayCommand(() => ThemeService.Instance.ToggleTheme());
+        ToggleSidebarCommand = new RelayCommand(() => IsSidebarVisible = !IsSidebarVisible);
 
         ThemeService.Instance.ThemeChanged += _ =>
         {
@@ -165,6 +168,21 @@ public class MainViewModel : ViewModelBase
     public string ThemeToggleTooltip => ThemeService.Instance.IsDarkMode ? "Chuyển sang chế độ Sáng" : "Chuyển sang chế độ Tối";
     public ICommand ToggleThemeCommand { get; }
 
+    public bool IsSidebarVisible
+    {
+        get => _isSidebarVisible;
+        set
+        {
+            if (SetProperty(ref _isSidebarVisible, value))
+            {
+                OnPropertyChanged(nameof(SidebarToggleTooltip));
+            }
+        }
+    }
+
+    public string SidebarToggleTooltip => IsSidebarVisible ? "Thu gọn thanh bên (Ctrl+B)" : "Mở rộng thanh bên (Ctrl+B)";
+    public ICommand ToggleSidebarCommand { get; }
+
     public ICommand NavigateToDashboardCommand { get; }
     public ICommand NavigateToCoursesCommand { get; }
     public ICommand NavigateToPracticeCenterCommand { get; }
@@ -177,6 +195,7 @@ public class MainViewModel : ViewModelBase
     public ICommand NavigateToQuizCommand { get; }
     public ICommand NavigateToSentenceScrambleCommand { get; }
     public ICommand NavigateToTypingCommand { get; }
+    public ICommand NavigateToGameMapCommand { get; }
     public ICommand NavigateToManageQuestionsCommand { get; }
     public ICommand GlobalSearchCommand { get; }
     public ICommand LogoutCommand { get; }
@@ -336,6 +355,14 @@ public class MainViewModel : ViewModelBase
         _ = mgmtVm.InitializeAsync();
     }
 
+    public void NavigateToGameMap()
+    {
+        var vm = new GameMapViewModel(_hskService, onStartQuiz: StartHskQuiz, onBack: NavigateToDashboard);
+        CurrentViewModel = vm;
+        ActiveViewName = "GameMap";
+        CurrentTopicTitle = "Đấu trường HSK • Bản đồ chinh phục";
+    }
+
     public void StartHskQuiz(string level, string mode)
     {
         var quizVm = new QuizViewModel(_databaseService, OnQuizCompleted, OnQuizExit, _hskService);
@@ -381,6 +408,12 @@ public class MainViewModel : ViewModelBase
 
     public void HandleKeyDown(Key key)
     {
+        if (key == Key.B && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+        {
+            ToggleSidebarCommand.Execute(null);
+            return;
+        }
+
         if (CurrentViewModel is QuizViewModel quizVm)
         {
             quizVm.HandleKeyboardInput(key);

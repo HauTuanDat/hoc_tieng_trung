@@ -135,6 +135,16 @@
         <GradientStop Color="#0F5132" Offset="1" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="SuccessGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#16A34A" Offset="0" />
+        <GradientStop Color="#22C55E" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ErrorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#DC2626" Offset="0" />
+        <GradientStop Color="#EF4444" Offset="1" />
+    </LinearGradientBrush>
+
     <!-- Hero Banner Background Gradient (Clean Ivory/Paper for Light Mode) -->
     <LinearGradientBrush x:Key="HeroBannerBackgroundBrush" StartPoint="0,0" EndPoint="1,0.85">
         <GradientStop Color="#FFFFFF" Offset="0.0" />

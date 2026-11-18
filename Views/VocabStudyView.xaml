@@ -58,9 +58,9 @@
         <!-- Row 2: 3 Columns Main Workspace -->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="240" MinWidth="220" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="285" MinWidth="265" />
             </Grid.ColumnDefinitions>
 
             <!-- ============================================== -->
@@ -72,8 +72,12 @@
                         <!-- Current Level Header -->
                         <Border Background="{DynamicResource PrimaryTintBrush}" CornerRadius="8" Padding="10,8" Margin="0,0,0,10">
                             <Grid>
-                                <TextBlock Text="{Binding CurrentLevel}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="45%" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding CurrentLevel}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="45%" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" Margin="6,0,0,0" />
                             </Grid>
                         </Border>
 
@@ -99,8 +103,12 @@
                                                                     BorderBrush="Transparent"
                                                                     BorderThickness="1.5">
                                                                 <Grid>
-                                                                    <TextBlock x:Name="itemText" Text="{Binding Title}" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,38,0" VerticalAlignment="Center" />
-                                                                    <TextBlock x:Name="itemProg" Text="{Binding ProgressText}" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" x:Name="itemText" Text="{Binding Title}" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                                                    <TextBlock Grid.Column="1" x:Name="itemProg" Text="{Binding ProgressText}" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                                                                 </Grid>
                                                             </Border>
                                                             <ControlTemplate.Triggers>
@@ -159,8 +167,12 @@
                     <StackPanel>
                         <!-- Header with Lesson Title & Progress Steps -->
                         <Grid Margin="0,0,0,16">
-                            <TextBlock Text="{Binding LessonHeaderTitle}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding LessonHeaderTitle}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding ProgressStepText}" FontSize="13.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center" />
                                 <ProgressBar Value="{Binding ProgressStepValue, Mode=OneWay}" Width="80" Height="6" Maximum="100" Style="{StaticResource ModernProgressBarStyle}" VerticalAlignment="Center" />
                             </StackPanel>
@@ -235,11 +247,15 @@
                         <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="14" Padding="18,14" Margin="0,0,0,16">
                             <StackPanel>
                                 <Grid Margin="0,0,0,12">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
                                         <TextBlock Text="❓ " FontSize="14" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding QuestionPrompt}" FontSize="14.5" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding QuestionPrompt}" FontSize="14.5" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
-                                    <TextBlock Text="{Binding QuestionNumberText}" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding QuestionNumberText}" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                                 </Grid>
 
                                 <!-- 4 Options (A, B, C, D) -->
@@ -349,14 +365,22 @@
 
                             <TextBlock Text="12 / 25 từ hoàn thành" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,12" />
 
-                            <Grid Background="#FAF6F0" Margin="0,4,0,0">
-                                <Border CornerRadius="8" Padding="10,8">
-                                    <Grid>
-                                        <TextBlock Text="🌱 Từ mới hôm nay: 5" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" />
-                                        <TextBlock Text="⚠️ Cần ôn: 3" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" />
-                                    </Grid>
-                                </Border>
-                            </Grid>
+                            <Border Background="#FAF6F0" CornerRadius="8" Padding="12,9" Margin="0,4,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="🌱 Từ mới: " FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="5" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,0,0">
+                                        <TextBlock Text="⚠️ Cần ôn: " FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" />
+                                        <TextBlock Text="3" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
                         </StackPanel>
                     </Border>
 
@@ -364,24 +388,42 @@
                     <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,0,12" Effect="{DynamicResource CardShadow}">
                         <StackPanel>
                             <TextBlock Text="📅 Lịch học hôm nay" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,4" />
-                            <TextBlock Text="Hôm nay • Luyện đều tay" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,10" />
+                            <TextBlock Text="Hôm nay • Luyện đều tay" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,12" />
 
                             <!-- Item 1 -->
-                            <Grid Margin="0,0,0,8">
-                                <TextBlock Text="✔ Học từ mới (5 từ)" FontSize="13.5" Foreground="{StaticResource SuccessBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="Hoàn thành" FontSize="13" Foreground="{StaticResource SuccessBrush}" FontWeight="Medium" HorizontalAlignment="Right" />
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="✔ Học từ mới (5 từ)" FontSize="13" Foreground="{DynamicResource SuccessBrush}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" TextTrimming="CharacterEllipsis" />
+                                <Border Grid.Column="1" Background="{DynamicResource SuccessBgBrush}" CornerRadius="6" Padding="7,2" VerticalAlignment="Center">
+                                    <TextBlock Text="Hoàn thành" FontSize="11.5" Foreground="{DynamicResource SuccessBrush}" FontWeight="SemiBold" />
+                                </Border>
                             </Grid>
 
                             <!-- Item 2 -->
-                            <Grid Margin="0,0,0,8">
-                                <TextBlock Text="✔ Luyện tập (5 câu)" FontSize="13.5" Foreground="{StaticResource SuccessBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="Hoàn thành" FontSize="13" Foreground="{StaticResource SuccessBrush}" FontWeight="Medium" HorizontalAlignment="Right" />
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="✔ Luyện tập (5 câu)" FontSize="13" Foreground="{DynamicResource SuccessBrush}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" TextTrimming="CharacterEllipsis" />
+                                <Border Grid.Column="1" Background="{DynamicResource SuccessBgBrush}" CornerRadius="6" Padding="7,2" VerticalAlignment="Center">
+                                    <TextBlock Text="Hoàn thành" FontSize="11.5" Foreground="{DynamicResource SuccessBrush}" FontWeight="SemiBold" />
+                                </Border>
                             </Grid>
 
                             <!-- Item 3 -->
                             <Grid>
-                                <TextBlock Text="⏳ Ôn tập từ cũ (5 từ)" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" />
-                                <TextBlock Text="Đang làm" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" FontWeight="Medium" HorizontalAlignment="Right" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="⏳ Ôn tập từ cũ (5 từ)" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" TextTrimming="CharacterEllipsis" />
+                                <Border Grid.Column="1" Background="{DynamicResource PrimaryTintBrush}" CornerRadius="6" Padding="7,2" VerticalAlignment="Center">
+                                    <TextBlock Text="Đang làm" FontSize="11.5" Foreground="{DynamicResource PrimaryBrush}" FontWeight="SemiBold" />
+                                </Border>
                             </Grid>
                         </StackPanel>
                     </Border>

@@ -72,6 +72,9 @@
         <DataTemplate DataType="{x:Type vm:QuestionManagementViewModel}">
             <views:QuestionManagementView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GameMapViewModel}">
+            <views:GameMapView />
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -103,7 +106,7 @@
             </Grid.Style>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="228" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -111,6 +114,8 @@
             <!-- 1. LEFT SIDEBAR (Mộc Ngữ Traditional Menu)     -->
             <!-- ============================================== -->
             <Border Grid.Column="0"
+                    Width="228"
+                    Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVisibility}}"
                     Background="{DynamicResource SidebarBackgroundBrush}"
                     BorderBrush="{DynamicResource BorderLightBrush}"
                     BorderThickness="0,0,1,0"
@@ -178,6 +183,17 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="⚡ " FontSize="15" Margin="0,0,10,0" VerticalAlignment="Center" />
                                     <TextBlock Text="Luyện tập" FontSize="15" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- 3.1. Đấu trường Game HSK (1 -> 9) -->
+                            <Button Command="{Binding NavigateToGameMapCommand}" Style="{DynamicResource SidebarNavButton}" Tag="GameMap">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🎮 " FontSize="15" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Đấu trường HSK" FontSize="15" VerticalAlignment="Center" />
+                                    <Border Background="#FEE2E2" CornerRadius="8" Padding="6,2" Margin="8,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="HOT" FontSize="10" FontWeight="Bold" Foreground="#DC2626" />
+                                    </Border>
                                 </StackPanel>
                             </Button>
 
@@ -264,51 +280,88 @@
                         Background="{DynamicResource HeaderBackgroundBrush}"
                         BorderBrush="{DynamicResource BorderLightBrush}"
                         BorderThickness="0,0,0,1"
-                        Padding="28,12">
+                        Padding="20,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Left: Search Box (14px Clean Input) -->
-                        <Border Grid.Column="0"
-                                Background="{DynamicResource SubCardBackgroundBrush}"
-                                BorderBrush="{DynamicResource BorderLightBrush}"
-                                BorderThickness="1"
-                                CornerRadius="20"
-                                Height="42"
-                                MaxWidth="480"
-                                HorizontalAlignment="Left"
-                                Padding="14,0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="🔍 " FontSize="14" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
-                                <TextBox Grid.Column="1"
-                                         Text="{Binding GlobalSearchQuery, UpdateSourceTrigger=PropertyChanged}"
-                                         BorderThickness="0"
-                                         Background="Transparent"
-                                         VerticalAlignment="Center"
-                                         FontSize="14"
-                                         Foreground="{DynamicResource TextPrimaryBrush}">
-                                    <TextBox.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding GlobalSearchCommand}" />
-                                    </TextBox.InputBindings>
-                                </TextBox>
-                                <Button Grid.Column="2"
-                                        Command="{Binding GlobalSearchCommand}"
-                                        Style="{DynamicResource PrimaryButton}"
-                                        Padding="14,5"
-                                        Height="30"
-                                        FontSize="13.5">
-                                    <TextBlock Text="Tìm kiếm" FontWeight="SemiBold" />
-                                </Button>
-                            </Grid>
-                        </Border>
+                        <!-- Left: Toggle Sidebar Button (LMS Style) + Search Box -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- Hamburger Toggle Sidebar Button -->
+                            <Button Command="{Binding ToggleSidebarCommand}"
+                                    ToolTip="{Binding SidebarToggleTooltip}"
+                                    Cursor="Hand"
+                                    Width="38" Height="38"
+                                    Margin="0,0,14,0"
+                                    Background="{DynamicResource SubCardBackgroundBrush}"
+                                    BorderBrush="{DynamicResource BorderLightBrush}"
+                                    BorderThickness="1">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="btnBorder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="10">
+                                            <TextBlock Text="☰"
+                                                       FontSize="17"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource PrimaryTintBrush}" />
+                                                <Setter TargetName="btnBorder" Property="BorderBrush" Value="{DynamicResource PrimaryLightBorderBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource NavItemActiveBgBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <!-- Search Box (14px Clean Input) -->
+                            <Border Background="{DynamicResource SubCardBackgroundBrush}"
+                                    BorderBrush="{DynamicResource BorderLightBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="20"
+                                    Height="38"
+                                    Width="340"
+                                    Padding="14,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🔍 " FontSize="14" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding GlobalSearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                             BorderThickness="0"
+                                             Background="Transparent"
+                                             VerticalAlignment="Center"
+                                             FontSize="14"
+                                             Foreground="{DynamicResource TextPrimaryBrush}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Return" Command="{Binding GlobalSearchCommand}" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <Button Grid.Column="2"
+                                            Command="{Binding GlobalSearchCommand}"
+                                            Style="{DynamicResource PrimaryButton}"
+                                            Padding="14,4"
+                                            Height="28"
+                                            FontSize="13">
+                                        <TextBlock Text="Tìm kiếm" FontWeight="SemiBold" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
 
                         <!-- Right: Audio Toggle, Notification Bell, User Avatar & Name -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">

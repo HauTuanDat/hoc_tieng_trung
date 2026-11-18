@@ -251,31 +251,43 @@
 
                         <!-- Activity 1 -->
                         <Grid Margin="0,0,0,10">
-                            <StackPanel Orientation="Horizontal">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
                                 <TextBlock Text="🏆 " FontSize="14" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="Bạn đã học 10 từ vựng mới" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Bạn đã học 10 từ vựng mới" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
-                            <TextBlock Text="2 giờ trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="2 giờ trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                         </Grid>
                         <Border Height="1" Background="{DynamicResource BorderSubtleBrush}" Margin="0,0,0,10" />
 
                         <!-- Activity 2 -->
                         <Grid Margin="0,0,0,10">
-                            <StackPanel Orientation="Horizontal">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
                                 <TextBlock Text="🎧 " FontSize="14" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="Hoàn thành bài luyện nghe HSK 2" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Hoàn thành bài luyện nghe HSK 2" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
-                            <TextBlock Text="5 giờ trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="5 giờ trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                         </Grid>
                         <Border Height="1" Background="{DynamicResource BorderSubtleBrush}" Margin="0,0,0,10" />
 
                         <!-- Activity 3 -->
                         <Grid>
-                            <StackPanel Orientation="Horizontal">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
                                 <TextBlock Text="✍ " FontSize="14" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="Đạt 90% trong bài luyện viết" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="Đạt 90% trong bài luyện viết" FontSize="14.5" FontWeight="Regular" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
-                            <TextBlock Text="1 ngày trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="1 ngày trước" FontSize="13.5" FontWeight="Medium" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
                         </Grid>
                     </StackPanel>
                 </Border>

@@ -107,29 +107,29 @@
 
                     <!-- Checked: Correct Answer (Vibrant Emerald Glow) -->
                     <DataTrigger Binding="{Binding IsCorrectHighlight}" Value="True">
-                        <Setter TargetName="CardBorder" Property="Background" Value="{StaticResource SuccessBgBrush}" />
-                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource SuccessBrush}" />
+                        <Setter TargetName="CardBorder" Property="Background" Value="{DynamicResource SuccessBgBrush}" />
+                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource SuccessBrush}" />
                         <Setter TargetName="CardBorder" Property="BorderThickness" Value="2" />
-                        <Setter TargetName="CardBorder" Property="Effect" Value="{StaticResource SuccessGlowShadow}" />
-                        <Setter TargetName="WordText" Property="Foreground" Value="{StaticResource SuccessTextBrush}" />
-                        <Setter TargetName="KeyBadge" Property="Background" Value="{StaticResource SuccessGradientBrush}" />
+                        <Setter TargetName="CardBorder" Property="Effect" Value="{DynamicResource SuccessGlowShadow}" />
+                        <Setter TargetName="WordText" Property="Foreground" Value="{DynamicResource SuccessTextBrush}" />
+                        <Setter TargetName="KeyBadge" Property="Background" Value="{DynamicResource SuccessGradientBrush}" />
                         <Setter TargetName="KeyText" Property="Foreground" Value="White" />
-                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{StaticResource SuccessBrush}" />
-                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{StaticResource SuccessBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{DynamicResource SuccessBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{DynamicResource SuccessBrush}" />
                         <Setter TargetName="IndicatorIcon" Property="Text" Value="✓" />
                     </DataTrigger>
 
                     <!-- Checked: User chose Wrong Answer (Vibrant Rose Glow) -->
                     <DataTrigger Binding="{Binding IsWrongHighlight}" Value="True">
-                        <Setter TargetName="CardBorder" Property="Background" Value="{StaticResource ErrorBgBrush}" />
-                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
+                        <Setter TargetName="CardBorder" Property="Background" Value="{DynamicResource ErrorBgBrush}" />
+                        <Setter TargetName="CardBorder" Property="BorderBrush" Value="{DynamicResource ErrorBrush}" />
                         <Setter TargetName="CardBorder" Property="BorderThickness" Value="2" />
-                        <Setter TargetName="CardBorder" Property="Effect" Value="{StaticResource ErrorGlowShadow}" />
-                        <Setter TargetName="WordText" Property="Foreground" Value="{StaticResource ErrorTextBrush}" />
-                        <Setter TargetName="KeyBadge" Property="Background" Value="{StaticResource ErrorBrush}" />
+                        <Setter TargetName="CardBorder" Property="Effect" Value="{DynamicResource ErrorGlowShadow}" />
+                        <Setter TargetName="WordText" Property="Foreground" Value="{DynamicResource ErrorTextBrush}" />
+                        <Setter TargetName="KeyBadge" Property="Background" Value="{DynamicResource ErrorBrush}" />
                         <Setter TargetName="KeyText" Property="Foreground" Value="White" />
-                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{StaticResource ErrorBrush}" />
-                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="Background" Value="{DynamicResource ErrorBrush}" />
+                        <Setter TargetName="IndicatorCircle" Property="BorderBrush" Value="{DynamicResource ErrorBrush}" />
                         <Setter TargetName="IndicatorIcon" Property="Text" Value="✕" />
                     </DataTrigger>
                 </ControlTemplate.Triggers>

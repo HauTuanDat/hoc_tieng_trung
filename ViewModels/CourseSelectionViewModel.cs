@@ -56,17 +56,17 @@ public class CourseSelectionViewModel : ViewModelBase
     private void LoadCourses()
     {
         HskCourses.Clear();
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 1", Title = "HSK 1", Subtitle = "Cơ bản", LessonCountText = "12 bài học", ProgressPercent = 0, AccentColor = "#208B58", BgTint = "#EBF7F0", Icon = "🏯" });
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 2", Title = "HSK 2", Subtitle = "Sơ cấp", LessonCountText = "18 bài học", ProgressPercent = 0, AccentColor = "#0D9488", BgTint = "#E8F6F4", Icon = "⛩️" });
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 3", Title = "HSK 3", Subtitle = "Trung cấp", LessonCountText = "20 bài học", ProgressPercent = 0, AccentColor = "#2563EB", BgTint = "#EFF6FF", Icon = "🏛️" });
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 4", Title = "HSK 4", Subtitle = "Trung cao cấp", LessonCountText = "24 bài học", ProgressPercent = 0, AccentColor = "#D97706", BgTint = "#FEF3C7", Icon = "🏯" });
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 5", Title = "HSK 5", Subtitle = "Nâng cao", LessonCountText = "28 bài học", ProgressPercent = 0, AccentColor = "#7C3AED", BgTint = "#F3EDFD", Icon = "⛩️" });
-        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 6", Title = "HSK 6", Subtitle = "Cao cấp", LessonCountText = "32 bài học", ProgressPercent = 0, AccentColor = "#C8372D", BgTint = "#FDF2F0", Icon = "🏛️" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 1", Title = "HSK 1", Subtitle = "Cơ bản", LessonCountText = "12 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "🏯" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 2", Title = "HSK 2", Subtitle = "Sơ cấp", LessonCountText = "16 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "⛩️" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 3", Title = "HSK 3", Subtitle = "Trung cấp", LessonCountText = "20 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "🏛️" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 4", Title = "HSK 4", Subtitle = "Trung cao cấp", LessonCountText = "24 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "🧱" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 5", Title = "HSK 5", Subtitle = "Nâng cao", LessonCountText = "28 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "🗼" });
+        HskCourses.Add(new CourseCardItem { LevelKey = "HSK 6", Title = "HSK 6", Subtitle = "Cao cấp", LessonCountText = "32 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "🏙️" });
 
         SpecializedCourses.Clear();
-        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Công xưởng", Title = "Từ vựng công xưởng", Subtitle = "Sản xuất, kỹ thuật & QC", LessonCountText = "15 bài học", ProgressPercent = 0, AccentColor = "#1B7A4E", BgTint = "#EBF5EE", Icon = "🏭", IsSpecialized = true });
-        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Kế toán", Title = "Kế toán doanh nghiệp", Subtitle = "Hóa đơn, thuế & tài chính", LessonCountText = "12 bài học", ProgressPercent = 0, AccentColor = "#2563EB", BgTint = "#EFF6FF", Icon = "🧮", IsSpecialized = true });
-        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Xuất nhập khẩu", Title = "Xuất nhập khẩu (XNK)", Subtitle = "Logistics, hải quan & thanh toán", LessonCountText = "16 bài học", ProgressPercent = 0, AccentColor = "#D97706", BgTint = "#FFFBEB", Icon = "🚢", IsSpecialized = true });
+        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Công xưởng", Title = "Từ vựng công xưởng", Subtitle = "Sản xuất, kỹ thuật & QC", LessonCountText = "15 bài học", ProgressPercent = 0, AccentColor = "#0284C7", BgTint = "#E0F2FE", Icon = "⚙️", IsSpecialized = true });
+        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Kế toán", Title = "Kế toán doanh nghiệp", Subtitle = "Hóa đơn, thuế & tài chính", LessonCountText = "12 bài học", ProgressPercent = 0, AccentColor = "#7C3AED", BgTint = "#EDE9FE", Icon = "📈", IsSpecialized = true });
+        SpecializedCourses.Add(new CourseCardItem { LevelKey = "Xuất nhập khẩu", Title = "Xuất nhập khẩu (XNK)", Subtitle = "Logistics, hải quan & thanh toán", LessonCountText = "16 bài học", ProgressPercent = 0, AccentColor = "#16A34A", BgTint = "#DCFCE7", Icon = "📦", IsSpecialized = true });
     }
 
     private async Task RefreshProgressFromDbAsync()
