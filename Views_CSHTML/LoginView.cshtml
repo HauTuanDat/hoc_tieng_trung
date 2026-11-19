@@ -1,0 +1,203 @@
+@model QuizApp.ViewModels.LoginViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Mộc Ngữ - Học tiếng Trung";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mộc Ngữ - Học tiếng Trung</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-page">
+
+    <!-- Logo -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-logo">语</div>
+            <div>
+                <h2>Mộc Ngữ</h2>
+                <p>Học tiếng Trung - Kết nối thế giới</p>
+            </div>
+        </div>
+
+        <button class="language-btn">
+            🌐 Tiếng Việt <span>⌄</span>
+        </button>
+    </header>
+
+    <main class="main-content">
+
+        <!-- Khu vực giới thiệu -->
+        <section class="hero">
+
+            <div class="hero-heading">
+                <h1>Học tiếng Trung <span class="chinese">中文</span></h1>
+                <h2>Dễ dàng hơn mỗi ngày</h2>
+            </div>
+
+            <p class="hero-description">
+                Cùng Mộc Ngữ khám phá hành trình chinh phục tiếng Trung
+                với lộ trình nội dung phong phú và trải nghiệm học tập thú vị!
+            </p>
+
+            <!-- Các tính năng -->
+            <div class="features">
+
+                <div class="feature-card">
+                    <span class="feature-icon">▤</span>
+                    <div>
+                        <strong>Đa dạng khóa học</strong>
+                        <p>Lộ trình HSK 1 - 6</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">▦</span>
+                    <div>
+                        <strong>Theo dõi tiến độ</strong>
+                        <p>Thống kê bài học chi tiết</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">♧</span>
+                    <div>
+                        <strong>Luyện tập đa kỹ năng</strong>
+                        <p>Nghe, Nói, Đọc, Viết, Xếp câu</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">☆</span>
+                    <div>
+                        <strong>Học mọi lúc mọi nơi</strong>
+                        <p>Linh hoạt và hiệu quả</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Lời nhắn -->
+            <div class="quote">
+                <div class="panda">🐼</div>
+                <div>
+                    <strong>
+                        "Bắt đầu từ hôm nay để chạm tới ước mơ của bạn! 💚"
+                    </strong>
+                    <p>
+                        Tiếng Trung không chỉ là ngôn ngữ mà còn là
+                        cánh cửa mở ra thế giới!
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Khung đăng nhập -->
+        <section class="login-card">
+
+            <div class="auth-tabs">
+                <button class="tab active" id="loginTab">
+                    Đăng nhập
+                </button>
+
+                <button class="tab" id="registerTab">
+                    Đăng ký
+                </button>
+            </div>
+
+            <div class="auth-heading">
+                <h2 id="formTitle">Chào mừng trở lại!</h2>
+                <p id="formDescription">
+                    Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn.
+                </p>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+                    <span class="input-icon">✉</span>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Địa chỉ email"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <span class="input-icon">♙</span>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Mật khẩu"
+                        autocomplete="current-password"
+                        required
+                    >
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                        aria-label="Hiện mật khẩu"
+                    >◉</button>
+                </div>
+
+                <div class="remember-row">
+                    <label>
+                        <input type="checkbox" id="remember">
+                        Nhớ tài khoản
+                    </label>
+
+                    <a href="#" id="forgotPassword">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>➜</span> Đăng nhập
+                </button>
+
+                <button type="button" class="quick-login">
+                    ➜ Đăng nhập nhanh tài khoản mẫu: Minh Đạt
+                </button>
+
+            </form>
+
+            <div class="divider">
+                <span></span>
+                <p>Hoặc đăng nhập bằng</p>
+                <span></span>
+            </div>
+
+            <div class="social-login">
+                <button type="button"><b class="google">G</b> Google</button>
+                <button type="button"><b class="facebook">f</b> Facebook</button>
+                <button type="button"><b>●</b> Apple</button>
+            </div>
+
+            <div class="register-footer">
+                <span id="footerText">Chưa có tài khoản?</span>
+                <button id="footerSwitch">Đăng ký ngay &gt;</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2026 Mộc Ngữ • Nền tảng học tiếng Trung toàn diện
+    </footer>
+
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
+

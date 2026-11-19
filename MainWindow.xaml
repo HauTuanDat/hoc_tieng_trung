@@ -363,16 +363,29 @@
                             </Border>
                         </StackPanel>
 
-                        <!-- Right: Audio Toggle, Notification Bell, User Avatar & Name -->
+                        <!-- Right: Gamepad Button, Audio Toggle, Notification Bell, User Avatar & Name -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <!-- Sound Toggle -->
-                            <Button Content="{Binding SoundToggleIcon}"
-                                    Command="{Binding ToggleSoundCommand}"
-                                    ToolTip="{Binding SoundToggleTooltip}"
-                                    Style="{DynamicResource OutlineButton}"
-                                    FontSize="14"
-                                    Padding="10,6"
-                                    Margin="0,0,10,0" />
+                            <!-- Gamepad Controller Button (Navigates to Đấu trường HSK) -->
+                            <Button Command="{Binding NavigateToGameMapCommand}"
+                                    Cursor="Hand"
+                                    ToolTip="Đấu trường HSK"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="0,0,10,0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="btnGame" Width="40" Height="40" CornerRadius="20" Background="{DynamicResource SubCardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1">
+                                            <TextBlock Text="🎮" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnGame" Property="Background" Value="#F1F5F9" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
 
                             <!-- Notification Bell with Red Badge -->
                             <Grid Margin="0,0,16,0" Cursor="Hand">
@@ -392,15 +405,44 @@
                                     Padding="0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
-                                        <Border Background="{DynamicResource SubCardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="20" Padding="12,5">
+                                        <Border x:Name="btnProfileBorder"
+                                                Background="{DynamicResource SubCardBackgroundBrush}"
+                                                BorderBrush="{DynamicResource BorderLightBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="20"
+                                                Padding="10,4">
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <Border Width="32" Height="32" CornerRadius="16" Background="White" BorderBrush="{DynamicResource PrimaryLightBorderBrush}" BorderThickness="1.5" Margin="0,0,8,0">
-                                                    <TextBlock Text="🐼" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <Border Width="32" Height="32" CornerRadius="16"
+                                                        Background="White"
+                                                        BorderBrush="{DynamicResource PrimaryLightBorderBrush}"
+                                                        BorderThickness="1.5"
+                                                        Margin="0,0,8,0">
+                                                    <TextBlock Text="🐼"
+                                                               FontSize="18"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
                                                 </Border>
-                                                <TextBlock Text="{Binding UserDisplayName, TargetNullValue='Minh Đạt'}" FontWeight="SemiBold" FontSize="14" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                                <TextBlock Text="▾" FontSize="12" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding UserDisplayName, TargetNullValue='Minh Đạt'}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="13.5"
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,6,0" />
+                                                <TextBlock Text="▾"
+                                                           FontSize="11"
+                                                           Foreground="{DynamicResource TextMutedBrush}"
+                                                           VerticalAlignment="Center" />
                                             </StackPanel>
                                         </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnProfileBorder" Property="Background" Value="{DynamicResource PrimaryTintBrush}" />
+                                                <Setter TargetName="btnProfileBorder" Property="BorderBrush" Value="{DynamicResource PrimaryLightBorderBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="btnProfileBorder" Property="Background" Value="{DynamicResource NavItemActiveBgBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>

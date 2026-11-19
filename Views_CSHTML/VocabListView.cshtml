@@ -1,0 +1,61 @@
+@model QuizApp.ViewModels.VocabListViewModel
+@{
+    ViewData["Title"] = "Sổ tay từ vựng HSK";
+}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#203B3A]">Sổ tay từ vựng HSK 1 - 6</h1>
+            <p class="text-sm text-gray-500">Tra cứu, học và theo dõi tiến độ ghi nhớ từ vựng</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <input type="text" placeholder="Tìm kiếm chữ Hán, Pinyin, nghĩa..."
+                   class="px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#15965B] outline-none w-72" />
+        </div>
+    </div>
+
+    <!-- HSK Filter Tabs -->
+    <div class="flex gap-2 border-b border-gray-200 pb-2 overflow-x-auto">
+        <button class="px-4 py-2 rounded-xl bg-[#15965B] text-white font-bold text-xs">Tất cả (5,002)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 1 (149)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 2 (150)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 3 (295)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 4 (600)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 5 (1,295)</button>
+        <button class="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#203B3A] font-semibold text-xs">HSK 6 (2,513)</button>
+    </div>
+
+    <!-- Data Table -->
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        <table class="w-full text-left border-collapse text-sm">
+            <thead class="bg-gray-50 text-gray-500 text-xs font-bold uppercase border-b border-gray-100">
+                <tr>
+                    <th class="p-4">STT</th>
+                    <th class="p-4">Chữ Hán</th>
+                    <th class="p-4">Pinyin</th>
+                    <th class="p-4">Nghĩa tiếng Việt</th>
+                    <th class="p-4">Cấp độ</th>
+                    <th class="p-4 text-center">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <tr class="hover:bg-gray-50/80 transition-colors">
+                    <td class="p-4 text-gray-400 font-mono">1</td>
+                    <td class="p-4 font-bold text-xl font-chinese text-[#203B3A]">你</td>
+                    <td class="p-4 text-emerald-600 font-medium">nǐ</td>
+                    <td class="p-4 text-gray-700">Bạn, anh, chị (đại từ ngôi thứ hai)</td>
+                    <td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-[#15965B] rounded text-xs font-bold">HSK 1</span></td>
+                    <td class="p-4 text-center"><span class="text-emerald-500 font-bold">✓ Đã thuộc</span></td>
+                </tr>
+                <tr class="hover:bg-gray-50/80 transition-colors">
+                    <td class="p-4 text-gray-400 font-mono">2</td>
+                    <td class="p-4 font-bold text-xl font-chinese text-[#203B3A]">好</td>
+                    <td class="p-4 text-emerald-600 font-medium">hǎo</td>
+                    <td class="p-4 text-gray-700">Tốt, đẹp, khỏe</td>
+                    <td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-[#15965B] rounded text-xs font-bold">HSK 1</span></td>
+                    <td class="p-4 text-center"><span class="text-emerald-500 font-bold">✓ Đã thuộc</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

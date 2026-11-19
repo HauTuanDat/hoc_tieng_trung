@@ -1,0 +1,43 @@
+@model QuizApp.ViewModels.TypingPracticeViewModel
+@{
+    ViewData["Title"] = "Phòng luyện gõ HSK";
+}
+<div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Phòng luyện gõ HSK</h1>
+        <p class="text-sm text-gray-500">Luyện gõ từ mới và câu ví dụ theo chuẩn file Excel</p>
+    </div>
+
+    <!-- Flash Card -->
+    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
+        <div class="flex items-center justify-between text-xs text-gray-400">
+            <span>Từ số: 12 / 149</span>
+            <span class="bg-emerald-50 text-[#15965B] font-bold px-2 py-1 rounded">HSK 1</span>
+        </div>
+
+        <div class="text-center space-y-2">
+            <h2 class="text-5xl font-black text-[#203B3A] font-chinese">谢谢</h2>
+            <p class="text-base text-gray-500">xièxie • Cảm ơn</p>
+        </div>
+
+        <!-- Typing Inputs -->
+        <div class="space-y-4 max-w-lg mx-auto">
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1">Gõ lại từ mới (Pinyin hoặc Chữ Hán):</label>
+                <input type="text" placeholder="Nhập xièxie hoặc 谢谢..."
+                       class="w-full px-4 py-3 rounded-xl border border-gray-200 font-medium text-center text-lg focus:ring-2 focus:ring-[#15965B] outline-none" />
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1">Câu ví dụ: 太谢谢你了！</label>
+                <input type="text" placeholder="Nhập câu ví dụ..."
+                       class="w-full px-4 py-3 rounded-xl border border-gray-200 font-medium text-center focus:ring-2 focus:ring-[#15965B] outline-none" />
+            </div>
+
+            <div class="flex gap-3 pt-2">
+                <button class="flex-1 py-3 bg-[#15965B] text-white font-bold text-sm rounded-xl hover:bg-[#11804D]">Kiểm tra kết quả</button>
+                <button class="px-5 py-3 bg-gray-100 text-gray-600 font-bold text-sm rounded-xl hover:bg-gray-200">Gợi ý 💡</button>
+            </div>
+        </div>
+    </div>
+</div>

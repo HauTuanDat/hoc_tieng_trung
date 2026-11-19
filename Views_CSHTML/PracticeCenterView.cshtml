@@ -1,0 +1,60 @@
+@model QuizApp.ViewModels.PracticeCenterViewModel
+@{
+    ViewData["Title"] = "Trung tâm luyện tập";
+}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Trung tâm luyện tập đa kỹ năng</h1>
+        <p class="text-sm text-gray-500">Phát triển toàn diện Nghe - Nói - Đọc - Viết qua các bài tập chuyên sâu</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/QuizView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-[#15965B] flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                🎯
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Thi Trắc Nghiệm Đợt 20 Câu</h2>
+            <p class="text-xs text-gray-500 mt-1">Luyện phản xạ chọn nghĩa, Hán tự, Pinyin với điều kiện vượt qua 70%.</p>
+        </a>
+
+        <a href="/TypingPracticeView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                ⌨️
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Phòng Luyện Gõ HSK</h2>
+            <p class="text-xs text-gray-500 mt-1">Luyện gõ chữ Hán từ mới và câu ví dụ theo chuẩn file Excel.</p>
+        </a>
+
+        <a href="/SentenceScrambleView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                🧩
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Xếp Câu Tiếng Trung</h2>
+            <p class="text-xs text-gray-500 mt-1">Ghép các khối từ vựng thành câu hoàn chỉnh đúng ngữ pháp.</p>
+        </a>
+
+        <a href="/SpeakingPracticeView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                🎙️
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Luyện Phát Âm & Nói</h2>
+            <p class="text-xs text-gray-500 mt-1">Chấm điểm phát âm bằng AI, nhận diện thanh điệu chuẩn xác.</p>
+        </a>
+
+        <a href="/VocabStudyView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                🎴
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Flashcard Từ Vựng</h2>
+            <p class="text-xs text-gray-500 mt-1">Lật thẻ ghi nhớ, xem thứ tự nét viết và phát âm chuẩn.</p>
+        </a>
+
+        <a href="/GameMapView" class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                🗺️
+            </div>
+            <h2 class="text-lg font-bold text-[#203B3A]">Bản Đồ Thử Thách</h2>
+            <p class="text-xs text-gray-500 mt-1">Vượt ải leo rank, thu thập sao và danh hiệu tiếng Trung.</p>
+        </a>
+    </div>
+</div>

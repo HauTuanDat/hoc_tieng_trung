@@ -24,35 +24,35 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Fixed Light Mode Theme Brushes for Login Screen (Always Light, Immune to Dark Mode) -->
-            <SolidColorBrush x:Key="PrimaryBrush" Color="#198754" />
-            <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#157347" />
-            <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#0F5132" />
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#15965B" />
+            <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#11804D" />
+            <SolidColorBrush x:Key="PrimaryPressedBrush" Color="#0D6A3F" />
             <SolidColorBrush x:Key="PrimaryTintBrush" Color="#EBF7F0" />
             <SolidColorBrush x:Key="PrimaryLightBorderBrush" Color="#C3E8D2" />
             <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#26352D" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#203B3A" />
             <SolidColorBrush x:Key="TextSecondaryBrush" Color="#59685F" />
             <SolidColorBrush x:Key="TextMutedBrush" Color="#78867D" />
             <SolidColorBrush x:Key="BorderLightBrush" Color="#E2DDD3" />
             <SolidColorBrush x:Key="BorderSubtleBrush" Color="#DCD6CB" />
 
             <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#198754" Offset="0" />
-                <GradientStop Color="#157347" Offset="1" />
+                <GradientStop Color="#15965B" Offset="0" />
+                <GradientStop Color="#11804D" Offset="1" />
             </LinearGradientBrush>
 
             <LinearGradientBrush x:Key="PrimaryButtonGradientBrush" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#1EA768" Offset="0" />
-                <GradientStop Color="#198754" Offset="1" />
+                <GradientStop Color="#19A867" Offset="0" />
+                <GradientStop Color="#15965B" Offset="1" />
             </LinearGradientBrush>
 
             <LinearGradientBrush x:Key="PrimaryHoverGradientBrush" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#187347" Offset="0" />
-                <GradientStop Color="#0F5132" Offset="1" />
+                <GradientStop Color="#11804D" Offset="0" />
+                <GradientStop Color="#0D6A3F" Offset="1" />
             </LinearGradientBrush>
 
-            <DropShadowEffect x:Key="CardShadow" BlurRadius="20" ShadowDepth="3" Direction="270" Color="#26352D" Opacity="0.06" />
-            <DropShadowEffect x:Key="ButtonGlowShadow" BlurRadius="16" ShadowDepth="3" Direction="270" Color="#198754" Opacity="0.28" />
+            <DropShadowEffect x:Key="CardShadow" BlurRadius="20" ShadowDepth="3" Direction="270" Color="#203B3A" Opacity="0.06" />
+            <DropShadowEffect x:Key="ButtonGlowShadow" BlurRadius="16" ShadowDepth="3" Direction="270" Color="#15965B" Opacity="0.28" />
 
             <!-- Fixed Style for Social Login Buttons: Never changes color when switching mode (Image 2) -->
             <Style x:Key="SocialLoginButton" TargetType="Button">
@@ -86,6 +86,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!-- Authentic Apple Vector Logo -->
+            <Geometry x:Key="AppleLogoIcon">M 15.22,4.98 C 15.82,4.25 16.23,3.22 16.12,2.2 C 15.24,2.23 14.18,2.78 13.55,3.52 C 12.99,4.17 12.5,5.2 12.63,6.2 C 13.61,6.28 14.61,5.71 15.22,4.98 Z M 16.12,10.08 C 16.15,7.9 17.93,6.84 18.01,6.79 C 17,5.32 15.43,5.1 14.88,5.08 C 13.53,4.94 12.25,5.88 11.56,5.88 C 10.87,5.88 9.83,5.09 8.73,5.11 C 7.31,5.13 5.99,5.94 5.26,7.21 C 3.79,9.75 4.88,13.5 6.31,15.57 C 7.01,16.58 7.84,17.72 8.93,17.68 C 9.99,17.64 10.39,17 11.66,17 C 12.93,17 13.3,17.68 14.4,17.66 C 15.53,17.64 16.25,16.62 16.94,15.6 C 17.75,14.43 18.08,13.29 18.1,13.23 C 18.08,13.22 16.1,12.46 16.12,10.08 Z</Geometry>
+
+            <!-- Lucide Stroke Vector Icons (OpenDesign / FrontendMax) -->
+            <Geometry x:Key="IconBookOpen">M 2,3 H 8 C 10.2,3 12,4.8 12,7 V 21 C 12,19.3 10.7,18 9,18 H 2 Z M 22,3 H 16 C 13.8,3 12,4.8 12,7 V 21 C 12,19.3 13.3,18 15,18 H 22 Z</Geometry>
+            <Geometry x:Key="IconLayoutGrid">M 4,3 H 9 C 9.55,3 10,3.45 10,4 V 9 C 10,9.55 9.55,10 9,10 H 4 C 3.45,10 3,9.55 3,9 V 4 C 3,3.45 3.45,3 4,3 Z M 15,3 H 20 C 20.55,3 21,3.45 21,4 V 9 C 21,9.55 20.55,10 20,10 H 15 C 14.45,10 14,9.55 14,9 V 4 C 14,3.45 14.45,3 15,3 Z M 4,14 H 9 C 9.55,14 10,14.45 10,15 V 20 C 10,20.55 9.55,21 9,21 H 4 C 3.45,21 3,20.55 3,20 V 15 C 3,14.45 3.45,14 4,14 Z M 15,14 H 20 C 20.55,14 21,14.45 21,15 V 20 C 21,20.55 20.55,21 20,21 H 15 C 14.45,21 14,20.55 14,20 V 15 C 14,14.45 14.45,14 15,14 Z</Geometry>
+            <Geometry x:Key="IconHeadphones">M 3,14 H 6 C 7.1,14 8,14.9 8,16 V 19 C 8,20.1 7.1,21 6,21 H 5 C 3.9,21 3,20.1 3,19 V 12 C 3,7.03 7.03,3 12,3 C 16.97,3 21,7.03 21,12 V 19 C 21,20.1 20.1,21 19,21 H 18 C 16.9,21 16,20.1 16,19 V 16 C 16,14.9 16.9,14 18,14 H 21</Geometry>
+            <Geometry x:Key="IconStar">M 12,2 L 15.09,8.26 L 22,9.27 L 17,14.14 L 18.18,21.02 L 12,17.77 L 5.82,21.02 L 7,14.14 L 2,9.27 L 8.91,8.26 Z</Geometry>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -93,20 +101,24 @@
         <!-- ======================================================== -->
         <!-- 1. RESPONSIVE DYNAMIC BACKGROUNDS                        -->
         <!-- ======================================================== -->
-        <!-- Desktop Background: 16:9 Landscape Lake & Pagoda (Image 1) -->
+        <!-- Desktop Background: 16:9 Landscape Ancient Palace & Courtyard -->
         <Image x:Name="BackgroundImage"
+               Source="/Assets/mocngu_login_bg.jpg"
                Stretch="UniformToFill"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Opacity="1.0"
+               RenderOptions.BitmapScalingMode="HighQuality"
                Visibility="{Binding IsDesktopMode, Converter={StaticResource BoolToVisibility}}" />
 
-        <!-- Mobile Background: 9:16 Portrait Lake, Pagoda & Pier (Image 2) -->
+        <!-- Mobile Background: 9:16 Portrait Palace & Sakura -->
         <Image x:Name="MobileBackgroundImage"
+               Source="/Assets/mocngu_login_mobile_bg.jpg"
                Stretch="UniformToFill"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Opacity="1.0"
+               RenderOptions.BitmapScalingMode="HighQuality"
                Visibility="{Binding IsMobileMode, Converter={StaticResource BoolToVisibility}}" />
 
         <!-- ======================================================== -->
@@ -116,7 +128,7 @@
             <!-- Top-Right Language Pill Selector: [🌐 Tiếng Việt ▾] -->
             <Border HorizontalAlignment="Right"
                     VerticalAlignment="Top"
-                    Margin="0,22,36,0"
+                    Margin="0,26,44,0"
                     Background="#F0FFFFFF"
                     BorderBrush="#DDD5CA"
                     BorderThickness="1"
@@ -133,131 +145,169 @@
             </Border>
 
             <!-- Main 2-Column Responsive Layout -->
-            <Grid Margin="44,20,36,20">
+            <Grid Margin="44,26,44,26">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.18*" MinWidth="480" />
-                    <ColumnDefinition Width="0.82*" MinWidth="440" />
+                    <ColumnDefinition Width="1.15*" MinWidth="480" />
+                    <ColumnDefinition Width="0.85*" MinWidth="440" />
                 </Grid.ColumnDefinitions>
 
-                <!-- LEFT COLUMN: Mộc Ngữ Brand, Highlights & Mascot -->
-                <Grid Grid.Column="0" Margin="0,0,28,0" MaxWidth="580" HorizontalAlignment="Left">
+                <!-- LEFT COLUMN: Floating Brand, Highlights & Mascot (Matches Mockup Exactly) -->
+                <Grid Grid.Column="0" Margin="0,0,32,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Top Brand Header: [ 语 ] Mộc Ngữ -->
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,20">
-                        <Border Width="48" Height="48" CornerRadius="14" Background="{DynamicResource PrimaryBrush}" Margin="0,0,14,0" Effect="{StaticResource ButtonGlowShadow}">
-                            <TextBlock Text="语" FontFamily="{StaticResource ChineseFontFamily}" FontSize="26" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <!-- Top Brand Header: [ 语 ] Mộc Ngữ (Crystal ClearType, Radial Blur on background) -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,2,0,16" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="#15965B" Margin="0,0,14,0">
+                            <TextBlock Text="语" FontFamily="{StaticResource ChineseFontFamily}" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Mộc Ngữ" FontSize="26" FontWeight="Bold" Foreground="#198754" />
-                            <TextBlock Text="Học tiếng Trung - Kết nối thế giới" FontSize="14" Foreground="#26352D" FontWeight="SemiBold" />
+                            <TextBlock Text="Mộc Ngữ" FontSize="24" FontWeight="Bold" Foreground="#15965B" />
+                            <TextBlock Text="Học tiếng Trung - Kết nối thế giới" FontSize="13.5" Foreground="#203B3A" FontWeight="SemiBold" />
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Center Content: Slogan, Highlights & Mascot -->
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <StackPanel VerticalAlignment="Center" Margin="0,10,20,10">
-                            <!-- Slogan Header -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="Học tiếng Trung" FontSize="36" FontWeight="Bold" Foreground="#26352D" VerticalAlignment="Center">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.6" />
-                                    </TextBlock.Effect>
-                                </TextBlock>
-                                <Border Background="#F4FAF6" BorderBrush="#198754" BorderThickness="1.5" CornerRadius="8" Padding="10,2" Margin="14,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="中文" FontFamily="{StaticResource ChineseFontFamily}" FontSize="18" FontWeight="Bold" Foreground="#198754" />
-                                </Border>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center">
+                        <StackPanel VerticalAlignment="Center" MaxWidth="520" Margin="0,6,0,12" HorizontalAlignment="Left">
+                            <!-- Slogan Header & Description (Crystal ClearType, Radial Blur on background) -->
+                            <StackPanel Margin="0,0,0,14">
+                                <!-- Slogan Header -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                    <TextBlock Text="Học tiếng Trung" FontSize="38" FontWeight="Bold" Foreground="#203B3A" VerticalAlignment="Center" />
+                                    <Border Background="#ECFDF5" BorderBrush="#15965B" BorderThickness="1.5" CornerRadius="8" Padding="10,2" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="中文" FontFamily="{StaticResource ChineseFontFamily}" FontSize="15" FontWeight="Bold" Foreground="#15965B" />
+                                    </Border>
+                                </StackPanel>
+
+                                <TextBlock Text="Dễ dàng hơn mỗi ngày" FontSize="34" FontWeight="Bold" Foreground="#15965B" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Cùng Mộc Ngữ khám phá hành trình chinh phục tiếng Trung với lộ trình nội dung phong phú và trải nghiệm học tập thú vị!"
+                                           FontSize="15" LineHeight="24" TextWrapping="Wrap" Foreground="#203B3A" FontWeight="Medium" MaxWidth="520" Margin="0,0,0,6" />
                             </StackPanel>
 
-                            <TextBlock Text="Dễ dàng hơn mỗi ngày" FontSize="32" FontWeight="Bold" Foreground="#198754" Margin="0,0,0,14">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.6" />
-                                </TextBlock.Effect>
-                            </TextBlock>
-
-                            <TextBlock Text="Cùng Mộc Ngữ khám phá hành trình chinh phục tiếng Trung với lộ trình nội dung phong phú và trải nghiệm học tập thú vị!"
-                                       FontSize="15" LineHeight="24" TextWrapping="Wrap" Foreground="#26352D" FontWeight="Medium" MaxWidth="560" Margin="0,0,0,22">
-                                <TextBlock.Effect>
-                                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.7" />
-                                </TextBlock.Effect>
-                            </TextBlock>
-
-                            <!-- 4 Feature Pills in 2x2 Grid -->
-                            <UniformGrid Columns="2" MaxWidth="560" HorizontalAlignment="Left" Margin="0,0,0,22">
-                                <!-- Feature 1 -->
-                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,10" Effect="{DynamicResource CardShadow}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="📖" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="Đa dạng khóa học" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
-                                            <TextBlock Text="Lộ trình HSK 1 - 6" FontSize="13" Foreground="#59685F" />
+                            <!-- 4 Feature Cards in 2x2 Grid (Lucide Stroke Vector Icons) -->
+                            <UniformGrid Columns="2" MaxWidth="520" HorizontalAlignment="Left" Margin="0,0,0,14">
+                                <!-- Card 1: Đa dạng khóa học -->
+                                <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,6,8">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#000000" Opacity="0.04" />
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path Grid.Column="0" Data="{StaticResource IconBookOpen}" Stroke="#203B3A" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="Transparent" Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="Đa dạng khóa học" FontSize="13.5" FontWeight="Bold" Foreground="#203B3A" />
+                                            <TextBlock Text="Lộ trình HSK 1 - 6" FontSize="12" Foreground="#6B7280" Margin="0,2,0,0" />
                                         </StackPanel>
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
 
-                                <!-- Feature 2 -->
-                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,10" Effect="{DynamicResource CardShadow}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="📈" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="Theo dõi tiến độ" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
-                                            <TextBlock Text="Thống kê bài học chi tiết" FontSize="13" Foreground="#59685F" />
+                                <!-- Card 2: Theo dõi tiến độ -->
+                                <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="6,0,0,8">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#000000" Opacity="0.04" />
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path Grid.Column="0" Data="{StaticResource IconLayoutGrid}" Stroke="#203B3A" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="Transparent" Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="Theo dõi tiến độ" FontSize="13.5" FontWeight="Bold" Foreground="#203B3A" />
+                                            <TextBlock Text="Thống kê bài học chi tiết" FontSize="12" Foreground="#6B7280" Margin="0,2,0,0" />
                                         </StackPanel>
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
 
-                                <!-- Feature 3 -->
-                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,10,0" Effect="{DynamicResource CardShadow}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="🎧" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="Luyện tập đa kỹ năng" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
-                                            <TextBlock Text="Nghe, Nói, Đọc, Viết, Xếp câu" FontSize="13" Foreground="#59685F" />
+                                <!-- Card 3: Luyện tập đa kỹ năng -->
+                                <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,6,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#000000" Opacity="0.04" />
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path Grid.Column="0" Data="{StaticResource IconHeadphones}" Stroke="#203B3A" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="Transparent" Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="Luyện tập đa kỹ năng" FontSize="13.5" FontWeight="Bold" Foreground="#203B3A" />
+                                            <TextBlock Text="Nghe, Nói, Đọc, Viết, Xếp câu" FontSize="12" Foreground="#6B7280" Margin="0,2,0,0" />
                                         </StackPanel>
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
 
-                                <!-- Feature 4 -->
-                                <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,0" Effect="{DynamicResource CardShadow}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="⭐" FontSize="22" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="Học mọi lúc mọi nơi" FontSize="14.5" FontWeight="SemiBold" Foreground="#26352D" />
-                                            <TextBlock Text="Linh hoạt và hiệu quả" FontSize="13" Foreground="#59685F" />
+                                <!-- Card 4: Học mọi lúc mọi nơi -->
+                                <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="6,0,0,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#000000" Opacity="0.04" />
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path Grid.Column="0" Data="{StaticResource IconStar}" Stroke="#203B3A" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="Transparent" Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,10,0" />
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="Học mọi lúc mọi nơi" FontSize="13.5" FontWeight="Bold" Foreground="#203B3A" />
+                                            <TextBlock Text="Linh hoạt và hiệu quả" FontSize="12" Foreground="#6B7280" Margin="0,2,0,0" />
                                         </StackPanel>
-                                    </StackPanel>
+                                    </Grid>
                                 </Border>
                             </UniformGrid>
 
                             <!-- Mascot Graphic & Motivational Speech Bubble -->
-                            <Border Background="White" BorderBrush="#E2DDD3" BorderThickness="1" CornerRadius="16" Padding="18,14" HorizontalAlignment="Left" MaxWidth="560" Effect="{DynamicResource CardShadow}">
+                            <Border Background="#F0FDF4" BorderBrush="#BBF7D0" BorderThickness="1.5" CornerRadius="16" Padding="14,11" HorizontalAlignment="Left" MaxWidth="520">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#15965B" Opacity="0.08" />
+                                </Border.Effect>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="🐼" FontSize="42" Margin="0,0,14,0" VerticalAlignment="Center" />
+                                    <!-- Circular Panda Face Badge (100% Mathematically Centered, Single Crisp Outline) -->
+                                    <Border Grid.Column="0" Width="44" Height="44" Margin="0,0,12,0" VerticalAlignment="Center">
+                                        <Image Source="/Assets/panda_mascot_perfect.png" Width="44" Height="44" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                                    </Border>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="&quot;Bắt đầu từ hôm nay để chạm tới ước mơ của bạn! 💚&quot;" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,3" />
-                                        <TextBlock Text="&quot;Tiếng Trung không chỉ là ngôn ngữ mà còn là cánh cửa mở ra thế giới!&quot;" FontSize="13.5" Foreground="#59685F" />
+                                        <TextBlock Text="“Bắt đầu từ hôm nay để chạm tới ước mơ của bạn! 💚”" FontSize="13.5" FontWeight="Bold" Foreground="#15965B" Margin="0,0,0,3" />
+                                        <TextBlock Text="Tiếng Trung không chỉ là ngôn ngữ mà còn là cánh cửa mở ra thế giới!" FontSize="12.5" Foreground="#203B3A" FontWeight="Medium" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
                         </StackPanel>
                     </ScrollViewer>
 
-                    <!-- Bottom Status -->
-                    <TextBlock Grid.Row="2" Text="© 2026 Mộc Ngữ • Nền tảng học tiếng Trung toàn diện" FontSize="13" Foreground="#59685F" FontWeight="Medium" VerticalAlignment="Center" Margin="4,8,0,0" />
+                    <!-- Bottom Status: Region 1 - Copyright Text (Sharp White, ClearType, Radial Blur on background) -->
+                    <TextBlock Grid.Row="2"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Margin="2,14,0,0"
+                               Text="© 2026 Mộc Ngữ  •  Nền tảng học tiếng Trung toàn diện"
+                               FontFamily="Inter, Be Vietnam Pro, Segoe UI, sans-serif"
+                               FontSize="14.5"
+                               FontWeight="SemiBold"
+                               Foreground="#FFFFFF"
+                               TextWrapping="Wrap">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="4" ShadowDepth="1.2" Direction="270" Color="#000000" Opacity="0.55" />
+                        </TextBlock.Effect>
+                    </TextBlock>
                 </Grid>
 
                 <!-- RIGHT COLUMN: Desktop Login / Register Card -->
                 <Border Grid.Column="1"
                         Width="440"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Background="White"
                         BorderBrush="#EDE6DC"
@@ -353,7 +403,7 @@
                         <!-- TAB 1: LOGIN FORM -->
                         <StackPanel Grid.Row="2" Visibility="{Binding IsLoginTab, Converter={StaticResource BoolToVisibility}}">
                             <TextBlock Text="Chào mừng trở lại!" FontSize="28" FontWeight="Bold" Foreground="#26352D" Margin="0,0,0,6" />
-                            <TextBlock Text="Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn" FontSize="14" Foreground="#59685F" Margin="0,0,0,22" />
+                            <TextBlock Text="Đăng nhập để tiếp tục hành trình học tiếng Trung của bạn" FontSize="14" Foreground="#59685F" TextWrapping="Wrap" Margin="0,0,0,22" />
 
                             <!-- Input 1: Email -->
                             <Border Background="#FAF8F5" BorderBrush="#E2DDD3" BorderThickness="1.2" CornerRadius="12" Height="48" Padding="14,0" Margin="0,0,0,14">
@@ -467,8 +517,13 @@
                                 </Button>
                                 <Button Style="{StaticResource SocialLoginButton}" Height="40" Margin="5,0,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="" FontWeight="ExtraBold" Foreground="#1A1513" FontSize="14" Margin="0,0,6,0" />
-                                        <TextBlock Text="Apple" FontSize="13" Foreground="#4A403A" FontWeight="Medium" />
+                                        <Path Data="{StaticResource AppleLogoIcon}"
+                                              Fill="#1A1513"
+                                              Width="14" Height="16"
+                                              Stretch="Uniform"
+                                              Margin="0,0,6,0"
+                                              VerticalAlignment="Center" />
+                                        <TextBlock Text="Apple" FontSize="13" Foreground="#4A403A" FontWeight="Medium" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
                             </UniformGrid>
@@ -592,30 +647,22 @@
                                 <TextBlock Text="Mộc Ngữ"
                                            FontSize="28"
                                            FontWeight="ExtraBold"
-                                           Foreground="#198754"
+                                           Foreground="#15965B"
                                            HorizontalAlignment="Center"
-                                           Margin="0,0,0,2">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.8" />
-                                    </TextBlock.Effect>
-                                </TextBlock>
+                                           Margin="0,0,0,2" />
 
                                 <!-- Subtitle -->
                                 <TextBlock Text="Học tiếng Trung - Kết nối thế giới"
                                            FontSize="13.5"
                                            FontWeight="SemiBold"
-                                           Foreground="#26352D"
+                                           Foreground="#203B3A"
                                            HorizontalAlignment="Center"
-                                           Margin="0,0,0,6">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Color="#FFFFFF" Opacity="0.8" />
-                                    </TextBlock.Effect>
-                                </TextBlock>
+                                           Margin="0,0,0,6" />
 
                                 <!-- Delicate Flourish Ornament Line -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
                                     <Border Width="50" Height="1" Background="#7F9C8D" VerticalAlignment="Center" />
-                                    <TextBlock Text=" ❖ " FontSize="10" Foreground="#198754" VerticalAlignment="Center" Margin="6,0" />
+                                    <TextBlock Text=" ❖ " FontSize="10" Foreground="#15965B" VerticalAlignment="Center" Margin="6,0" />
                                     <Border Width="50" Height="1" Background="#7F9C8D" VerticalAlignment="Center" />
                                 </StackPanel>
                             </StackPanel>
@@ -804,8 +851,13 @@
                                             </Button>
                                             <Button Style="{StaticResource SocialLoginButton}" Height="36" Margin="4,0,0,0">
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="" FontWeight="ExtraBold" Foreground="#1A1513" FontSize="13" Margin="0,0,5,0" />
-                                                    <TextBlock Text="Apple" FontSize="12" Foreground="#4A403A" FontWeight="Medium" />
+                                                    <Path Data="{StaticResource AppleLogoIcon}"
+                                                          Fill="#1A1513"
+                                                          Width="12" Height="14"
+                                                          Stretch="Uniform"
+                                                          Margin="0,0,5,0"
+                                                          VerticalAlignment="Center" />
+                                                    <TextBlock Text="Apple" FontSize="12" Foreground="#4A403A" FontWeight="Medium" VerticalAlignment="Center" />
                                                 </StackPanel>
                                             </Button>
                                         </UniformGrid>
@@ -902,6 +954,21 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
+
+                            <!-- Mobile Bottom Copyright: Floating on Background -->
+                            <TextBlock Text="© 2026 Mộc Ngữ  •  Nền tảng học tiếng Trung toàn diện"
+                                       FontFamily="Inter, Be Vietnam Pro, Segoe UI, sans-serif"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FFFFFF"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,16,0,12">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect BlurRadius="4" ShadowDepth="1.2" Direction="270" Color="#000000" Opacity="0.55" />
+                                </TextBlock.Effect>
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Viewbox>
