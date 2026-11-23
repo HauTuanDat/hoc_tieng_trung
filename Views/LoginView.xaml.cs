@@ -18,35 +18,65 @@ public partial class LoginView : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        TryLoadBackgroundImage();
+        TryLoadBackgroundImages();
+        UpdateResponsiveMode(ActualWidth, ActualHeight);
     }
 
-    private void TryLoadBackgroundImage()
+    private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (BackgroundImage == null) return;
+        UpdateResponsiveMode(e.NewSize.Width, e.NewSize.Height);
+    }
+
+    private void UpdateResponsiveMode(double width, double height)
+    {
+        if (width <= 0 || height <= 0) return;
+
+        if (DataContext is LoginViewModel vm)
+        {
+            // Automatic responsive switching:
+            // Switch to Mobile when width is less than 940px (not suitable for 2-column desktop)
+            // or when aspect ratio is portrait (height > width * 1.05)
+            bool shouldBeMobile = width < 940 || (height > width * 1.05);
+
+            if (vm.IsMobileMode != shouldBeMobile)
+            {
+                vm.IsMobileMode = shouldBeMobile;
+            }
+        }
+    }
+
+    private void TryLoadBackgroundImages()
+    {
+        LoadImage(BackgroundImage, "mocngu_login_bg.jpg");
+        LoadImage(MobileBackgroundImage, "mocngu_login_mobile_bg.jpg");
+    }
+
+    private void LoadImage(Image? targetImage, string fileName)
+    {
+        if (targetImage == null) return;
 
         // 1. Try application pack URI
         try
         {
-            var packUri = new Uri("pack://application:,,,/Assets/mocngu_login_bg.jpg", UriKind.Absolute);
+            var packUri = new Uri($"pack://application:,,,/Assets/{fileName}", UriKind.Absolute);
             var bi = new BitmapImage();
             bi.BeginInit();
             bi.UriSource = packUri;
             bi.CacheOption = BitmapCacheOption.OnLoad;
             bi.EndInit();
-            BackgroundImage.Source = bi;
+            targetImage.Source = bi;
             return;
         }
         catch
         {
-            // fallback to local file
+            // fallback
         }
 
         // 2. Try bin output folder
         try
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string localPath = Path.Combine(basePath, "Assets", "mocngu_login_bg.jpg");
+            string localPath = Path.Combine(basePath, "Assets", fileName);
             if (File.Exists(localPath))
             {
                 var bi = new BitmapImage();
@@ -54,7 +84,7 @@ public partial class LoginView : UserControl
                 bi.UriSource = new Uri(localPath, UriKind.Absolute);
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.EndInit();
-                BackgroundImage.Source = bi;
+                targetImage.Source = bi;
                 return;
             }
         }
@@ -66,7 +96,7 @@ public partial class LoginView : UserControl
         // 3. Try project directory relative path
         try
         {
-            string relPath = Path.GetFullPath("Assets/mocngu_login_bg.jpg");
+            string relPath = Path.GetFullPath($"Assets/{fileName}");
             if (File.Exists(relPath))
             {
                 var bi = new BitmapImage();
@@ -74,12 +104,12 @@ public partial class LoginView : UserControl
                 bi.UriSource = new Uri(relPath, UriKind.Absolute);
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.EndInit();
-                BackgroundImage.Source = bi;
+                targetImage.Source = bi;
             }
         }
         catch
         {
-            // Soft fail: vector WPF elements are fully visible
+            // Soft fail
         }
     }
 
@@ -94,6 +124,18 @@ public partial class LoginView : UserControl
             if (LoginPasswordTextBox != null && LoginPasswordTextBox.Text != pb.Password)
             {
                 LoginPasswordTextBox.Text = pb.Password;
+            }
+            if (MobileLoginPasswordTextBox != null && MobileLoginPasswordTextBox.Text != pb.Password)
+            {
+                MobileLoginPasswordTextBox.Text = pb.Password;
+            }
+            if (LoginPasswordBox != null && LoginPasswordBox != pb && LoginPasswordBox.Password != pb.Password)
+            {
+                LoginPasswordBox.Password = pb.Password;
+            }
+            if (MobileLoginPasswordBox != null && MobileLoginPasswordBox != pb && MobileLoginPasswordBox.Password != pb.Password)
+            {
+                MobileLoginPasswordBox.Password = pb.Password;
             }
             _isUpdatingPassword = false;
         }
@@ -110,6 +152,18 @@ public partial class LoginView : UserControl
             if (LoginPasswordBox != null && LoginPasswordBox.Password != tb.Text)
             {
                 LoginPasswordBox.Password = tb.Text;
+            }
+            if (MobileLoginPasswordBox != null && MobileLoginPasswordBox.Password != tb.Text)
+            {
+                MobileLoginPasswordBox.Password = tb.Text;
+            }
+            if (LoginPasswordTextBox != null && LoginPasswordTextBox != tb && LoginPasswordTextBox.Text != tb.Text)
+            {
+                LoginPasswordTextBox.Text = tb.Text;
+            }
+            if (MobileLoginPasswordTextBox != null && MobileLoginPasswordTextBox != tb && MobileLoginPasswordTextBox.Text != tb.Text)
+            {
+                MobileLoginPasswordTextBox.Text = tb.Text;
             }
             _isUpdatingPassword = false;
         }

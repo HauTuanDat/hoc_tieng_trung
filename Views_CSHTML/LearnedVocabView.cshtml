@@ -1,0 +1,26 @@
+@model QuizApp.ViewModels.LearnedVocabViewModel
+@{
+    ViewData["Title"] = "Từ vựng đã thuộc";
+}
+<div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#203B3A]">Kho từ vựng đã thuộc</h1>
+            <p class="text-sm text-gray-500">348 từ vựng đã nắm vững sẵn sàng ôn tập ngắt quãng</p>
+        </div>
+        <button class="px-4 py-2 bg-emerald-50 text-[#15965B] font-bold text-xs rounded-xl hover:bg-emerald-100">
+            Xuất file Excel
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold font-chinese text-[#203B3A]">高兴</h3>
+                <p class="text-xs text-emerald-600 font-semibold">gāoxìng</p>
+                <p class="text-xs text-gray-500 mt-0.5">Vui vẻ, hân hoan</p>
+            </div>
+            <span class="text-xs bg-emerald-50 text-[#15965B] px-2 py-1 rounded font-bold">HSK 1</span>
+        </div>
+    </div>
+</div>

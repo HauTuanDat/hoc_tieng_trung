@@ -1,0 +1,157 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Primary Brand Colors (Modern Clean Green) -->
+    <Color x:Key="PrimaryColor">#198754</Color>
+    <Color x:Key="PrimaryHoverColor">#157347</Color>
+    <Color x:Key="PrimaryPressedColor">#105C38</Color>
+    <Color x:Key="PrimaryTintColor">#E8F5EE</Color>
+    <Color x:Key="PrimaryLightBorderColor">#BEE5D0</Color>
+
+    <!-- Specific Dashboard Accents (Light Mode) -->
+    <Color x:Key="BannerNameColor">#198754</Color>
+    <Color x:Key="StreakGreenColor">#198754</Color>
+    <Color x:Key="ProgressBarTrackColor">#E2E8E4</Color>
+    <Color x:Key="NavItemActiveBgColor">#D1E7DD</Color>
+    <Color x:Key="NavItemActiveBorderColor">#75B798</Color>
+    <Color x:Key="NavItemActiveTextColor">#0F5132</Color>
+
+    <!-- Traditional Chinese Accent Colors -->
+    <Color x:Key="ChineseVermilionColor">#C8372D</Color>
+    <Color x:Key="ImperialGoldColor">#D97706</Color>
+    <Color x:Key="AmberAccentColor">#D97706</Color>
+    <Color x:Key="PorcelainBlueColor">#2563EB</Color>
+    <Color x:Key="WisteriaPurpleColor">#7C3AED</Color>
+    <Color x:Key="TeaGreenColor">#4D7C0F</Color>
+
+    <!-- Accents for Course Levels -->
+    <Color x:Key="Hsk1Color">#198754</Color>
+    <Color x:Key="Hsk2Color">#0D9488</Color>
+    <Color x:Key="Hsk3Color">#2563EB</Color>
+    <Color x:Key="Hsk4Color">#D97706</Color>
+    <Color x:Key="Hsk5Color">#7C3AED</Color>
+    <Color x:Key="Hsk6Color">#C8372D</Color>
+
+    <!-- Neutral Tones (Modern UI Clean Typography Palette: #26352D / #59685F / #78867D / #F7F6F1) -->
+    <Color x:Key="WindowBackgroundColor">#F7F6F1</Color>
+    <Color x:Key="CardBackgroundColor">#FFFFFF</Color>
+    <Color x:Key="SubCardBackgroundColor">#FAF8F3</Color>
+    <Color x:Key="SidebarBackgroundColor">#F7F6F1</Color>
+    <Color x:Key="HeaderBackgroundColor">#FFFFFF</Color>
+    <Color x:Key="BorderLightColor">#E2DDD3</Color>
+    <Color x:Key="BorderSubtleColor">#D8D2C5</Color>
+    <Color x:Key="BorderVibrantColor">#198754</Color>
+    <Color x:Key="TextPrimaryColor">#26352D</Color>
+    <Color x:Key="TextSecondaryColor">#59685F</Color>
+    <Color x:Key="TextMutedColor">#78867D</Color>
+
+    <!-- Semantic Feedback Colors -->
+    <Color x:Key="SuccessColor">#198754</Color>
+    <Color x:Key="SuccessBgColor">#E8F5EE</Color>
+    <Color x:Key="SuccessBorderColor">#BEE5D0</Color>
+    <Color x:Key="SuccessTextColor">#0F5132</Color>
+
+    <Color x:Key="ErrorColor">#DC2626</Color>
+    <Color x:Key="ErrorBgColor">#FEF2F2</Color>
+    <Color x:Key="ErrorBorderColor">#FECACA</Color>
+    <Color x:Key="ErrorTextColor">#991B1B</Color>
+
+    <Color x:Key="PurpleBadgeBgColor">#F3E8FF</Color>
+    <Color x:Key="PurpleBadgeTextColor">#7C3AED</Color>
+
+    <!-- Solid Color Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}" />
+    <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{StaticResource PrimaryPressedColor}" />
+    <SolidColorBrush x:Key="PrimaryTintBrush" Color="{StaticResource PrimaryTintColor}" />
+    <SolidColorBrush x:Key="PrimaryLightBorderBrush" Color="{StaticResource PrimaryLightBorderColor}" />
+
+    <SolidColorBrush x:Key="BannerNameBrush" Color="{StaticResource BannerNameColor}" />
+    <SolidColorBrush x:Key="StreakGreenBrush" Color="{StaticResource StreakGreenColor}" />
+    <SolidColorBrush x:Key="ProgressBarTrackBrush" Color="{StaticResource ProgressBarTrackColor}" />
+    <SolidColorBrush x:Key="NavItemActiveBgBrush" Color="{StaticResource NavItemActiveBgColor}" />
+    <SolidColorBrush x:Key="NavItemActiveBorderBrush" Color="{StaticResource NavItemActiveBorderColor}" />
+    <SolidColorBrush x:Key="NavItemActiveTextBrush" Color="{StaticResource NavItemActiveTextColor}" />
+
+    <SolidColorBrush x:Key="ChineseVermilionBrush" Color="{StaticResource ChineseVermilionColor}" />
+    <SolidColorBrush x:Key="ImperialGoldBrush" Color="{StaticResource ImperialGoldColor}" />
+    <SolidColorBrush x:Key="PorcelainBlueBrush" Color="{StaticResource PorcelainBlueColor}" />
+    <SolidColorBrush x:Key="AmberAccentBrush" Color="{StaticResource ImperialGoldColor}" />
+
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}" />
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{StaticResource CardBackgroundColor}" />
+    <SolidColorBrush x:Key="SubCardBackgroundBrush" Color="{StaticResource SubCardBackgroundColor}" />
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="{StaticResource SidebarBackgroundColor}" />
+    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="{StaticResource HeaderBackgroundColor}" />
+    <SolidColorBrush x:Key="BorderLightBrush" Color="{StaticResource BorderLightColor}" />
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtleColor}" />
+    <SolidColorBrush x:Key="BorderVibrantBrush" Color="{StaticResource BorderVibrantColor}" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+    <SolidColorBrush x:Key="SuccessBgBrush" Color="{StaticResource SuccessBgColor}" />
+    <SolidColorBrush x:Key="SuccessBorderBrush" Color="{StaticResource SuccessBorderColor}" />
+    <SolidColorBrush x:Key="SuccessTextBrush" Color="{StaticResource SuccessTextColor}" />
+
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
+    <SolidColorBrush x:Key="ErrorBgBrush" Color="{StaticResource ErrorBgColor}" />
+    <SolidColorBrush x:Key="ErrorBorderBrush" Color="{StaticResource ErrorBorderColor}" />
+    <SolidColorBrush x:Key="ErrorTextBrush" Color="{StaticResource ErrorTextColor}" />
+
+    <SolidColorBrush x:Key="PurpleBadgeBgBrush" Color="{StaticResource PurpleBadgeBgColor}" />
+    <SolidColorBrush x:Key="PurpleBadgeTextBrush" Color="{StaticResource PurpleBadgeTextColor}" />
+
+    <!-- Shadows -->
+    <DropShadowEffect x:Key="CardShadow"
+                      BlurRadius="18"
+                      ShadowDepth="2"
+                      Direction="270"
+                      Color="#26352D"
+                      Opacity="0.06" />
+
+    <DropShadowEffect x:Key="ButtonGlowShadow"
+                      BlurRadius="16"
+                      ShadowDepth="3"
+                      Direction="270"
+                      Color="#198754"
+                      Opacity="0.28" />
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#198754" Offset="0" />
+        <GradientStop Color="#157347" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PrimaryButtonGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#198754" Offset="0" />
+        <GradientStop Color="#146C43" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PrimaryHoverGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#157347" Offset="0" />
+        <GradientStop Color="#0F5132" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SuccessGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#16A34A" Offset="0" />
+        <GradientStop Color="#22C55E" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ErrorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#DC2626" Offset="0" />
+        <GradientStop Color="#EF4444" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Hero Banner Background Gradient (Clean Ivory/Paper for Light Mode) -->
+    <LinearGradientBrush x:Key="HeroBannerBackgroundBrush" StartPoint="0,0" EndPoint="1,0.85">
+        <GradientStop Color="#FFFFFF" Offset="0.0" />
+        <GradientStop Color="#FAF8F3" Offset="0.6" />
+        <GradientStop Color="#EFF8F3" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="HeroMoonBrush" Color="Transparent" />
+
+</ResourceDictionary>

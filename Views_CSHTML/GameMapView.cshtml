@@ -1,0 +1,47 @@
+@model QuizApp.ViewModels.GameMapViewModel
+@{
+    ViewData["Title"] = "Bản đồ thử thách HSK";
+}
+<div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Bản đồ thử thách HSK 1</h1>
+        <p class="text-sm text-gray-500">Vượt qua từng ải để mở khóa kiến thức và đạt danh hiệu cao quý</p>
+    </div>
+
+    <!-- Island Path -->
+    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm relative overflow-hidden flex flex-col items-center space-y-8">
+        <div class="flex items-center gap-3">
+            <span class="w-16 h-16 rounded-full bg-[#15965B] text-white flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-emerald-100">
+                1
+            </span>
+            <div class="text-left">
+                <h3 class="font-bold text-[#203B3A]">Ải 1: Chào hỏi căn bản</h3>
+                <p class="text-xs text-emerald-600 font-semibold">⭐⭐⭐ Đã hoàn thành</p>
+            </div>
+        </div>
+
+        <div class="w-1 h-12 bg-gray-200"></div>
+
+        <div class="flex items-center gap-3">
+            <span class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-lg ring-4 ring-blue-100">
+                2
+            </span>
+            <div class="text-left">
+                <h3 class="font-bold text-[#203B3A]">Ải 2: Gia đình & Đại từ</h3>
+                <p class="text-xs text-blue-600 font-semibold">Đang chinh phục...</p>
+            </div>
+        </div>
+
+        <div class="w-1 h-12 bg-gray-200"></div>
+
+        <div class="flex items-center gap-3 opacity-40">
+            <span class="w-16 h-16 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-xl">
+                🔒
+            </span>
+            <div class="text-left">
+                <h3 class="font-bold text-gray-500">Ải 3: Số đếm & Thời gian</h3>
+                <p class="text-xs text-gray-400">Chưa mở khóa</p>
+            </div>
+        </div>
+    </div>
+</div>

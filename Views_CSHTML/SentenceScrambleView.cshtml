@@ -1,0 +1,35 @@
+@model QuizApp.ViewModels.SentenceScrambleViewModel
+@{
+    ViewData["Title"] = "Xếp câu tiếng Trung";
+}
+<div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Trò chơi xếp câu tiếng Trung</h1>
+        <p class="text-sm text-gray-500">Kéo thả hoặc nhấp vào các khối từ để tạo thành câu hoàn chỉnh</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-8">
+        <div class="text-center space-y-1">
+            <span class="text-xs font-bold text-gray-400 uppercase">Nghĩa tiếng Việt</span>
+            <p class="text-xl font-bold text-[#203B3A]">Tôi là người Việt Nam.</p>
+        </div>
+
+        <!-- Target Slot Area -->
+        <div class="min-h-[80px] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 p-4 flex items-center justify-center flex-wrap gap-2">
+            <span class="text-xs text-gray-400">Chọn các từ bên dưới để đưa vào đây...</span>
+        </div>
+
+        <!-- Source Word Tiles -->
+        <div class="flex items-center justify-center flex-wrap gap-3">
+            <button class="px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-[#15965B] shadow-sm font-bold text-lg font-chinese text-[#203B3A] hover:bg-emerald-50 transition-all">我</button>
+            <button class="px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-[#15965B] shadow-sm font-bold text-lg font-chinese text-[#203B3A] hover:bg-emerald-50 transition-all">是</button>
+            <button class="px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-[#15965B] shadow-sm font-bold text-lg font-chinese text-[#203B3A] hover:bg-emerald-50 transition-all">越南</button>
+            <button class="px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-[#15965B] shadow-sm font-bold text-lg font-chinese text-[#203B3A] hover:bg-emerald-50 transition-all">人</button>
+        </div>
+
+        <div class="flex justify-between items-center pt-4">
+            <button class="text-xs font-bold text-gray-400 hover:text-gray-600">Làm lại</button>
+            <button class="px-6 py-2.5 bg-[#15965B] text-white font-bold text-sm rounded-xl hover:bg-[#11804D]">Kiểm tra</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+@model QuizApp.ViewModels.DatabaseSettingsViewModel
+@{
+    ViewData["Title"] = "Cấu hình cơ sở dữ liệu";
+}
+<div class="max-w-2xl mx-auto px-4 py-8 space-y-6">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Cấu hình CSDL SQL Server</h1>
+        <p class="text-sm text-gray-500">Kết nối cơ sở dữ liệu lưu trữ từ vựng và kết quả thi</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4">
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Server Name (Máy chủ SQL)</label>
+            <input type="text" value="." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#15965B] outline-none" />
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">Database Name (Tên CSDL)</label>
+            <input type="text" value="QuizDb" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#15965B] outline-none" />
+        </div>
+
+        <div class="flex gap-3 pt-4">
+            <button class="px-5 py-2.5 bg-[#15965B] hover:bg-[#11804D] text-white font-bold text-sm rounded-xl">
+                Kiểm tra kết nối
+            </button>
+            <button class="px-5 py-2.5 bg-emerald-50 text-[#15965B] font-bold text-sm rounded-xl hover:bg-emerald-100">
+                🔄 Đồng bộ lại từ Excel
+            </button>
+        </div>
+    </div>
+</div>

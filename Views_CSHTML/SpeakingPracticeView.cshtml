@@ -1,0 +1,33 @@
+@model QuizApp.ViewModels.SpeakingPracticeViewModel
+@{
+    ViewData["Title"] = "Luyện nói phát âm";
+}
+<div class="max-w-2xl mx-auto px-4 py-8 space-y-6 text-center">
+    <div>
+        <h1 class="text-3xl font-extrabold text-[#203B3A]">Luyện phát âm AI</h1>
+        <p class="text-sm text-gray-500">Thu âm giọng đọc và nhận đánh giá độ chuẩn xác thanh điệu</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
+        <div class="space-y-2">
+            <h2 class="text-5xl font-black text-[#203B3A] font-chinese">很高兴认识你</h2>
+            <p class="text-lg text-emerald-600 font-semibold">Hěn gāoxìng rènshi nǐ</p>
+            <p class="text-sm text-gray-400">Rất vui được làm quen với bạn</p>
+        </div>
+
+        <!-- Sample Audio Button -->
+        <div>
+            <button class="px-4 py-2 rounded-full bg-emerald-50 text-[#15965B] font-bold text-xs hover:bg-emerald-100 transition-colors inline-flex items-center gap-2">
+                <span>🔊 Nghe giọng chuẩn</span>
+            </button>
+        </div>
+
+        <!-- Big Mic Button -->
+        <div class="py-6">
+            <button class="w-20 h-20 mx-auto rounded-full bg-[#15965B] hover:bg-[#11804D] text-white flex items-center justify-center text-3xl shadow-xl shadow-emerald-600/30 hover:scale-105 transition-all">
+                🎙️
+            </button>
+            <p class="text-xs text-gray-400 mt-3">Nhấn vào mic để bắt đầu nói</p>
+        </div>
+    </div>
+</div>

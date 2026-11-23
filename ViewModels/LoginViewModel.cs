@@ -9,6 +9,7 @@ public class LoginViewModel : ViewModelBase
     private readonly IDatabaseService _databaseService;
     private readonly Action<User> _onLoginSuccess;
 
+    private bool _isMobileMode = false;
     private bool _isLoginTab = true;
     private string _loginUsername = "minhdat@gmail.com";
     private string _loginPassword = "";
@@ -56,7 +57,25 @@ public class LoginViewModel : ViewModelBase
             LoginPassword = "123456";
             await ExecuteLoginAsync();
         });
+
+        SwitchToDesktopModeCommand = new RelayCommand(() => IsMobileMode = false);
+        SwitchToMobileModeCommand = new RelayCommand(() => IsMobileMode = true);
+        ToggleDeviceModeCommand = new RelayCommand(() => IsMobileMode = !IsMobileMode);
     }
+
+    public bool IsMobileMode
+    {
+        get => _isMobileMode;
+        set
+        {
+            if (SetProperty(ref _isMobileMode, value))
+            {
+                OnPropertyChanged(nameof(IsDesktopMode));
+            }
+        }
+    }
+
+    public bool IsDesktopMode => !IsMobileMode;
 
     public bool IsLoginTab
     {
@@ -160,6 +179,9 @@ public class LoginViewModel : ViewModelBase
     public ICommand LoginCommand { get; }
     public ICommand RegisterCommand { get; }
     public ICommand QuickDemoLoginCommand { get; }
+    public ICommand SwitchToDesktopModeCommand { get; }
+    public ICommand SwitchToMobileModeCommand { get; }
+    public ICommand ToggleDeviceModeCommand { get; }
 
     public async Task ExecuteLoginAsync()
     {

@@ -1,4 +1,4 @@
-<UserControl x:Class="QuizApp.Views.ResultView"
+﻿<UserControl x:Class="QuizApp.Views.ResultView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,18 +10,18 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel HorizontalAlignment="Center" Margin="0,24,0,48">
             <Border Width="780"
-                    Background="{StaticResource CardBackgroundBrush}"
-                    BorderBrush="{StaticResource BorderLightBrush}"
+                    Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="{DynamicResource BorderLightBrush}"
                     BorderThickness="1"
                     CornerRadius="20"
                     Padding="36,32"
-                    Effect="{StaticResource CardShadow}">
+                    Effect="{DynamicResource CardShadow}">
                 <StackPanel>
                     <!-- Header -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Đánh giá kết quả luyện tập" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
-                        <Border Background="#EEF2FF" BorderBrush="#E0E7FF" BorderThickness="1" CornerRadius="6" Padding="8,3" Margin="12,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Level, StringFormat='ĐỢT 20 CÂU • {0}'}" FontSize="11" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                        <TextBlock Text="Đánh giá kết quả luyện tập" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                        <Border Background="#EEF2FF" BorderBrush="#E0E7FF" BorderThickness="1" CornerRadius="6" Padding="10,4" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Level, StringFormat='ĐỢT 20 CÂU • {0}'}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" />
                         </Border>
                     </StackPanel>
 
@@ -97,7 +97,7 @@
                             <!-- Requirement Notice Text -->
                             <TextBlock Text="{Binding RequirementNotice}"
                                        FontSize="14" FontWeight="Medium"
-                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
                                        HorizontalAlignment="Center"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap"
@@ -106,24 +106,24 @@
 
                             <!-- Stats Row -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
-                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
+                                <Border Background="#FFFFFF" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Đúng lượt đầu: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="Đúng lượt đầu: " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" />
                                         <TextBlock Text="{Binding CorrectCount}" FontWeight="Bold" Foreground="{StaticResource SuccessBrush}" FontSize="13" />
                                     </StackPanel>
                                 </Border>
 
-                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
+                                <Border Background="#FFFFFF" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6" Margin="0,0,10,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Sai lượt đầu: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="Sai lượt đầu: " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" />
                                         <TextBlock Text="{Binding IncorrectCount}" FontWeight="Bold" Foreground="{StaticResource ErrorBrush}" FontSize="13" />
                                     </StackPanel>
                                 </Border>
 
-                                <Border Background="#FFFFFF" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6">
+                                <Border Background="#FFFFFF" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="14,6">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="⏱ Thời gian: " Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
-                                        <TextBlock Text="{Binding DurationText}" FontWeight="Bold" Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="⏱ Thời gian: " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" />
+                                        <TextBlock Text="{Binding DurationText}" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -131,7 +131,7 @@
                     </Border>
 
                     <!-- ACTION BUTTONS: Passing vs Must Retry Branching -->
-                    <Border Margin="0,22,0,0" Background="#F8FAFC" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="14" Padding="20">
+                    <Border Margin="0,22,0,0" Background="#F8FAFC" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="14" Padding="20">
                         <StackPanel>
                             <!-- If Must Retry (< 70%) -->
                             <StackPanel Visibility="{Binding MustRetry, Converter={StaticResource BoolToVisibility}}">
@@ -141,7 +141,7 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="🔄 Bắt buộc thi lại 20 câu này ➔"
                                             Command="{Binding RetryBatchCommand}"
-                                            Style="{StaticResource PrimaryButton}"
+                                            Style="{DynamicResource PrimaryButton}"
                                             Background="{StaticResource ErrorBrush}"
                                             Padding="28,12"
                                             Margin="0,0,14,0" />
@@ -160,7 +160,7 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="🚀 Tiếp tục với 20 từ tiếp theo ➔"
                                             Command="{Binding ContinueNextBatchCommand}"
-                                            Style="{StaticResource PrimaryButton}"
+                                            Style="{DynamicResource PrimaryButton}"
                                             Padding="28,12"
                                             Margin="0,0,14,0" />
 
@@ -180,7 +180,7 @@
                     <!-- Detailed Answer Review List -->
                     <TextBlock Text="Chi tiết các câu hỏi trong đợt làm bài"
                                FontSize="16" FontWeight="Bold"
-                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
                                Margin="0,26,0,12" />
 
                     <ItemsControl ItemsSource="{Binding UserAnswers}">
@@ -188,7 +188,7 @@
                             <DataTemplate>
                                 <Border Margin="0,0,0,10"
                                         Background="#FFFFFF"
-                                        BorderBrush="{StaticResource BorderLightBrush}"
+                                        BorderBrush="{DynamicResource BorderLightBrush}"
                                         BorderThickness="1"
                                         CornerRadius="12"
                                         Padding="16,12">
@@ -232,12 +232,12 @@
 
                                         <!-- Question & Details -->
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Question.Prompt}" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <TextBlock Text="{Binding Question.Prompt}" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" />
                                             <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                <TextBlock Text="Bạn đã chọn: " FontSize="13" Foreground="{StaticResource TextMutedBrush}" />
-                                                <TextBlock Text="{Binding SelectedOption}" FontWeight="Bold" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
-                                                <TextBlock Text=" - " Foreground="{StaticResource TextMutedBrush}" />
-                                                <TextBlock Text="{Binding SelectedText}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                                                <TextBlock Text="Bạn đã chọn: " FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
+                                                <TextBlock Text="{Binding SelectedOption}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                <TextBlock Text=" - " Foreground="{DynamicResource TextMutedBrush}" />
+                                                <TextBlock Text="{Binding SelectedText}" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
                                                 <TextBlock Text="Đáp án đúng: " FontSize="13" Foreground="{StaticResource SuccessBrush}" FontWeight="Medium" />
