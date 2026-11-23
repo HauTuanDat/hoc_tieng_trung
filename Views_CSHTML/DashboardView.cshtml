@@ -1,168 +1,343 @@
 @model QuizApp.ViewModels.DashboardViewModel
 @{
-    ViewData["Title"] = "Trang tổng quan HSK";
+    Layout = null;
+    ViewData["Title"] = "Mộc Ngữ - Tổng quan học tập";
 }
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f8f6" />
+  <title>Mộc Ngữ - Tổng quan học tập tiếng Trung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Noto+Serif+SC:wght@600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="app-layout">
     
-    <!-- Hero Banner with Mascot & Quick Stats -->
-    <div class="relative bg-gradient-to-r from-[#15965B] to-[#10B981] rounded-3xl p-6 sm:p-8 text-white overflow-hidden shadow-lg">
-        <div class="relative z-10 max-w-2xl space-y-3">
-            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white">
-                <span>🌟 Lộ trình toàn diện HSK 1 ~ 6</span>
-            </div>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Chào mừng bạn trở lại, Minh Đạt! 👋</h1>
-            <p class="text-emerald-50 text-sm sm:text-base leading-relaxed">
-                Hôm nay là một ngày tuyệt vời để nạp thêm 20 từ vựng mới và duy trì chuỗi học tập của bạn!
-            </p>
-            <div class="pt-2 flex flex-wrap gap-3">
-                <a href="/PracticeCenterView" class="px-5 py-2.5 bg-white text-[#15965B] font-bold text-sm rounded-xl hover:bg-emerald-50 shadow-md transition-all inline-flex items-center gap-2">
-                    <span>🎯 Luyện tập ngay</span>
-                </a>
-                <a href="/VocabStudyView" class="px-5 py-2.5 bg-black/20 hover:bg-black/30 text-white font-semibold text-sm rounded-xl backdrop-blur-sm transition-all inline-flex items-center gap-2">
-                    <span>📖 Học từ mới</span>
-                </a>
-            </div>
+    <!-- 1. LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      
+      <!-- Brand Logo -->
+      <div class="sidebar-brand">
+        <div class="brand-badge">语</div>
+        <div class="brand-text">
+          <h2>Mộc Ngữ</h2>
+          <p>Học tiếng Trung</p>
+          <p>Kết nối thế giới</p>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <a href="#overview" class="nav-btn active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Tổng quan</span>
+        </a>
+        <a href="/CourseSelectionView" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+          <span>Khóa học</span>
+        </a>
+        <a href="/PracticeCenterView" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>Luyện tập</span>
+        </a>
+        <a href="/GameMapView" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Thử thách</span>
+        </a>
+        <a href="#achievements" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          <span>Thành tích</span>
+        </a>
+        <a href="#shop" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Cửa hàng</span>
+        </a>
+        <a href="/ProfileSettingsView" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Cài đặt</span>
+        </a>
+        <a href="#help" class="nav-btn">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Trợ giúp</span>
+        </a>
+      </nav>
+
+      <!-- Bottom Mascot -->
+      <div class="sidebar-mascot">
+        <img src="/Assets/panda_hero_art_hd.png" alt="Panda Cố lên" class="mascot-img" />
+      </div>
+    </aside>
+
+    <!-- 2. MAIN DASHBOARD CONTENT -->
+    <main class="main-dashboard">
+      
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Mở menu">☰</button>
+
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Tìm kiếm bài học, từ vựng..." class="search-input" />
         </div>
 
-        <!-- Mascot Illustration -->
-        <div class="absolute -right-4 -bottom-6 hidden md:block w-56 h-56 opacity-95">
-            <img src="/Assets/panda_hero_art_hd.png" alt="Panda Hero" class="w-full h-full object-contain" />
-        </div>
-    </div>
+        <!-- Top Right Actions -->
+        <div class="header-right">
+          <!-- Notification Bell -->
+          <button class="notif-btn" aria-label="Thông báo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="bell-icon"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="badge">3</span>
+          </button>
 
-    <!-- 4 Key Stat Metric Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Metric 1: Total Vocab -->
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-[#15965B] flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <!-- User Profile -->
+          <div class="user-pill">
+            <img src="/Assets/avatar-user.png" alt="Minh Đạt" class="user-avatar" />
+            <span class="user-name">Minh Đạt</span>
+            <span class="chevron">▾</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Welcome Greeting & Calligraphy -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h1>Xin chào, Minh Đạt! <span class="wave">👋</span></h1>
+          <p>Cùng Mộc Ngữ chinh phục tiếng Trung mỗi ngày nhé!</p>
+        </div>
+
+        <!-- Calligraphy: 学中文 走向世界 -->
+        <div class="calligraphy">
+          <span class="c-line1">学中文</span>
+          <span class="c-line2">走向世界</span>
+        </div>
+      </div>
+
+      <!-- ROW 1: Streak Card + Leaderboard Card -->
+      <section class="overview-row-1">
+        
+        <!-- Streak Card -->
+        <div class="card streak-card">
+          <div class="card-inner">
+            <div class="card-header">
+              <div class="streak-title">
+                <span class="flame-icon">🔥</span>
+                <h2>Chuỗi ngày học</h2>
+                <span class="pill-badge">🌱 Kỷ lục mới!</span>
+              </div>
             </div>
+
+            <div class="streak-body">
+              <div class="streak-stat">
+                <div class="stat-number">
+                  <span class="count">10</span>
+                  <span class="unit">ngày 🔥</span>
+                </div>
+                <div class="stat-diff">↑ +2 ngày so với tuần trước</div>
+              </div>
+
+              <!-- 7-Day Timeline -->
+              <div class="week-timeline" id="weekTimeline">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Treasure Chest & Speech Bubble -->
+          <div class="chest-box">
+            <div class="chest-bubble">
+              Tiếp tục học để nhận thưởng hấp dẫn nhé!
+            </div>
+            <img src="/Assets/treasure-chest.png" alt="Treasure Chest" class="chest-img" />
+          </div>
+        </div>
+
+        <!-- Leaderboard Card -->
+        <div class="card leaderboard-card">
+          <div class="card-header">
+            <div class="leaderboard-title">
+              <span class="trophy-icon">🏆</span>
+              <h2>Bảng xếp hạng</h2>
+            </div>
+            <a href="#ranking" class="view-more">Xem thêm &gt;</a>
+          </div>
+
+          <div class="podium-row">
+            <!-- Rank 1 -->
+            <div class="podium-item rank-1">
+              <div class="avatar-wrap">
+                <span class="medal-tag gold">1</span>
+                <img src="/Assets/avatar-rank1.png" alt="Gia Hân" class="podium-avatar" />
+              </div>
+              <strong class="podium-name">Gia Hân</strong>
+              <span class="podium-score">12.450 điểm</span>
+            </div>
+
+            <!-- Rank 2 -->
+            <div class="podium-item rank-2">
+              <div class="avatar-wrap">
+                <span class="medal-tag silver">2</span>
+                <img src="/Assets/avatar-rank2.png" alt="Tuấn Anh" class="podium-avatar" />
+              </div>
+              <strong class="podium-name">Tuấn Anh</strong>
+              <span class="podium-score">11.780 điểm</span>
+            </div>
+
+            <!-- Rank 3 -->
+            <div class="podium-item rank-3">
+              <div class="avatar-wrap">
+                <span class="medal-tag bronze">3</span>
+                <img src="/Assets/avatar-rank3.png" alt="Lan Anh" class="podium-avatar" />
+              </div>
+              <strong class="podium-name">Lan Anh</strong>
+              <span class="podium-score">10.960 điểm</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ROW 2: 4 Feature Hub Cards -->
+      <section class="features-grid">
+        
+        <!-- Card 1: Vườn tri thức -->
+        <div class="hub-card garden-hub">
+          <div class="hub-header">
+            <div class="hub-icon-wrap garden">🍃</div>
             <div>
-                <span class="text-xs text-gray-500 font-medium">Tổng từ vựng</span>
-                <p class="text-2xl font-bold text-[#203B3A]">5,002 <span class="text-xs text-gray-400 font-normal">từ</span></p>
+              <h3>Vườn tri thức</h3>
+              <p>Trồng cây tri thức, gặt hái thành công!</p>
             </div>
+          </div>
+          <div class="hub-illu">
+            <img src="/Assets/card-garden.png" alt="Vườn tri thức" />
+          </div>
+          <div class="hub-footer">
+            <div class="level-pill">
+              <span class="lvl">Cấp 5</span>
+              <div class="lvl-bar"><i style="width: 70%"></i></div>
+              <span class="xp">70 / 100 XP</span>
+            </div>
+            <button class="hub-btn garden-btn">Vào vườn ➔</button>
+          </div>
         </div>
 
-        <!-- Metric 2: Mastered Vocab -->
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
+        <!-- Card 2: Luyện phản xạ -->
+        <div class="hub-card reflex-hub">
+          <div class="hub-header">
+            <div class="hub-icon-wrap reflex">⚡</div>
             <div>
-                <span class="text-xs text-gray-500 font-medium">Đã thuộc làu</span>
-                <p class="text-2xl font-bold text-blue-600">348 <span class="text-xs text-gray-400 font-normal">từ</span></p>
+              <h3>Luyện phản xạ</h3>
+              <p>Nghe và trả lời nhanh tiếng Trung!</p>
             </div>
+          </div>
+          <div class="hub-illu">
+            <img src="/Assets/card-reflex.png" alt="Luyện phản xạ" />
+          </div>
+          <div class="hub-footer flex-end">
+            <button class="hub-btn reflex-btn">Bắt đầu ➔</button>
+          </div>
         </div>
 
-        <!-- Metric 3: Streak Flame -->
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-.5 2-2 3.5-3 5.5-1.5 3-1 6.5 1.5 8.5 1.5-1 2-2.5 2-4.5 2 2 3.5 3 3.5 6 0 4-3 6.5-6 6.5s-6-2.5-6-6.5c0-4 3-7.5 5-9.5 1-1 2-2.5 2.5-4 0-.5.5-.5.5-.5z"/></svg>
-            </div>
+        <!-- Card 3: Trợ lý AI -->
+        <div class="hub-card ai-hub">
+          <div class="hub-header">
+            <div class="hub-icon-wrap ai">🤖</div>
             <div>
-                <span class="text-xs text-gray-500 font-medium">Chuỗi ngày học</span>
-                <p class="text-2xl font-bold text-orange-500">7 <span class="text-xs text-gray-400 font-normal">ngày 🔥</span></p>
+              <h3>Trợ lý AI</h3>
+              <p>Hỏi bất cứ điều gì về tiếng Trung!</p>
             </div>
+          </div>
+          <div class="hub-illu">
+            <img src="/Assets/card-ai.png" alt="Trợ lý AI" />
+          </div>
+          <div class="hub-footer flex-end">
+            <button class="hub-btn ai-btn">Chat ngay ➔</button>
+          </div>
         </div>
 
-        <!-- Metric 4: Daily Goal -->
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
+        <!-- Card 4: Đấu trường Hán ngữ -->
+        <div class="hub-card arena-hub">
+          <div class="hub-header">
+            <div class="hub-icon-wrap arena">⚔️</div>
             <div>
-                <span class="text-xs text-gray-500 font-medium">Thời gian học</span>
-                <p class="text-2xl font-bold text-purple-600">45 <span class="text-xs text-gray-400 font-normal">phút/ngày</span></p>
+              <h3>Đấu trường Hán ngữ</h3>
+              <p>Thử thách bản thân, tranh tài cùng bạn bè!</p>
             </div>
-        </div>
-    </div>
-
-    <!-- HSK 1 to 6 Roadmap Section -->
-    <div class="space-y-4">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-xl font-bold text-[#203B3A]">Lộ trình các cấp độ HSK</h2>
-                <p class="text-xs text-gray-500">Từ vựng chuẩn Hanban theo từng cấp bậc</p>
-            </div>
-            <a href="/CourseSelectionView" class="text-xs font-bold text-[#15965B] hover:underline">Xem tất cả khóa &gt;</a>
+          </div>
+          <div class="hub-illu">
+            <img src="/Assets/card-arena.png" alt="Đấu trường Hán ngữ" />
+          </div>
+          <div class="hub-footer flex-end">
+            <button class="hub-btn arena-btn">Tham gia ➔</button>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- HSK 1 Card -->
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-[#15965B] text-xs font-bold">HSK 1 • Sơ cấp</span>
-                    <span class="text-xs font-semibold text-gray-400">149 từ</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-[#203B3A]">Khởi đầu căn bản</h3>
-                    <p class="text-xs text-gray-500 mt-1">Chào hỏi, gia đình, chữ số, thời gian thường nhật.</p>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-medium text-gray-500 mb-1">
-                        <span>Tiến độ</span>
-                        <span class="font-bold text-[#15965B]">100%</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2">
-                        <div class="bg-[#15965B] h-2 rounded-full w-full"></div>
-                    </div>
-                </div>
-                <div class="pt-2 flex gap-2">
-                    <a href="/QuizView" class="flex-1 py-2 text-center rounded-xl bg-[#15965B] text-white text-xs font-bold hover:bg-[#11804D]">Luyện thi</a>
-                    <a href="/TypingPracticeView" class="flex-1 py-2 text-center rounded-xl bg-gray-100 text-[#203B3A] text-xs font-semibold hover:bg-gray-200">Luyện gõ</a>
-                </div>
-            </div>
+      </section>
 
-            <!-- HSK 2 Card -->
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="px-2.5 py-1 rounded-lg bg-teal-100 text-teal-700 text-xs font-bold">HSK 2 • Giao tiếp</span>
-                    <span class="text-xs font-semibold text-gray-400">150 từ</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-[#203B3A]">Giao tiếp thường nhật</h3>
-                    <p class="text-xs text-gray-500 mt-1">Mua sắm, ăn uống, hỏi đường, sở thích cá nhân.</p>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-medium text-gray-500 mb-1">
-                        <span>Tiến độ</span>
-                        <span class="font-bold text-teal-600">75%</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2">
-                        <div class="bg-teal-500 h-2 rounded-full w-3/4"></div>
-                    </div>
-                </div>
-                <div class="pt-2 flex gap-2">
-                    <a href="/QuizView" class="flex-1 py-2 text-center rounded-xl bg-teal-600 text-white text-xs font-bold hover:bg-teal-700">Luyện thi</a>
-                    <a href="/TypingPracticeView" class="flex-1 py-2 text-center rounded-xl bg-gray-100 text-[#203B3A] text-xs font-semibold hover:bg-gray-200">Luyện gõ</a>
-                </div>
+      <!-- ROW 3: Achievements + Quote + Explore Card -->
+      <section class="overview-row-3">
+        
+        <!-- Achievements Card -->
+        <div class="card achievements-card">
+          <div class="card-header">
+            <div class="section-title">
+              <span class="star-icon">⭐</span>
+              <h3>Thành tích nổi bật</h3>
             </div>
-
-            <!-- HSK 3 Card -->
-            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-shadow space-y-4">
-                <div class="flex items-center justify-between">
-                    <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-bold">HSK 3 • Trung cấp 1</span>
-                    <span class="text-xs font-semibold text-gray-400">295 từ</span>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-[#203B3A]">Đàm thoại tự tin</h3>
-                    <p class="text-xs text-gray-500 mt-1">Công việc, du lịch, cảm xúc, biểu đạt suy nghĩ mạch lạc.</p>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-medium text-gray-500 mb-1">
-                        <span>Tiến độ</span>
-                        <span class="font-bold text-blue-600">30%</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2">
-                        <div class="bg-blue-600 h-2 rounded-full w-1/3"></div>
-                    </div>
-                </div>
-                <div class="pt-2 flex gap-2">
-                    <a href="/QuizView" class="flex-1 py-2 text-center rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700">Luyện thi</a>
-                    <a href="/TypingPracticeView" class="flex-1 py-2 text-center rounded-xl bg-gray-100 text-[#203B3A] text-xs font-semibold hover:bg-gray-200">Luyện gõ</a>
-                </div>
+          </div>
+          <div class="badges-row">
+            <div class="badge-item">
+              <div class="badge-icon green-badge">📅</div>
+              <strong>Học liên tục</strong>
+              <small>10 ngày</small>
             </div>
+            <div class="badge-item">
+              <div class="badge-icon gold-badge">👑</div>
+              <strong>Hoàn thành</strong>
+              <small>5 khóa học</small>
+            </div>
+            <div class="badge-item">
+              <div class="badge-icon purple-badge">📖</div>
+              <strong>Đạt 90% điểm</strong>
+              <small>Bài kiểm tra</small>
+            </div>
+            <div class="badge-item">
+              <div class="badge-icon blue-badge">🏆</div>
+              <strong>Top 10</strong>
+              <small>Bảng xếp hạng</small>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+
+        <!-- Quote Card with Lotus Flower -->
+        <div class="card quote-card">
+          <p class="quote-text">
+            “Học tiếng Trung không chỉ là học một ngôn ngữ, mà còn là mở ra cánh cửa đến với thế giới!”
+          </p>
+          <span class="quote-author">— Mộc Ngữ —</span>
+          <img src="/Assets/lotus-flower.png" alt="Lotus" class="lotus-decor" />
+        </div>
+
+        <!-- Explore Banner Card -->
+        <div class="explore-card">
+          <img src="/Assets/card-explore.png" alt="Khám phá thêm" class="explore-bg" />
+          <div class="explore-overlay">
+            <h4>Khám phá thêm cùng Mộc Ngữ</h4>
+            <button class="explore-btn" aria-label="Khám phá ngay">➔</button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
