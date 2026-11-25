@@ -1,0 +1,141 @@
+<UserControl x:Class="QuizApp.Views.ChatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="28,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20,16" Margin="0,0,0,14">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="44" Height="44" CornerRadius="22" Background="{StaticResource PrimaryTintBrush}" Margin="0,0,14,0">
+                        <TextBlock Text="🐼" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Trợ lý AI Mộc Ngữ" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" />
+                        <TextBlock Text="Gia sư tiếng Trung thông minh • Hỗ trợ dịch câu, giải thích ngữ pháp &amp; luyện giao tiếp" FontSize="12.5" Foreground="{StaticResource TextMutedBrush}" />
+                    </StackPanel>
+                </StackPanel>
+                <Button Content="🗑 Xóa đoạn chat"
+                        Command="{Binding ClearChatCommand}"
+                        Style="{StaticResource OutlineButton}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Padding="12,6"
+                        FontSize="12" />
+            </Grid>
+        </Border>
+
+        <!-- Quick Suggestions -->
+        <WrapPanel Grid.Row="1" Margin="0,0,0,14">
+            <Button Content="💡 Dịch sang tiếng Trung: Hôm nay bạn khỏe không?"
+                    Command="{Binding SendSuggestionCommand}"
+                    CommandParameter="Dịch sang tiếng Trung kèm Pinyin: Hôm nay bạn khỏe không?"
+                    Style="{StaticResource OutlineButton}" Margin="0,0,8,6" Padding="12,6" FontSize="12" />
+            <Button Content="📖 Phân biệt 不 (bù) và 没 (méi)"
+                    Command="{Binding SendSuggestionCommand}"
+                    CommandParameter="Giải thích ngắn gọn cách phân biệt 不 (bù) và 没 (méi) kèm ví dụ."
+                    Style="{StaticResource OutlineButton}" Margin="0,0,8,6" Padding="12,6" FontSize="12" />
+            <Button Content="🗣 Mẫu câu giao tiếp chào hỏi HSK 1"
+                    Command="{Binding SendSuggestionCommand}"
+                    CommandParameter="Cho mình 5 mẫu câu giao tiếp chào hỏi cơ bản nhất trong HSK 1 kèm Pinyin và nghĩa."
+                    Style="{StaticResource OutlineButton}" Margin="0,0,8,6" Padding="12,6" FontSize="12" />
+        </WrapPanel>
+
+        <!-- Chat Messages Area -->
+        <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="16" Margin="0,0,0,14">
+            <ScrollViewer x:Name="ChatScrollViewer" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,12">
+                                <Border MaxWidth="680" CornerRadius="14" Padding="14,10">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="HorizontalAlignment" Value="Left" />
+                                            <Setter Property="Background" Value="#FAF6F0" />
+                                            <Setter Property="BorderBrush" Value="{StaticResource BorderLightBrush}" />
+                                            <Setter Property="BorderThickness" Value="1" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsUser}" Value="True">
+                                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                                    <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <StackPanel>
+                                        <TextBox Text="{Binding Content, Mode=OneWay}"
+                                                 IsReadOnly="True"
+                                                 BorderThickness="0"
+                                                 Background="Transparent"
+                                                 TextWrapping="Wrap"
+                                                 FontSize="13.5">
+                                            <TextBox.Style>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsUser}" Value="True">
+                                                            <Setter Property="Foreground" Value="White" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBox.Style>
+                                        </TextBox>
+                                        <TextBlock Text="{Binding TimeFormatted}" FontSize="10.5" HorizontalAlignment="Right" Margin="0,4,0,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsUser}" Value="True">
+                                                            <Setter Property="Foreground" Value="#E0F2E9" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Input Box -->
+        <Border Grid.Row="3" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="12,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         VerticalContentAlignment="Center"
+                         FontSize="14"
+                         Padding="8,6"
+                         Foreground="{StaticResource TextPrimaryBrush}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding SendCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Grid.Column="1"
+                        Content="Gửi tin nhắn ➤"
+                        Command="{Binding SendCommand}"
+                        Style="{StaticResource PrimaryButton}"
+                        Padding="18,10"
+                        FontSize="13.5" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

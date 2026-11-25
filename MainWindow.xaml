@@ -66,6 +66,9 @@
         <DataTemplate DataType="{x:Type vm:QuestionManagementViewModel}">
             <views:QuestionManagementView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ChatViewModel}">
+            <views:ChatView />
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -101,9 +104,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- ============================================== -->
-            <!-- 1. LEFT SIDEBAR (Mộc Ngữ Traditional Menu)     -->
-            <!-- ============================================== -->
+            <!-- 1. LEFT SIDEBAR -->
             <Border Grid.Column="0"
                     Background="{StaticResource SidebarBackgroundBrush}"
                     BorderBrush="{StaticResource BorderLightBrush}"
@@ -142,7 +143,6 @@
                     <!-- Center Navigation Menu List -->
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <!-- 1. Tổng quan -->
                             <Button Command="{Binding NavigateToDashboardCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🏠 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -150,7 +150,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 2. Học tập -->
                             <Button Command="{Binding NavigateToCoursesCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📖 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -158,7 +157,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- Sub-item: Luyện từ vựng chi tiết -->
                             <Button Command="{Binding NavigateToVocabStudyCommand}" Style="{StaticResource SidebarNavButton}" Margin="16,0,0,2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🎯 " FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
@@ -166,7 +164,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 3. Luyện tập -->
                             <Button Command="{Binding NavigateToPracticeCenterCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🎯 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -174,7 +171,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- Sub-item: Luyện nói phát âm AI -->
                             <Button Command="{Binding NavigateToSpeakingCommand}" Style="{StaticResource SidebarNavButton}" Margin="16,0,0,2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🎙 " FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
@@ -182,7 +178,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- Sub-item: Xếp câu -->
                             <Button Command="{Binding NavigateToSentenceScrambleCommand}" Style="{StaticResource SidebarNavButton}" Margin="16,0,0,2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="🧩 " FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
@@ -190,7 +185,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- Sub-item: Luyện viết & gõ -->
                             <Button Command="{Binding NavigateToTypingCommand}" Style="{StaticResource SidebarNavButton}" Margin="16,0,0,2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="✍ " FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
@@ -198,7 +192,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 4. Danh sách từ vựng -->
                             <Button Command="{Binding NavigateToVocabListCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📚 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -206,7 +199,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 5. Tra từ điển -->
                             <Button Command="{Binding NavigateToDictionaryCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📖 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -214,7 +206,6 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 6. Thống kê & Tiến độ -->
                             <Button Command="{Binding NavigateToLearnedVocabCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="📊 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -222,7 +213,14 @@
                                 </StackPanel>
                             </Button>
 
-                            <!-- 7. Cài đặt & Hồ sơ -->
+                            <!-- Trợ lý AI Chatbot -->
+                            <Button Command="{Binding NavigateToChatCommand}" Style="{StaticResource SidebarNavButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🤖 " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Trợ lý AI" FontSize="13.5" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
                             <Button Command="{Binding NavigateToProfileSettingsCommand}" Style="{StaticResource SidebarNavButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="⚙ " FontSize="14" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -243,9 +241,7 @@
                 </Grid>
             </Border>
 
-            <!-- ============================================== -->
-            <!-- 2. RIGHT WORKSPACE (Header Bar + Content)      -->
-            <!-- ============================================== -->
+            <!-- 2. RIGHT WORKSPACE -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -264,7 +260,6 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Left: Search Box -->
                         <Border Grid.Column="0"
                                 Background="#FAF6F0"
                                 BorderBrush="{StaticResource BorderLightBrush}"
@@ -303,9 +298,7 @@
                             </Grid>
                         </Border>
 
-                        <!-- Right: Audio Toggle, Notification Bell, User Avatar & Name -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <!-- Sound Toggle -->
                             <Button Content="{Binding SoundToggleIcon}"
                                     Command="{Binding ToggleSoundCommand}"
                                     ToolTip="{Binding SoundToggleTooltip}"
@@ -314,7 +307,6 @@
                                     Padding="10,6"
                                     Margin="0,0,10,0" />
 
-                            <!-- Notification Bell with Red Badge -->
                             <Grid Margin="0,0,16,0" Cursor="Hand">
                                 <Border Width="38" Height="38" CornerRadius="19" Background="#FAF6F0" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1">
                                     <TextBlock Text="🔔" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -324,7 +316,6 @@
                                 </Border>
                             </Grid>
 
-                            <!-- User Profile Avatar & Name Pill Button -->
                             <Button Command="{Binding NavigateToProfileSettingsCommand}"
                                     Cursor="Hand"
                                     Background="Transparent"
