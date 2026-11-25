@@ -1,6 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Global Typography Standards -->
+    <FontFamily x:Key="AppFontFamily">Segoe UI Variable Text, Segoe UI, Noto Sans SC, Microsoft YaHei, sans-serif</FontFamily>
+    <FontFamily x:Key="ChineseFontFamily">Noto Sans SC, Microsoft YaHei, SimHei, Arial Unicode MS, sans-serif</FontFamily>
+
     <!-- Layered Shadows for Depth & Floating Cards -->
     <DropShadowEffect x:Key="CardShadow"
                       BlurRadius="20"
