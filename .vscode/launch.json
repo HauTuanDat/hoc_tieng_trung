@@ -2,6 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "CSharpShooter",
+            "type": "csharpshooter",
+            "request": "launch",
+            "startupProject": true
+        },
+        {
             "name": ".NET Core Launch (WPF)",
             "type": "coreclr",
             "request": "launch",

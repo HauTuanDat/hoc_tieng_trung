@@ -1,14 +1,13 @@
-using System;
-
 namespace QuizApp.Services;
 
 public interface IAudioRecorderService
 {
     bool IsRecording { get; }
+    double InputLevel { get; }
     void StartRecording();
-    string StopRecording();
+    Task<string> StopRecordingAsync();
+    void CancelRecording();
     void PlayRecording(string wavFilePath);
     void StopPlayback();
-    double CalculateRms(string wavFilePath);
 }
 

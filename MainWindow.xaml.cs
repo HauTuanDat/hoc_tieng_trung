@@ -14,6 +14,16 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    protected override void OnClosed(EventArgs e)
+    {
+        if (DataContext is MainViewModel { CurrentViewModel: SpeakingPracticeViewModel speaking })
+        {
+            speaking.Deactivate();
+        }
+
+        base.OnClosed(e);
+    }
+
     private void Window_KeyDown(object sender, KeyEventArgs e)
     {
         // Avoid handling shortcuts when focused on text boxes

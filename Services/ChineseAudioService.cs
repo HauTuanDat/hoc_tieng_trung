@@ -54,7 +54,7 @@ public class ChineseAudioService : IChineseAudioService
             // 1. Check local cache first for instant 0ms playback
             if (File.Exists(cacheFile) && new FileInfo(cacheFile).Length > 200)
             {
-                PlayLocalFile(cacheFile);
+                PlayLocalFile(cacheFile, ct);
                 return;
             }
 
@@ -70,7 +70,7 @@ public class ChineseAudioService : IChineseAudioService
             if (audioBytes != null && audioBytes.Length > 200 && !ct.IsCancellationRequested)
             {
                 await File.WriteAllBytesAsync(cacheFile, audioBytes, ct);
-                PlayLocalFile(cacheFile);
+                PlayLocalFile(cacheFile, ct);
             }
         }
         catch (OperationCanceledException)
@@ -96,10 +96,11 @@ public class ChineseAudioService : IChineseAudioService
         });
     }
 
-    private void PlayLocalFile(string filePath)
+    private void PlayLocalFile(string filePath, CancellationToken cancellationToken)
     {
         Application.Current?.Dispatcher.Invoke(() =>
         {
+            if (cancellationToken.IsCancellationRequested) return;
             try
             {
                 _mediaPlayer.Stop();

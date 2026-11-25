@@ -51,6 +51,25 @@
 - Tìm kiếm tức thì theo chữ Hán, Pinyin hoặc nghĩa tiếng Việt.
 - Nút **"✓ Đánh dấu đã thuộc"** cập nhật trực tiếp vào SQL Server để theo dõi tiến độ thực tế.
 
+### 6. Luyện nói tiếng Trung với FunASR
+
+- Mở **Luyện nói AI**, bấm **Thu âm**, đọc từ hoặc câu tiếng Trung, rồi bấm **Dừng thu âm**. Kết quả xuất hiện trong ô **Văn bản nhận dạng** và có thể sao chép. Nút **Nghe lại giọng của bạn** phát lại bản thu gần nhất.
+- Ứng dụng tải mô hình FunASR Paraformer bản ONNX INT8 khoảng 243 MB khi xử lý bản thu có âm thanh đầu tiên. Mô hình được lưu ở `%LOCALAPPDATA%\QuizApp\FunASR\paraformer-zh-2023-09-14`. Các lần nhận dạng sau chạy trên CPU bằng sherpa-onnx ngay trên máy. [Mô hình Paraformer](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-paraformer/paraformer-models.html)
+- Chọn **Đọc từ** hoặc **Đọc cả câu**. Ứng dụng thu từ microphone mặc định của Windows qua WASAPI và ưu tiên chế độ xử lý giọng nói nếu thiết bị hỗ trợ. Bộ lọc giảm tiếng ù và tiếng nền đều, rồi cắt khoảng chờ ở hai đầu. Nút **Nghe lại giọng của bạn** phát bản đã lọc và cân âm lượng. Nếu chưa tạo được bản lọc, ứng dụng hiện nút **Nghe bản thu gốc**. Mỗi bản thu dài tối đa 30 giây.
+- Ứng dụng dùng thêm [Zipformer tiếng Trung](https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-ctc-small-zh-int8-2025-07-16) khoảng 63 MB cho bài đọc từ ngắn hoặc khi FunASR cho kết quả khác nhau giữa bản gốc và bản lọc. Mục **Văn bản nhận dạng** ưu tiên phương án khớp với âm, thanh điệu và các mô hình, đồng thời báo khi chữ nhận dạng còn chưa chắc. Dòng **Âm nghe được** hiển thị Pinyin do mô hình âm vị nhận ra từ bản thu, kể cả khi âm đó khác mẫu trên thẻ.
+- Bộ chấm dùng [Mandarin IPA ASR](https://github.com/chenhongwen2005/mandarin-ipa-asr) và đo F0 bằng [Praat qua Parselmouth](https://parselmouth.readthedocs.io/). Mô hình IPA có giấy phép **CC BY-NC-SA 4.0** và được dùng trong Qz để học tập phi thương mại. Bản thu được xử lý trên máy.
+- Trên máy mới, cài Python 3.12 x64 rồi chạy `./Install-Pronunciation.ps1` từ thư mục dự án. Script cài môi trường riêng và tải khoảng 940 MB trọng số IPA vào `%LOCALAPPDATA%\QuizApp\Pronunciation`. Chạy lại script khi cập nhật từ bộ chấm cũ để cài thư viện đo F0. Lần chấm đầu có thể lâu hơn do nạp mô hình.
+
+| Tiêu chí | Điểm tối đa | Quy tắc |
+| --- | ---: | --- |
+| Thanh mẫu (声母) | 20 | So phụ âm đầu của từng âm tiết đã đối chiếu với Pinyin mẫu. |
+| Vận mẫu (韵母) | 20 | So nguyên âm, âm đệm và âm cuối của từng âm tiết. |
+| Thanh điệu (声调) | 25 | Kết hợp đường cao độ F0 với thanh do mô hình IPA nhận dạng. Xét một số biến điệu phổ biến của thanh 3, 一 và 不. Thanh nhẹ dùng thêm thời lượng phát âm tương đối. |
+| Độ chính xác âm tiết (音节准确度) | 25 | Đối chiếu đúng thứ tự và trừ điểm âm tiết sai, thiếu hoặc đọc thêm. |
+| Độ tự nhiên (自然度) | 10 | Ước tính nhịp đọc qua thời lượng âm tiết và khoảng ngắt, có tính đến dấu câu. |
+
+Điểm tổng là tổng điểm năm tiêu chí. Bộ chấm đối chiếu âm phát ra với Pinyin mẫu và đo thanh điệu từ cả mô hình âm vị lẫn cao độ. Các chữ đồng âm có thể cho cùng điểm phát âm. Khi nhận dạng chữ và âm vị cho kết quả khác nhau, ứng dụng hiện các điểm thành phần xác định được và báo thiếu căn cứ tính tổng. Tiếng rung mạnh hoặc tiếng người nói chồng lên giọng người học có thể khiến bản thu cần được ghi lại.
+
 ---
 
 ## 🏗 Cấu Trúc Dự Án (Mô Hình MVVM)

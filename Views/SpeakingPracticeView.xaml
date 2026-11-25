@@ -35,32 +35,91 @@
 
                     <!-- Top Header: Bài 1 • HSK 1 [ HSK 1 ] -->
                     <Grid Grid.Row="0" Margin="0,0,0,22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="{Binding LessonTitle}" FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,12,0" />
                             <Border Background="{StaticResource PrimaryTintBrush}" BorderBrush="{StaticResource PrimaryLightBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,2">
                                 <TextBlock Text="{Binding CurrentLevel}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
                             </Border>
                         </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
+                            <Button Content="Đọc từ" Command="{Binding SelectPracticeModeCommand}" CommandParameter="Word" Margin="0,0,6,0">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSentenceMode}" Value="False">
+                                                <Setter Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryLightBorderBrush}" />
+                                                <Setter Property="AutomationProperties.ItemStatus" Value="Đang chọn" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Content="Đọc cả câu" Command="{Binding SelectPracticeModeCommand}" CommandParameter="Sentence"
+                                    ToolTipService.ShowOnDisabled="True">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSentenceMode}" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource PrimaryTintBrush}" />
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryLightBorderBrush}" />
+                                                <Setter Property="AutomationProperties.ItemStatus" Value="Đang chọn" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding HasExampleSentence}" Value="False">
+                                                <Setter Property="ToolTip" Value="Bài này chưa có câu mẫu" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
                     </Grid>
 
-                    <!-- Center 2-Column: Left Large Word & Mic | Right AI Score Card -->
+                    <!-- Practice prompt and transcription -->
                     <Grid Grid.Row="1" Margin="0,0,0,24">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="300" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
                         <!-- Left: Large Character Box & Mic -->
-                        <Border Background="#FAF6F0" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="28,24" Margin="0,0,20,0">
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border Background="#FAF6F0" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16"
+                                Padding="28,24" Margin="0,0,20,0" MinHeight="230" VerticalAlignment="Top">
+                            <StackPanel VerticalAlignment="Center">
                                 <!-- Hanzi -->
-                                <TextBlock Text="{Binding CurrentHanzi}" FontSize="58" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,6" />
+                                <TextBlock Text="{Binding CurrentHanzi}" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"
+                                           TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,6">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="58" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSentenceMode}" Value="True">
+                                                    <Setter Property="FontSize" Value="34" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
                                 <!-- Pinyin -->
-                                <TextBlock Text="{Binding CurrentPinyin}" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                                <TextBlock Text="{Binding CurrentPinyin}" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"
+                                           TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,4"
+                                           Visibility="{Binding CurrentPinyin, Converter={StaticResource StringToVisibility}}" />
 
                                 <!-- Meaning -->
-                                <TextBlock Text="{Binding CurrentMeaning}" FontSize="15" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,20" />
+                                <TextBlock Text="{Binding CurrentMeaning}" FontSize="15" Foreground="{StaticResource TextSecondaryBrush}"
+                                           TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,20"
+                                           Visibility="{Binding CurrentMeaning, Converter={StaticResource StringToVisibility}}" />
 
                                 <!-- Mic & Play Audio Buttons -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,14">
@@ -73,7 +132,7 @@
                                         <TextBlock Text="🔊 Nghe mẫu" FontSize="13" FontWeight="SemiBold" />
                                     </Button>
 
-                                    <!-- Record Button (Real Microphone & AI check) -->
+                                    <!-- Record or stop recording -->
                                     <Button Command="{Binding ToggleRecordCommand}"
                                             Padding="22,10"
                                             Cursor="Hand"
@@ -89,7 +148,7 @@
                                                                 <Border.Effect>
                                                                     <DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Color="#208B58" Opacity="0.3" />
                                                                 </Border.Effect>
-                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" />
                                                             </Border>
                                                             <ControlTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding IsRecording}" Value="True">
@@ -103,6 +162,9 @@
                                                                 <Trigger Property="IsMouseOver" Value="True">
                                                                     <Setter TargetName="recBorder" Property="Opacity" Value="0.9" />
                                                                 </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="False">
+                                                                    <Setter TargetName="recBorder" Property="Opacity" Value="0.55" />
+                                                                </Trigger>
                                                             </ControlTemplate.Triggers>
                                                         </ControlTemplate>
                                                     </Setter.Value>
@@ -113,63 +175,135 @@
                                     </Button>
                                 </StackPanel>
 
+                                <StackPanel Margin="0,0,0,12" HorizontalAlignment="Center" Width="150"
+                                            Visibility="{Binding IsRecording, Converter={StaticResource BoolToVisibility}}">
+                                    <TextBlock Text="Mức tín hiệu mic" Margin="0,0,0,4" FontSize="12"
+                                               HorizontalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" />
+                                    <ProgressBar Value="{Binding InputLevel, Mode=OneWay}" Maximum="1" Height="5"
+                                                 AutomationProperties.Name="Mức tín hiệu mic" Style="{StaticResource ModernProgressBarStyle}" />
+                                </StackPanel>
+
                                 <!-- Playback User Recording Button -->
                                 <Button Command="{Binding PlayUserRecordingCommand}"
                                         Style="{StaticResource OutlineButton}"
                                         Visibility="{Binding HasRecorded, Converter={StaticResource BoolToVisibility}}"
                                         Padding="14,6"
                                         Margin="0,0,0,12"
-                                        ToolTip="Nghe lại âm thanh giọng bạn vừa thu">
+                                        ToolTip="{Binding PlaybackButtonText}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="▶ " Foreground="{StaticResource PrimaryBrush}" FontSize="12" VerticalAlignment="Center" />
-                                        <TextBlock Text="Nghe lại giọng của bạn" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding PlaybackButtonText}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
 
-                                <!-- Recording & Analysis Status Text -->
-                                <TextBlock Text="{Binding StatusMessage}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
 
-                        <!-- Right: AI Pronunciation Assessment Score Card -->
-                        <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="Đánh giá phát âm AI" FontSize="13.5" FontWeight="Bold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,0,0,16" />
-
-                                <!-- Score Circle -->
-                                <Border Width="106" Height="106" CornerRadius="53" BorderThickness="4" Background="#F8FAF8">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Score}" Value="0">
-                                                    <Setter Property="BorderBrush" Value="#D1D5DB" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Score}" FontSize="38" FontWeight="ExtraBold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Điểm AI" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center" Margin="0,-2,0,0" />
+                        <!-- FunASR result -->
+                        <Border Grid.Column="1" Grid.RowSpan="2" Background="White" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1"
+                                CornerRadius="16" Padding="20" MinHeight="230" VerticalAlignment="Top">
+                            <StackPanel>
+                                <TextBlock Text="Văn bản nhận dạng" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,16" />
+                                <TextBox Text="{Binding TranscribedText, Mode=OneWay}" IsReadOnly="True"
+                                         Visibility="{Binding TranscribedText, Converter={StaticResource StringToVisibility}}"
+                                         AutomationProperties.Name="Văn bản nhận dạng tiếng Trung"
+                                         Background="#FAF7F2" BorderBrush="{StaticResource BorderLightBrush}" Padding="12,10"
+                                         FontSize="22" Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"
+                                         MaxHeight="200" VerticalScrollBarVisibility="Auto" />
+                                <TextBlock Text="{Binding HeardPinyin, StringFormat='Âm nghe được: {0}'}" FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,6,0,2"
+                                           Visibility="{Binding HeardPinyin, Converter={StaticResource StringToVisibility}}" />
+                                <TextBlock Text="{Binding StatusMessage}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}"
+                                           Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibility}}" TextWrapping="Wrap" LineHeight="19" />
+                                <StackPanel Margin="0,16,0,0">
+                                    <TextBlock Text="Đánh giá phát âm" FontSize="16" FontWeight="Bold"
+                                               Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,6" />
+                                    <TextBlock Text="{Binding PronunciationStatus}" FontSize="13" TextWrapping="Wrap"
+                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                    <StackPanel Visibility="{Binding PronunciationSummary.Value, Converter={StaticResource StringToVisibility}, FallbackValue=Collapsed}">
+                                        <Border Background="{StaticResource PrimaryTintBrush}"
+                                                BorderBrush="{StaticResource PrimaryLightBorderBrush}"
+                                                BorderThickness="1" CornerRadius="10" Padding="12,8" Margin="0,10,0,6">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding PronunciationSummary.Title}" TextAlignment="Center"
+                                                           FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                                <TextBlock Text="{Binding PronunciationSummary.Value}" TextAlignment="Center" TextWrapping="Wrap"
+                                                           FontSize="22" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+                                                <TextBlock Text="{Binding PronunciationSummary.Coverage}" TextAlignment="Center" TextWrapping="Wrap"
+                                                           Visibility="{Binding PronunciationSummary.Coverage, Converter={StaticResource StringToVisibility}, FallbackValue=Collapsed}"
+                                                           FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <ItemsControl ItemsSource="{Binding PronunciationCriteria}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="0,0,0,1" Padding="0,7">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Margin="0,0,8,0">
+                                                                <TextBlock Text="{Binding Label}" TextWrapping="Wrap" FontSize="13"
+                                                                           Foreground="{StaticResource TextPrimaryBrush}" />
+                                                                <TextBlock Text="{Binding Coverage}" TextWrapping="Wrap" FontSize="11"
+                                                                           Visibility="{Binding Coverage, Converter={StaticResource StringToVisibility}}"
+                                                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                                                            </StackPanel>
+                                                            <TextBlock Grid.Column="1" Text="{Binding ScoreText}" FontSize="12" FontWeight="SemiBold"
+                                                                       TextAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}" />
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="{Binding PronunciationPace}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,0"
+                                                   Visibility="{Binding PronunciationPace, Converter={StaticResource StringToVisibility}}"
+                                                   Foreground="{StaticResource TextSecondaryBrush}" />
                                     </StackPanel>
-                                </Border>
-
-                                <!-- Grade Text -->
-                                <TextBlock Text="{Binding ScoreText}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" Margin="0,12,0,4" />
-
-                                <!-- Stars -->
-                                <TextBlock Text="{Binding StarsDisplay}" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,12" />
-
-                                <!-- Detailed AI Feedback Box -->
-                                <Border Background="#FAF7F2" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" MaxWidth="260">
-                                    <TextBlock Text="{Binding FeedbackMessage}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" TextAlignment="Center" LineHeight="18" />
-                                </Border>
+                                    <Button Content="Thử đọc cả câu" Command="{Binding SelectPracticeModeCommand}" CommandParameter="Sentence"
+                                            Style="{StaticResource OutlineButton}" HorizontalAlignment="Left" Margin="0,10,0,0"
+                                            Visibility="{Binding ShowSentenceRetry, Converter={StaticResource BoolToVisibility}}" />
+                                </StackPanel>
                             </StackPanel>
                         </Border>
+
+                        <StackPanel Grid.Row="1" Margin="0,16,20,0"
+                                    Visibility="{Binding PronunciationSummary.Value, Converter={StaticResource StringToVisibility}, FallbackValue=Collapsed}">
+                            <TextBlock Text="Nhận xét theo âm tiết" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}" />
+                            <ScrollViewer MaxHeight="245" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding PronunciationSyllables}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#FAF7F2" BorderBrush="{StaticResource BorderLightBrush}"
+                                                    BorderThickness="1" CornerRadius="8" Padding="10,7" Margin="0,8,0,0">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Target}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"
+                                                               Foreground="{StaticResource TextPrimaryBrush}" />
+                                                    <TextBlock Text="{Binding Feedback}" FontSize="13" TextWrapping="Wrap"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                                    <TextBlock Text="{Binding Detected}" FontSize="12" TextWrapping="Wrap"
+                                                               Visibility="{Binding Detected, Converter={StaticResource StringToVisibility}}"
+                                                               Foreground="{StaticResource TextMutedBrush}" />
+                                                    <TextBlock Text="{Binding SegmentFeedback}" FontSize="12" TextWrapping="Wrap"
+                                                               Visibility="{Binding SegmentFeedback, Converter={StaticResource StringToVisibility}}"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                                    <TextBlock Text="{Binding ToneDetail}" FontSize="12" TextWrapping="Wrap"
+                                                               Visibility="{Binding ToneDetail, Converter={StaticResource StringToVisibility}}"
+                                                               Foreground="{StaticResource TextSecondaryBrush}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
                     </Grid>
 
                     <!-- Row 2: Sample Dialogue with audio button -->
-                    <Border Grid.Row="2" Background="#FFFDFB" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,24">
+                    <Border Grid.Row="2" Background="#FFFDFB" BorderBrush="{StaticResource BorderLightBrush}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,24"
+                            Visibility="{Binding IsSentenceMode, Converter={StaticResource InverseBoolToVisibility}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />

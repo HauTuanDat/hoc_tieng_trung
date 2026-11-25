@@ -85,6 +85,11 @@ public class MainViewModel : ViewModelBase
         get => _currentViewModel;
         private set
         {
+            if (!ReferenceEquals(_currentViewModel, value))
+            {
+                (_currentViewModel as SpeakingPracticeViewModel)?.Deactivate();
+            }
+
             if (SetProperty(ref _currentViewModel, value))
             {
                 OnPropertyChanged(nameof(IsOnLoginView));
@@ -260,7 +265,7 @@ public class MainViewModel : ViewModelBase
         var vm = new SpeakingPracticeViewModel(_hskService, onBack: NavigateToDashboard);
         CurrentViewModel = vm;
         ActiveViewName = "Speaking";
-        CurrentTopicTitle = "Luyện nói phát âm AI • Mộc Ngữ";
+        CurrentTopicTitle = "Luyện nói tiếng Trung • Mộc Ngữ";
     }
 
     public void NavigateToVocabList(string level = "ALL")

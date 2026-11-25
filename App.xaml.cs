@@ -1,7 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
-using QuizApp.Services;
+﻿using System.Windows;
 
 namespace QuizApp;
 
@@ -12,7 +9,7 @@ public partial class App : Application
 {
     protected override void OnExit(ExitEventArgs e)
     {
-        ChinesePronunciationAiService.ShutdownAsrServer();
+        Services.LocalPronunciationService.Instance.StopWorker(shuttingDown: true);
         base.OnExit(e);
     }
 }
