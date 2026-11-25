@@ -6,7 +6,7 @@ namespace QuizApp.Services;
 
 public class SqlServerDatabaseService : IDatabaseService
 {
-    private string _connectionString = "Server=.\\SQLEXPRESS;Database=QuizDb;Trusted_Connection=True;TrustServerCertificate=True;";
+    private string _connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=QuizDb;Trusted_Connection=True;TrustServerCertificate=True;";
 
     public string ConnectionString
     {

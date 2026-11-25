@@ -18,7 +18,6 @@ public class MainViewModel : ViewModelBase
     private User? _currentUser;
     private bool _isLoggedIn = false;
 
-    // Track active quiz batch for retrying
     private List<Question> _lastBatchQuestions = new();
     private List<int> _lastBatchWordIds = new();
 
@@ -28,7 +27,6 @@ public class MainViewModel : ViewModelBase
         _hskService = new HskService(_databaseService);
         _dictionaryApiService = new DictionaryApiService(_databaseService);
 
-        // Navigation Commands
         NavigateToDashboardCommand = new RelayCommand(NavigateToDashboard);
         NavigateToCoursesCommand = new RelayCommand(NavigateToCourseSelection);
         NavigateToPracticeCenterCommand = new RelayCommand(NavigateToPracticeCenter);
@@ -39,9 +37,9 @@ public class MainViewModel : ViewModelBase
             NavigateToDictionary(q);
         });
         NavigateToLearnedVocabCommand = new RelayCommand(() => NavigateToLearnedVocab("HSK 1"));
+        NavigateToChatCommand = new RelayCommand(NavigateToChat);
         NavigateToProfileSettingsCommand = new RelayCommand(NavigateToProfileSettings);
 
-        // Sub-skill commands
         NavigateToSpeakingCommand = new RelayCommand(NavigateToSpeakingPractice);
         NavigateToVocabStudyCommand = new RelayCommand(param =>
         {
@@ -65,7 +63,6 @@ public class MainViewModel : ViewModelBase
         });
         NavigateToManageQuestionsCommand = new RelayCommand(NavigateToQuestionManagement);
 
-        // App-wide actions
         GlobalSearchCommand = new RelayCommand(() =>
         {
             if (!string.IsNullOrWhiteSpace(GlobalSearchQuery))
@@ -76,7 +73,6 @@ public class MainViewModel : ViewModelBase
         LogoutCommand = new RelayCommand(Logout);
         ToggleSoundCommand = new RelayCommand(() => IsSoundMuted = !IsSoundMuted);
 
-        // Start at Login View
         NavigateToLogin();
     }
 
@@ -165,6 +161,7 @@ public class MainViewModel : ViewModelBase
     public ICommand NavigateToVocabListCommand { get; }
     public ICommand NavigateToDictionaryCommand { get; }
     public ICommand NavigateToLearnedVocabCommand { get; }
+    public ICommand NavigateToChatCommand { get; }
     public ICommand NavigateToProfileSettingsCommand { get; }
     public ICommand NavigateToSpeakingCommand { get; }
     public ICommand NavigateToVocabStudyCommand { get; }
@@ -293,6 +290,13 @@ public class MainViewModel : ViewModelBase
         ActiveViewName = "LearnedVocab";
         CurrentTopicTitle = $"Tiến độ học tập • {level}";
         _ = vm.InitializeAsync();
+    }
+
+    public void NavigateToChat()
+    {
+        CurrentViewModel = new ChatViewModel();
+        ActiveViewName = "Chat";
+        CurrentTopicTitle = "Trợ lý AI • Mộc Ngữ";
     }
 
     public void NavigateToProfileSettings()
