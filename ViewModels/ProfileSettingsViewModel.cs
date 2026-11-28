@@ -36,6 +36,15 @@ public class ProfileSettingsViewModel : ViewModelBase
     private bool _isSoundEnabled = true;
     private double _volumeLevel = 75;
     private bool _isNotificationEnabled = true;
+    private bool _isAchievementNotificationEnabled = true;
+    private bool _isEventNotificationEnabled = true;
+
+    // Inline UI expansion states
+    private bool _isEditingProfile = false;
+    private bool _isChangingPassword = false;
+    private string _profileMessage = "";
+    private string _backupFullName = "";
+    private string _backupEmail = "";
 
     public ProfileSettingsViewModel(IDatabaseService databaseService, User currentUser, Action onLogout, Action onBack)
     {
@@ -56,6 +65,27 @@ public class ProfileSettingsViewModel : ViewModelBase
         ConnectionString = _databaseService.ConnectionString;
 
         SaveProfileCommand = new RelayCommand(async () => await SaveProfileAsync());
+        ToggleEditProfileCommand = new RelayCommand(() =>
+        {
+            if (!IsEditingProfile)
+            {
+                _backupFullName = FullName;
+                _backupEmail = Email;
+                ProfileMessage = "";
+            }
+            IsEditingProfile = !IsEditingProfile;
+        });
+        CancelEditProfileCommand = new RelayCommand(() =>
+        {
+            FullName = _backupFullName;
+            Email = _backupEmail;
+            ProfileMessage = "";
+            IsEditingProfile = false;
+        });
+        ToggleChangePasswordCommand = new RelayCommand(() =>
+        {
+            IsChangingPassword = !IsChangingPassword;
+        });
         ChangePasswordCommand = new RelayCommand(async () => await ChangePasswordAsync());
         TestDbConnectionCommand = new RelayCommand(async () => await TestDbConnectionAsync());
         LogoutCommand = new RelayCommand(_onLogout);
@@ -192,8 +222,64 @@ public class ProfileSettingsViewModel : ViewModelBase
     public bool IsNotificationEnabled
     {
         get => _isNotificationEnabled;
-        set => SetProperty(ref _isNotificationEnabled, value);
+        set
+        {
+            if (SetProperty(ref _isNotificationEnabled, value))
+            {
+                OnPropertyChanged(nameof(IsDailyReminderEnabled));
+            }
+        }
     }
+
+    public bool IsDailyReminderEnabled
+    {
+        get => _isNotificationEnabled;
+        set
+        {
+            if (SetProperty(ref _isNotificationEnabled, value))
+            {
+                OnPropertyChanged(nameof(IsNotificationEnabled));
+            }
+        }
+    }
+
+    public bool IsAchievementNotificationEnabled
+    {
+        get => _isAchievementNotificationEnabled;
+        set => SetProperty(ref _isAchievementNotificationEnabled, value);
+    }
+
+    public bool IsEventNotificationEnabled
+    {
+        get => _isEventNotificationEnabled;
+        set => SetProperty(ref _isEventNotificationEnabled, value);
+    }
+
+    public bool IsEditingProfile
+    {
+        get => _isEditingProfile;
+        set => SetProperty(ref _isEditingProfile, value);
+    }
+
+    public bool IsChangingPassword
+    {
+        get => _isChangingPassword;
+        set => SetProperty(ref _isChangingPassword, value);
+    }
+
+    public string ProfileMessage
+    {
+        get => _profileMessage;
+        set
+        {
+            if (SetProperty(ref _profileMessage, value))
+            {
+                OnPropertyChanged(nameof(HasProfileMessage));
+            }
+        }
+    }
+
+    public bool HasProfileMessage => !string.IsNullOrWhiteSpace(ProfileMessage);
 
     public bool IsDarkMode => false;
     public bool IsLightMode => true;
@@ -204,6 +290,9 @@ public class ProfileSettingsViewModel : ViewModelBase
     public ICommand ToggleThemeCommand { get; }
 
     public ICommand SaveProfileCommand { get; }
+    public ICommand ToggleEditProfileCommand { get; }
+    public ICommand CancelEditProfileCommand { get; }
+    public ICommand ToggleChangePasswordCommand { get; }
     public ICommand ChangePasswordCommand { get; }
     public ICommand TestDbConnectionCommand { get; }
     public ICommand LogoutCommand { get; }
@@ -216,9 +305,15 @@ public class ProfileSettingsViewModel : ViewModelBase
         bool ok = await _databaseService.UpdateUserProfileAsync(_currentUser);
         if (ok)
         {
+            ProfileMessage = "Cập nhật hồ sơ thành công!";
             PasswordMessage = "Cập nhật hồ sơ thành công!";
             HasPasswordSuccess = true;
             HasPasswordError = false;
+            IsEditingProfile = false;
+        }
+        else
+        {
+            ProfileMessage = "Không thể lưu thay đổi lúc này.";
         }
     }
 

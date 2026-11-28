@@ -4,644 +4,1361 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             xmlns:views="clr-namespace:QuizApp.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:GameMapViewModel}"
-             Background="#F8FAFC">
+             Background="#F0F5FD">
+
+    <UserControl.Resources>
+        <!-- Soft Elevation Shadows -->
+        <DropShadowEffect x:Key="ArenaHeroShadow"
+                          BlurRadius="26"
+                          ShadowDepth="6"
+                          Direction="270"
+                          Color="#4E73A8"
+                          Opacity="0.16" />
+
+        <DropShadowEffect x:Key="ArenaStripShadow"
+                          BlurRadius="22"
+                          ShadowDepth="5"
+                          Direction="270"
+                          Color="#2D4D7B"
+                          Opacity="0.12" />
+
+        <DropShadowEffect x:Key="ArenaPanelShadow"
+                          BlurRadius="18"
+                          ShadowDepth="4"
+                          Direction="270"
+                          Color="#32507C"
+                          Opacity="0.08" />
+
+        <DropShadowEffect x:Key="ArenaModeShadow"
+                          BlurRadius="20"
+                          ShadowDepth="6"
+                          Direction="270"
+                          Color="#2A4C7D"
+                          Opacity="0.18" />
+
+        <DropShadowEffect x:Key="TitleHaloShadow"
+                          BlurRadius="10"
+                          ShadowDepth="2"
+                          Direction="270"
+                          Color="#FFFFFF"
+                          Opacity="0.95" />
+
+        <!-- Lucide Monoline Vector Geometries (24x24) -->
+        <Geometry x:Key="LucideSwords">M 14.5,17.5 L 3,6 V 3 H 6 L 17.5,14.5 M 13,19 L 19,13 M 16,16 L 20,20 M 19,21 L 21,19 M 14.5,6.5 L 18,3 H 21 V 6 L 17.5,9.5 M 5,14 L 9,18 M 7,17 L 4,20 M 3,19 L 5,21</Geometry>
+        <Geometry x:Key="LucideTrophy">M 6,9 H 4.5 A 2.5,2.5 0 0 1 4.5,4 H 6 M 18,9 H 19.5 A 2.5,2.5 0 0 0 19.5,4 H 18 M 4,22 H 20 M 10,14.66 V 17 C 10,17.55 9.53,17.98 9.03,18.21 C 7.85,18.75 7,20.24 7,22 M 14,14.66 V 17 C 14,17.55 14.47,17.98 14.97,18.21 C 16.15,18.75 17,20.24 17,22 M 18,2 H 6 V 9 A 6,6 0 0 0 18,9 Z</Geometry>
+        <Geometry x:Key="LucideCrown">M 11.562,3.266 A 0.5,0.5 0 0 1 12.438,3.266 L 15.662,9.104 A 1,1 0 0 0 17.163,9.439 L 21.196,6.382 A 0.5,0.5 0 0 1 21.99,6.88 L 20.123,17.177 A 2,2 0 0 1 18.155,18.818 H 5.845 A 2,2 0 0 1 3.877,17.177 L 2.01,6.88 A 0.5,0.5 0 0 1 2.804,6.382 L 6.837,9.439 A 1,1 0 0 0 8.338,9.104 Z M 5,21 H 19</Geometry>
+        <Geometry x:Key="LucideClock">M 12,2 A 10,10 0 1,0 22,12 A 10,10 0 1,0 12,2 Z M 12,6 V 12 L 16,14</Geometry>
+        <Geometry x:Key="LucideZap">M 13,2 L 3,14 H 12 L 11,22 L 21,10 H 12 L 13,2 Z</Geometry>
+        <Geometry x:Key="LucideTarget">M 12,2 A 10,10 0 1,0 22,12 A 10,10 0 1,0 12,2 Z M 12,6 A 6,6 0 1,0 18,12 A 6,6 0 1,0 12,6 Z M 12,10 A 2,2 0 1,0 14,12 A 2,2 0 1,0 12,10 Z</Geometry>
+        <Geometry x:Key="LucideBarChart">M 3,3 V 21 H 21 M 18,17 V 9 M 13,17 V 5 M 8,17 V 14</Geometry>
+        <Geometry x:Key="LucideFlame">M 8.5,14.5 A 2.5,2.5 0 0 0 11,12 C 11,10.62 10.5,9.5 10,8 C 12.2,9 14,11 14,13.5 C 14,15.71 12.21,17.5 10,17.5 C 7.79,17.5 6,15.71 6,13.5 C 6,11.8 6.8,10.2 8,9 C 8,10.5 8.5,12.5 8.5,14.5 Z M 12,2 C 12,2 5,8.5 5,14 C 5,17.87 8.13,21 12,21 C 15.87,21 19,17.87 19,14 C 19,8.5 12,2 12,2 Z</Geometry>
+        <Geometry x:Key="LucideStar">M 12,2 L 15.09,8.26 L 22,9.27 L 17,14.14 L 18.18,21.02 L 12,17.77 L 5.82,21.02 L 7,14.14 L 2,9.27 L 8.91,8.26 Z</Geometry>
+        <Geometry x:Key="LucideShield">M 20,13 C 20,18 16.5,20.5 12.34,21.95 A 1,1 0 0 1 11.66,21.95 C 7.5,20.5 4,18 4,13 V 6 A 1,1 0 0 1 5,5 C 7,5 9.5,3.8 11.24,2.28 A 1.15,1.15 0 0 1 12.76,2.28 C 14.51,3.81 17,5 19,5 A 1,1 0 0 1 20,6 Z</Geometry>
+        <Geometry x:Key="LucideArrowRight">M 5,12 H 19 M 12,5 L 19,12 L 12,19</Geometry>
+        <Geometry x:Key="LucideMedal">M 7.21,15 L 2.66,7.14 A 2,2 0 0 1 2.53,5.28 L 4.35,2 H 19.65 L 21.47,5.28 A 2,2 0 0 1 21.34,7.14 L 16.79,15 M 11,12 L 5.12,2.2 M 13,12 L 18.88,2.2 M 8,7 H 16 M 12,12 A 5,5 0 1,0 12,22 A 5,5 0 1,0 12,12 Z</Geometry>
+        <Geometry x:Key="LucideLock">M 7,11 V 7 A 5,5 0 0 1 17,7 V 11 M 5,11 H 19 A 2,2 0 0 1 21,13 V 20 A 2,2 0 0 1 19,22 H 5 A 2,2 0 0 1 3,20 V 13 A 2,2 0 0 1 5,11 Z</Geometry>
+        <Geometry x:Key="LucideX">M 18,6 L 6,18 M 6,6 L 18,18</Geometry>
+        <Geometry x:Key="LucideCheck">M 20,6 L 9,17 L 4,12</Geometry>
+
+        <!-- Focus Visual -->
+        <Style x:Key="ArenaFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderBrush="#1D7BE5" BorderThickness="2" CornerRadius="16" Margin="-3" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Interactive Mode Card Base Style (Hover Lift 200ms / Exit 140ms) -->
+        <Style x:Key="ArenaModeCardButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ArenaFocusVisual}" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="0" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 To="-4" Duration="0:0:0.20">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 To="0" Duration="0:0:0.14">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <TranslateTransform Y="1" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.55" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- White Panel Card -->
+        <Style x:Key="ArenaWhitePanelStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#E3ECF8" />
+            <Setter Property="BorderThickness" Value="1.2" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="20,18" />
+            <Setter Property="Effect" Value="{StaticResource ArenaPanelShadow}" />
+        </Style>
+
+        <!-- Leaderboard Period Tab Button -->
+        <Style x:Key="LeaderboardTabStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#5E7390" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ArenaFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="tabPill"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="tabPill" Property="Opacity" Value="0.88" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="tabPill" Property="Opacity" Value="0.75" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
-        <!-- ============================================== -->
-        <!-- MAIN SCROLLABLE GAME ARENA VIEW                -->
-        <!-- ============================================== -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="32,20,32,36" MaxWidth="1180">
+            <StackPanel Margin="24,18,24,28" MaxWidth="1560">
 
-                <!-- 1. TOP GAME HUD (ORIENTAL WATERCOLOR BANNER) -->
-                <Border CornerRadius="20"
-                        Margin="0,0,0,22"
-                        Padding="24,18"
-                        ClipToBounds="True">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#F0F8FF" Offset="0.0" />
-                            <GradientStop Color="#E0F2FE" Offset="0.55" />
-                            <GradientStop Color="#EBF5FF" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.Background>
+                <!-- ================================================================ -->
+                <!-- 1. HERO SEASON BANNER + OVERLAPPING PLAYER STATS BAR              -->
+                <!-- ================================================================ -->
+                <Grid Margin="0,0,0,22">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <!-- Scenic Hero Banner -->
+                    <Border Grid.Row="0"
+                            Height="236"
+                            CornerRadius="24"
+                            ClipToBounds="True"
+                            Effect="{StaticResource ArenaHeroShadow}">
+                        <Grid>
+                            <!-- Illustrated Backdrop (Warrior Panda Left, Pagoda Right, Clear Sky Center) -->
+                            <Image Source="pack://application:,,,/Assets/arena_hero_bg.png"
+                                   Stretch="UniformToFill"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
 
-                        <!-- Left: Bamboo + Panda Avatar + Player Level & EXP -->
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                            <!-- Bamboo emoji decoration -->
-                            <TextBlock Text="🎋" FontSize="26" VerticalAlignment="Center" Margin="0,0,4,0" Opacity="0.8" />
-
-                            <!-- Panda Avatar Badge -->
-                            <Border Width="60" Height="60" CornerRadius="30"
-                                    Background="#FFFFFF"
-                                    BorderBrush="#0284C7"
-                                    BorderThickness="2"
-                                    Margin="0,0,14,0">
-                                <TextBlock Text="🐼" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <!-- Subtle Center Readability Glow -->
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Width="560" Height="160">
+                                <Border.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#44FFFFFF" Offset="0" />
+                                        <GradientStop Color="#00FFFFFF" Offset="1" />
+                                    </RadialGradientBrush>
+                                </Border.Background>
                             </Border>
 
-                            <StackPanel VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                    <TextBlock Text="{Binding PlayerName}" FontSize="20" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <Border Background="#0284C7" CornerRadius="10" Padding="10,2" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding PlayerLevel, StringFormat='{}Cấp {0}'}" FontSize="12" FontWeight="Bold" Foreground="White" />
-                                    </Border>
-                                </StackPanel>
+                            <!-- Center Title & Red Brush Subtitle Banner -->
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,-24,80,0">
+                                <Grid HorizontalAlignment="Center">
+                                    <!-- Golden Crown perched on top right of "HSK" -->
+                                    <Viewbox Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-16,12,0" Panel.ZIndex="2">
+                                        <Viewbox.RenderTransform>
+                                            <RotateTransform Angle="12" CenterX="16" CenterY="16" />
+                                        </Viewbox.RenderTransform>
+                                        <Path Data="{StaticResource LucideCrown}"
+                                              Fill="#FACC15"
+                                              Stroke="#B45309"
+                                              StrokeThickness="1.7"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
 
-                                <!-- EXP Bar -->
-                                <StackPanel Orientation="Horizontal">
-                                    <ProgressBar Value="{Binding ExpPercent, Mode=OneWay}"
-                                                 Width="150" Height="8"
-                                                 Maximum="100"
-                                                 Style="{StaticResource ModernProgressBarStyle}"
-                                                 Foreground="#0284C7"
-                                                 VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding PlayerExp, StringFormat='{}{0:N0}'}" FontSize="12" FontWeight="Bold" Foreground="#0F172A" Margin="10,0,2,0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding ExpToNextLevel, StringFormat='{}/ {0:N0} EXP'}" FontSize="12" Foreground="#64748B" VerticalAlignment="Center" />
+                                    <TextBlock FontSize="44"
+                                               FontWeight="ExtraBold"
+                                               Effect="{StaticResource TitleHaloShadow}"
+                                               HorizontalAlignment="Center">
+                                        <Run Text="Đấu Trường " Foreground="#13346B" />
+                                        <Run Text="HSK">
+                                            <Run.Foreground>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#FFC83B" Offset="0" />
+                                                    <GradientStop Color="#F37A14" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Run.Foreground>
+                                        </Run>
+                                    </TextBlock>
+                                </Grid>
+
+                                <!-- Red Brush Ribbon Subtitle -->
+                                <Grid HorizontalAlignment="Center" Margin="0,6,0,0" Width="375">
+                                    <Path Stretch="Fill" Height="34" Width="375" HorizontalAlignment="Center">
+                                        <Path.Fill>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="#DE2B39" Offset="0" />
+                                                <GradientStop Color="#EF3D48" Offset="0.5" />
+                                                <GradientStop Color="#C91D2B" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Path.Fill>
+                                        <Path.Data>
+                                            M 12,4 Q 180,-2 355,5 L 348,16 L 358,28 Q 180,35 4,29 L 15,17 Z
+                                        </Path.Data>
+                                    </Path>
+                                    <TextBlock Text="Thử thách bản thân – Chinh phục đỉnh cao!"
+                                               FontSize="13.5"
+                                               FontWeight="Bold"
+                                               FontStyle="Italic"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Margin="18,0" />
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Right: Current Season Glass Card -->
+                            <Border HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,24,24,0"
+                                    Width="262"
+                                    CornerRadius="18"
+                                    Padding="18,14"
+                                    Background="#EBFFFFFF"
+                                    BorderBrush="#FFFFFF"
+                                    BorderThickness="1.5"
+                                    Effect="{StaticResource ArenaPanelShadow}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
+                                        <Viewbox Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource LucideCrown}"
+                                                  Fill="#FBBF24"
+                                                  Stroke="#D97706"
+                                                  StrokeThickness="1.8"
+                                                  StrokeLineJoin="Round" />
+                                        </Viewbox>
+                                        <TextBlock Text="Mùa giải hiện tại"
+                                                   FontSize="13"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#546B8C"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding SeasonTitle}"
+                                               FontSize="20"
+                                               FontWeight="ExtraBold"
+                                               Foreground="#14325C"
+                                               HorizontalAlignment="Center"
+                                               Margin="0,0,0,10" />
+
+                                    <Border Height="1" Background="#E4ECF7" Margin="0,0,0,10" />
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Viewbox Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource LucideClock}"
+                                                  Stroke="#5A7292"
+                                                  StrokeThickness="2"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round" />
+                                        </Viewbox>
+                                        <TextBlock Text="Còn lại: "
+                                                   FontSize="12"
+                                                   Foreground="#5A7292"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding SeasonCountdownText}"
+                                                   FontSize="12.5"
+                                                   FontWeight="ExtraBold"
+                                                   Foreground="#DF591C"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Overlapping Player Stats Bar -->
+                    <Border Grid.Row="1"
+                            Margin="22,-32,22,0"
+                            CornerRadius="22"
+                            Background="#F8FBFF"
+                            BorderBrush="#FFFFFF"
+                            BorderThickness="2"
+                            Padding="18,13"
+                            Effect="{StaticResource ArenaStripShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="0.9*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="0.9*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 1. Player Avatar + Level + EXP Bar -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Width="54" Height="54" CornerRadius="27"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#93C5FD"
+                                        BorderThickness="2"
+                                        Margin="0,0,14,0">
+                                    <views:DashboardArtworkControl ArtworkKey="panda" Width="44" Height="44" />
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="{Binding PlayerName}"
+                                                   FontSize="17"
+                                                   FontWeight="ExtraBold"
+                                                   Foreground="#173258"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,8,0" />
+                                        <Border CornerRadius="11" Padding="10,3" VerticalAlignment="Center">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#4CA3F9" Offset="0" />
+                                                    <GradientStop Color="#257AE0" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <TextBlock Text="{Binding PlayerLevel, StringFormat='{}Cấp {0}'}"
+                                                       FontSize="11.5"
+                                                       FontWeight="Bold"
+                                                       Foreground="White" />
+                                        </Border>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ProgressBar Width="120"
+                                                     Height="7"
+                                                     Minimum="0"
+                                                     Maximum="100"
+                                                     Value="{Binding ExpPercent, Mode=OneWay}"
+                                                     Background="#DCE7F5"
+                                                     Foreground="#2A84EA"
+                                                     BorderThickness="0"
+                                                     Margin="0,0,10,0"
+                                                     VerticalAlignment="Center">
+                                            <ProgressBar.Template>
+                                                <ControlTemplate TargetType="ProgressBar">
+                                                    <Grid>
+                                                        <Border Background="{TemplateBinding Background}" CornerRadius="3.5" />
+                                                        <Border x:Name="PART_Track" CornerRadius="3.5" ClipToBounds="True">
+                                                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" CornerRadius="3.5" />
+                                                        </Border>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </ProgressBar.Template>
+                                        </ProgressBar>
+                                        <TextBlock Text="{Binding ExpProgressText}"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="#486082"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
+
+                            <Border Grid.Column="1" Width="1" Height="42" Background="#E0E9F5" Margin="14,0" />
+
+                            <!-- 2. Current Rank -->
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border Width="42" Height="42" CornerRadius="14" Background="#FFF6DF" BorderBrush="#FDE4A6" BorderThickness="1.2" Margin="0,0,12,0">
+                                    <Viewbox Width="22" Height="22">
+                                        <Path Data="{StaticResource LucideShield}"
+                                              Fill="#FBBF24"
+                                              Stroke="#D97706"
+                                              StrokeThickness="1.8"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Hạng hiện tại" FontSize="11.5" Foreground="#6B809D" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                                        <TextBlock Text="{Binding CurrentRankText}"
+                                                   FontSize="17"
+                                                   FontWeight="ExtraBold"
+                                                   Foreground="#163258"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding RankDeltaText, StringFormat='{} ▲ {0}'}"
+                                                   FontSize="11.5"
+                                                   FontWeight="Bold"
+                                                   Foreground="#159A63"
+                                                   Margin="6,0,0,0"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Grid.Column="3" Width="1" Height="42" Background="#E0E9F5" Margin="14,0" />
+
+                            <!-- 3. Matches Played -->
+                            <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border Width="42" Height="42" CornerRadius="14" Background="#EDF4FF" BorderBrush="#D2E3FC" BorderThickness="1.2" Margin="0,0,12,0">
+                                    <Viewbox Width="20" Height="20">
+                                        <Path Data="{StaticResource LucideSwords}"
+                                              Stroke="#367CE0"
+                                              StrokeThickness="2"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Trận đã đấu" FontSize="11.5" Foreground="#6B809D" />
+                                    <TextBlock Text="{Binding MatchesPlayed}"
+                                               FontSize="18"
+                                               FontWeight="ExtraBold"
+                                               Foreground="#163258" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Grid.Column="5" Width="1" Height="42" Background="#E0E9F5" Margin="14,0" />
+
+                            <!-- 4. Win Rate -->
+                            <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border Width="42" Height="42" CornerRadius="14" Background="#FFF6E2" BorderBrush="#FDE4A6" BorderThickness="1.2" Margin="0,0,12,0">
+                                    <Viewbox Width="20" Height="20">
+                                        <Path Data="{StaticResource LucideTrophy}"
+                                              Fill="#FCD34D"
+                                              Stroke="#D97706"
+                                              StrokeThickness="1.8"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Tỷ lệ thắng" FontSize="11.5" Foreground="#6B809D" />
+                                    <TextBlock Text="{Binding WinRateText}"
+                                               FontSize="18"
+                                               FontWeight="ExtraBold"
+                                               Foreground="#163258" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Far Right Decorative Crown Emblem -->
+                            <Border Grid.Column="7"
+                                    Width="56" Height="56"
+                                    CornerRadius="18"
+                                    Margin="12,0,0,0"
+                                    VerticalAlignment="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FEF3C7" Offset="0" />
+                                        <GradientStop Color="#FDE68A" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Viewbox Width="30" Height="30">
+                                    <Path Data="{StaticResource LucideCrown}"
+                                          Fill="#FBBF24"
+                                          Stroke="#B45309"
+                                          StrokeThickness="1.7"
+                                          StrokeLineJoin="Round" />
+                                </Viewbox>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- ================================================================ -->
+                <!-- 2. MAIN TWO-COLUMN ARENA CONTENT                                  -->
+                <!-- ================================================================ -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.05*" />
+                        <ColumnDefinition Width="18" />
+                        <ColumnDefinition Width="1*" MinWidth="310" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LEFT COLUMN: 3 ARENA MODES + ACHIEVEMENTS & CHART -->
+                    <StackPanel Grid.Column="0">
+
+                        <!-- Section Heading: Chọn chế độ thi đấu -->
+                        <StackPanel Orientation="Horizontal" Margin="2,0,0,12">
+                            <Viewbox Width="20" Height="20" Margin="0,0,8,0" VerticalAlignment="Center">
+                                <Path Data="{StaticResource LucideSwords}"
+                                      Stroke="#2C7BE5"
+                                      StrokeThickness="2.2"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round" />
+                            </Viewbox>
+                            <TextBlock Text="Chọn chế độ thi đấu"
+                                       FontSize="17"
+                                       FontWeight="ExtraBold"
+                                       Foreground="#173258"
+                                       VerticalAlignment="Center" />
                         </StackPanel>
 
-                        <!-- Center: Game Tokens (Stars, Streak, Gems) -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <!-- Total Stars -->
-                            <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="1.2" CornerRadius="14" Padding="14,6" Margin="0,0,12,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="⭐ " FontSize="15" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding TotalStars}" FontSize="14.5" FontWeight="Bold" Foreground="#B45309" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                    <TextBlock Text="Sao" FontSize="13" FontWeight="SemiBold" Foreground="#92400E" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Border>
+                        <!-- 3 Gradient Mode Cards -->
+                        <UniformGrid Columns="3" Margin="-7,0,-7,18">
 
-                            <!-- Daily Streak Flame -->
-                            <Border Background="#FEE2E2" BorderBrush="#FECACA" BorderThickness="1.2" CornerRadius="14" Padding="14,6" Margin="0,0,12,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="🔥 " FontSize="15" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding StreakDays}" FontSize="14.5" FontWeight="Bold" Foreground="#DC2626" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                    <TextBlock Text="Ngày chuỗi" FontSize="13" FontWeight="SemiBold" Foreground="#991B1B" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Gems / Kim Cương -->
-                            <Border Background="#EFF6FF" BorderBrush="#BFDBFE" BorderThickness="1.2" CornerRadius="14" Padding="14,6">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="💎 " FontSize="15" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Gems}" FontSize="14.5" FontWeight="Bold" Foreground="#2563EB" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                    <TextBlock Text="Kim Cương" FontSize="13" FontWeight="SemiBold" Foreground="#1E40AF" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Right: Pagoda art & Back Button -->
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="🏯" FontSize="44" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0.85" />
-                            <Button Command="{Binding BackCommand}"
-                                    Cursor="Hand"
-                                    Height="38"
-                                    Padding="16,0"
-                                    Background="White"
-                                    BorderBrush="#CBD5E1"
-                                    BorderThickness="1">
+                            <!-- Mode 1: Thi đấu nhanh (Blue) -->
+                            <Button Style="{StaticResource ArenaModeCardButtonStyle}"
+                                    Command="{Binding OpenModeModalCommand}"
+                                    CommandParameter="quick"
+                                    Margin="7">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="19"
-                                                Padding="{TemplateBinding Padding}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <TextBlock Text="⮌ " FontSize="13" FontWeight="Bold" Foreground="#334155" VerticalAlignment="Center" />
-                                                <TextBlock Text="Quay lại" FontSize="13.5" FontWeight="SemiBold" Foreground="#334155" VerticalAlignment="Center" />
-                                            </StackPanel>
+                                        <Border CornerRadius="20"
+                                                Height="178"
+                                                ClipToBounds="True"
+                                                Effect="{StaticResource ArenaModeShadow}">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#4CA4FA" Offset="0" />
+                                                    <GradientStop Color="#1C6EDB" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Grid Margin="18,16">
+                                                <!-- Decorative Stopwatch Art on Right -->
+                                                <Canvas Width="95" Height="95" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,-4,0" Opacity="0.92" IsHitTestVisible="False">
+                                                    <Ellipse Canvas.Left="22" Canvas.Top="14" Width="64" Height="64" Fill="#36FFFFFF" Stroke="#99FFFFFF" StrokeThickness="3" />
+                                                    <Rectangle Canvas.Left="49" Canvas.Top="6" Width="10" Height="9" RadiusX="3" RadiusY="3" Fill="#E0F2FE" />
+                                                    <Path Stroke="#FFFFFF" StrokeThickness="3" StrokeStartLineCap="Round" Data="M 54,46 V 30 M 54,46 L 66,52" />
+                                                    <Path Stroke="#80FFFFFF" StrokeThickness="2.5" StrokeStartLineCap="Round" Data="M 8,32 H 18 M 4,46 H 15 M 10,60 H 20" />
+                                                </Canvas>
+
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Lightning Badge -->
+                                                    <Border Grid.Row="0" Width="46" Height="46" CornerRadius="23" HorizontalAlignment="Left" Background="#3BFFFFFF" BorderBrush="#66FFFFFF" BorderThickness="1.2">
+                                                        <Viewbox Width="23" Height="23">
+                                                            <Path Data="{StaticResource LucideZap}" Fill="#FDE047" Stroke="#F59E0B" StrokeThickness="1.4" StrokeLineJoin="Round" />
+                                                        </Viewbox>
+                                                    </Border>
+
+                                                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,8,0,0">
+                                                        <TextBlock Text="Thi đấu nhanh" FontSize="18" FontWeight="ExtraBold" Foreground="White" />
+                                                        <TextBlock Text="Thử thách trong 3 phút" FontSize="12.5" Foreground="#E6F2FF" Margin="0,3,0,0" />
+                                                    </StackPanel>
+
+                                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <Viewbox Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center">
+                                                                <Path Data="{StaticResource LucideClock}" Stroke="#E0F2FE" StrokeThickness="2" StrokeStartLineCap="Round" />
+                                                            </Viewbox>
+                                                            <TextBlock Text="3 phút/trận" FontSize="12" FontWeight="SemiBold" Foreground="#EAF5FF" VerticalAlignment="Center" />
+                                                        </StackPanel>
+
+                                                        <Border Width="32" Height="32" CornerRadius="16" Background="White" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource LucideArrowRight}" Stroke="#1C6EDB" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                            </Viewbox>
+                                                        </Border>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
                                         </Border>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                        </StackPanel>
-                    </Grid>
-                </Border>
 
-                <!-- 2. HSK 1 - HSK 9 WORLD REALM SELECTOR (BÀN CHƠI CẤP ĐỘ) -->
-                <StackPanel Margin="0,0,0,20">
-                    <Grid Margin="0,0,0,12">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="📖 " FontSize="18" Foreground="#0284C7" VerticalAlignment="Center" />
-                            <TextBlock Text="Chọn Vương Quốc HSK (1 ➔ 9)" FontSize="18" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <TextBlock Text="👑 " FontSize="14" Foreground="#D97706" VerticalAlignment="Center" />
-                            <TextBlock Text="Hệ thống 9 cấp độ HSK 3.0 • Mỗi cấp gồm 10 bài thi thách" FontSize="13" Foreground="#64748B" FontWeight="Medium" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
+                            <!-- Mode 2: Chế độ giải đấu (Purple) -->
+                            <Button Style="{StaticResource ArenaModeCardButtonStyle}"
+                                    Command="{Binding OpenModeModalCommand}"
+                                    CommandParameter="tournament"
+                                    Margin="7">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="20"
+                                                Height="178"
+                                                ClipToBounds="True"
+                                                Effect="{StaticResource ArenaModeShadow}">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#B882FB" Offset="0" />
+                                                    <GradientStop Color="#7D3BE1" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Grid Margin="18,16">
+                                                <!-- Decorative Podium Art on Right -->
+                                                <Canvas Width="98" Height="92" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,-4,0" Opacity="0.9" IsHitTestVisible="False">
+                                                    <Rectangle Canvas.Left="10" Canvas.Top="48" Width="24" Height="32" RadiusX="4" RadiusY="4" Fill="#35FFFFFF" />
+                                                    <Rectangle Canvas.Left="36" Canvas.Top="28" Width="28" Height="52" RadiusX="4" RadiusY="4" Fill="#55FFFFFF" />
+                                                    <Rectangle Canvas.Left="66" Canvas.Top="56" Width="24" Height="24" RadiusX="4" RadiusY="4" Fill="#35FFFFFF" />
+                                                    <TextBlock Canvas.Left="46" Canvas.Top="36" Text="1" FontSize="18" FontWeight="ExtraBold" Foreground="#FDE047" />
+                                                </Canvas>
 
-                    <!-- Horizontal Realm Cards Scroll with < and > Buttons -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
 
-                        <!-- Left Arrow Button < -->
-                        <Button Grid.Column="0"
-                                Click="ScrollLeft_Click"
-                                Cursor="Hand"
-                                Width="36" Height="36"
-                                Margin="0,0,8,0"
-                                Background="White"
-                                BorderBrush="#E2E8F0"
-                                BorderThickness="1"
-                                VerticalAlignment="Center">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="18">
-                                        <TextBlock Text="&lt;" FontSize="16" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1,0,0,0" />
+                                                    <!-- Trophy Badge -->
+                                                    <Border Grid.Row="0" Width="46" Height="46" CornerRadius="23" HorizontalAlignment="Left" Background="#3BFFFFFF" BorderBrush="#66FFFFFF" BorderThickness="1.2">
+                                                        <Viewbox Width="23" Height="23">
+                                                            <Path Data="{StaticResource LucideTrophy}" Fill="#FDE047" Stroke="#D97706" StrokeThickness="1.4" StrokeLineJoin="Round" />
+                                                        </Viewbox>
+                                                    </Border>
+
+                                                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,8,0,0">
+                                                        <TextBlock Text="Chế độ giải đấu" FontSize="18" FontWeight="ExtraBold" Foreground="White" />
+                                                        <TextBlock Text="Tranh tài xếp hạng" FontSize="12.5" Foreground="#F1E7FF" Margin="0,3,0,0" />
+                                                    </StackPanel>
+
+                                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <Viewbox Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center">
+                                                                <Path Data="{StaticResource LucideClock}" Stroke="#F1E7FF" StrokeThickness="2" StrokeStartLineCap="Round" />
+                                                            </Viewbox>
+                                                            <TextBlock Text="5 phút/trận" FontSize="12" FontWeight="SemiBold" Foreground="#F5EEFF" VerticalAlignment="Center" />
+                                                        </StackPanel>
+
+                                                        <Border Width="32" Height="32" CornerRadius="16" Background="White" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource LucideArrowRight}" Stroke="#7D3BE1" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                            </Viewbox>
+                                                        </Border>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <!-- Mode 3: Thử thách đặc biệt (Amber-Orange) -->
+                            <Button Style="{StaticResource ArenaModeCardButtonStyle}"
+                                    Command="{Binding OpenModeModalCommand}"
+                                    CommandParameter="special"
+                                    Margin="7">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="20"
+                                                Height="178"
+                                                ClipToBounds="True"
+                                                Effect="{StaticResource ArenaModeShadow}">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#FFC44B" Offset="0" />
+                                                    <GradientStop Color="#E87716" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Grid Margin="18,16">
+                                                <!-- Decorative Scroll Art on Right -->
+                                                <Canvas Width="95" Height="92" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,-4,0" Opacity="0.9" IsHitTestVisible="False">
+                                                    <Path Fill="#48FFFFFF" Data="M 22,18 H 82 V 68 H 22 Z" />
+                                                    <Ellipse Canvas.Left="16" Canvas.Top="14" Width="12" Height="58" Fill="#80FFFFFF" />
+                                                    <Ellipse Canvas.Left="76" Canvas.Top="14" Width="12" Height="58" Fill="#80FFFFFF" />
+                                                    <Path Stroke="#FFFFFFFF" StrokeThickness="2.5" StrokeStartLineCap="Round" Data="M 34,32 H 68 M 34,44 H 64 M 34,56 H 54" />
+                                                </Canvas>
+
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Target Badge -->
+                                                    <Border Grid.Row="0" Width="46" Height="46" CornerRadius="23" HorizontalAlignment="Left" Background="#48FFFFFF" BorderBrush="#88FFFFFF" BorderThickness="1.2">
+                                                        <Viewbox Width="23" Height="23">
+                                                            <Path Data="{StaticResource LucideTarget}" Stroke="#FFFFFF" StrokeThickness="2.1" />
+                                                        </Viewbox>
+                                                    </Border>
+
+                                                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,8,0,0">
+                                                        <TextBlock Text="Thử thách đặc biệt" FontSize="18" FontWeight="ExtraBold" Foreground="White" />
+                                                        <TextBlock Text="Vượt qua các chủ đề khó" FontSize="12.5" Foreground="#FFF4DF" Margin="0,3,0,0" />
+                                                    </StackPanel>
+
+                                                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <Viewbox Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center">
+                                                                <Path Data="{StaticResource LucideClock}" Stroke="#FFF4DF" StrokeThickness="2" StrokeStartLineCap="Round" />
+                                                            </Viewbox>
+                                                            <TextBlock Text="5 phút/trận" FontSize="12" FontWeight="SemiBold" Foreground="#FFF9EE" VerticalAlignment="Center" />
+                                                        </StackPanel>
+
+                                                        <Border Width="32" Height="32" CornerRadius="16" Background="White" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                            <Viewbox Width="16" Height="16">
+                                                                <Path Data="{StaticResource LucideArrowRight}" Stroke="#E87716" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                            </Viewbox>
+                                                        </Border>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </UniformGrid>
+
+                        <!-- Section 2: Thành tích của bạn (4 Metric Cards + Line Chart) -->
+                        <Border Style="{StaticResource ArenaWhitePanelStyle}">
+                            <StackPanel>
+                                <Grid Margin="0,0,0,14">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Viewbox Width="20" Height="20" Margin="0,0,8,0" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource LucideBarChart}"
+                                                  Stroke="#2C7BE5"
+                                                  StrokeThickness="2.2"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  StrokeLineJoin="Round" />
+                                        </Viewbox>
+                                        <TextBlock Text="Thành tích của bạn"
+                                                   FontSize="17"
+                                                   FontWeight="ExtraBold"
+                                                   Foreground="#173258"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <Button Command="{Binding OpenRewardsModalCommand}"
+                                            Cursor="Hand"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FocusVisualStyle="{StaticResource ArenaFocusVisual}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <StackPanel x:Name="badgeLink" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="Huy hiệu &amp; Thành tích" FontSize="12.5" FontWeight="Bold" Foreground="#2C7BE5" VerticalAlignment="Center" />
+                                                    <Viewbox Width="14" Height="14" Margin="5,1,0,0" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource LucideArrowRight}" Stroke="#2C7BE5" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                    </Viewbox>
+                                                </StackPanel>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="badgeLink" Property="Opacity" Value="0.75" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </Grid>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.65*" />
+                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="1*" MinWidth="200" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- 4 Metric Tiles -->
+                                    <UniformGrid Grid.Column="0" Columns="4" Margin="-5,0,-5,0">
+                                        <!-- 1. Tổng trận đấu -->
+                                        <Border Background="#F2F7FF" BorderBrush="#E1ECFC" BorderThickness="1" CornerRadius="16" Padding="10,14" Margin="5,0">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Viewbox Width="20" Height="20" Margin="0,0,0,7">
+                                                    <Path Data="{StaticResource LucideSwords}" Stroke="#3B82F6" StrokeThickness="2" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                </Viewbox>
+                                                <TextBlock Text="Tổng trận đấu" FontSize="11.5" Foreground="#607696" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding MatchesPlayed}" FontSize="22" FontWeight="ExtraBold" Foreground="#173258" HorizontalAlignment="Center" Margin="0,3,0,0" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- 2. Tỷ lệ thắng -->
+                                        <Border Background="#FFF9EC" BorderBrush="#FDECC8" BorderThickness="1" CornerRadius="16" Padding="10,14" Margin="5,0">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Viewbox Width="20" Height="20" Margin="0,0,0,7">
+                                                    <Path Data="{StaticResource LucideTrophy}" Fill="#FBBF24" Stroke="#D97706" StrokeThickness="1.7" StrokeLineJoin="Round" />
+                                                </Viewbox>
+                                                <TextBlock Text="Tỷ lệ thắng" FontSize="11.5" Foreground="#7A6B4A" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding WinRateText}" FontSize="22" FontWeight="ExtraBold" Foreground="#173258" HorizontalAlignment="Center" Margin="0,3,0,0" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- 3. Chuỗi thắng cao nhất -->
+                                        <Border Background="#FFF3EE" BorderBrush="#FCDFD3" BorderThickness="1" CornerRadius="16" Padding="10,14" Margin="5,0">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Viewbox Width="20" Height="20" Margin="0,0,0,7">
+                                                    <Path Data="{StaticResource LucideFlame}" Fill="#FB923C" Stroke="#EA580C" StrokeThickness="1.7" />
+                                                </Viewbox>
+                                                <TextBlock Text="Chuỗi thắng cao nhất" FontSize="11.5" Foreground="#7D5A4C" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding BestWinStreakText}" FontSize="20" FontWeight="ExtraBold" Foreground="#173258" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!-- 4. Điểm hiện tại -->
+                                        <Border Background="#F5F3FF" BorderBrush="#E5E0FF" BorderThickness="1" CornerRadius="16" Padding="10,14" Margin="5,0">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Viewbox Width="20" Height="20" Margin="0,0,0,7">
+                                                    <Path Data="{StaticResource LucideStar}" Fill="#FACC15" Stroke="#CA8A04" StrokeThickness="1.6" StrokeLineJoin="Round" />
+                                                </Viewbox>
+                                                <TextBlock Text="Điểm hiện tại" FontSize="11.5" Foreground="#645B8A" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding CurrentScoreText}" FontSize="22" FontWeight="ExtraBold" Foreground="#173258" HorizontalAlignment="Center" Margin="0,3,0,0" />
+                                            </StackPanel>
+                                        </Border>
+                                    </UniformGrid>
+
+                                    <!-- Score Progression Line Chart -->
+                                    <Border Grid.Column="2" Background="#F9FBFF" BorderBrush="#E6EEF9" BorderThickness="1" CornerRadius="16" Padding="12,10">
+                                        <Viewbox Stretch="Uniform">
+                                            <Canvas Width="260" Height="110">
+                                                <!-- Subtle Horizontal & Vertical Gridlines -->
+                                                <Line X1="14" Y1="20" X2="248" Y2="20" Stroke="#E6EEF8" StrokeThickness="1" />
+                                                <Line X1="14" Y1="45" X2="248" Y2="45" Stroke="#E6EEF8" StrokeThickness="1" />
+                                                <Line X1="14" Y1="70" X2="248" Y2="70" Stroke="#E6EEF8" StrokeThickness="1" />
+                                                <Line X1="14" Y1="95" X2="248" Y2="95" Stroke="#DCE6F5" StrokeThickness="1.2" />
+
+                                                <Line X1="52" Y1="12" X2="52" Y2="95" Stroke="#EEF3FB" StrokeThickness="1" />
+                                                <Line X1="100" Y1="12" X2="100" Y2="95" Stroke="#EEF3FB" StrokeThickness="1" />
+                                                <Line X1="148" Y1="12" X2="148" Y2="95" Stroke="#EEF3FB" StrokeThickness="1" />
+                                                <Line X1="196" Y1="12" X2="196" Y2="95" Stroke="#EEF3FB" StrokeThickness="1" />
+                                                <Line X1="244" Y1="12" X2="244" Y2="95" Stroke="#EEF3FB" StrokeThickness="1" />
+
+                                                <!-- Area Fill Under Trend Line -->
+                                                <Polygon Points="18,86 56,74 94,68 132,44 170,48 208,32 244,24 244,95 18,95">
+                                                    <Polygon.Fill>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                            <GradientStop Color="#402C7BE5" Offset="0" />
+                                                            <GradientStop Color="#052C7BE5" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Polygon.Fill>
+                                                </Polygon>
+
+                                                <!-- Trend Line -->
+                                                <Polyline Points="18,86 56,74 94,68 132,44 170,48 208,32 244,24"
+                                                          Stroke="#2C7BE5"
+                                                          StrokeThickness="2.5"
+                                                          StrokeLineJoin="Round" />
+
+                                                <!-- Data Point Nodes -->
+                                                <Ellipse Canvas.Left="14" Canvas.Top="82" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="52" Canvas.Top="70" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="90" Canvas.Top="64" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="128" Canvas.Top="40" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="166" Canvas.Top="44" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="204" Canvas.Top="28" Width="8" Height="8" Fill="#2C7BE5" Stroke="#FFFFFF" StrokeThickness="1.5" />
+                                                <Ellipse Canvas.Left="240" Canvas.Top="20" Width="9" Height="9" Fill="#16A34A" Stroke="#FFFFFF" StrokeThickness="1.8" />
+                                            </Canvas>
+                                        </Viewbox>
                                     </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
 
-                        <!-- ScrollViewer -->
-                        <ScrollViewer Grid.Column="1"
-                                      x:Name="RealmScrollViewer"
-                                      HorizontalScrollBarVisibility="Hidden"
-                                      VerticalScrollBarVisibility="Disabled"
-                                      Padding="0,4,0,10">
-                            <ItemsControl ItemsSource="{Binding Worlds}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.SelectWorldCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}"
-                                                Cursor="Hand"
-                                                Margin="0,0,12,0"
-                                                BorderThickness="0"
-                                                Background="Transparent">
+                    <!-- RIGHT COLUMN: LEADERBOARD + ATTRACTIVE REWARDS CARD -->
+                    <StackPanel Grid.Column="2">
+
+                        <!-- 1. Bảng xếp hạng -->
+                        <Border Style="{StaticResource ArenaWhitePanelStyle}" Margin="0,0,0,16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Viewbox Width="20" Height="20" Margin="0,0,8,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource LucideTrophy}"
+                                              Fill="#FBBF24"
+                                              Stroke="#D97706"
+                                              StrokeThickness="1.8"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
+                                    <TextBlock Text="Bảng xếp hạng"
+                                               FontSize="17"
+                                               FontWeight="ExtraBold"
+                                               Foreground="#173258"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Segmented Period Filter Tabs -->
+                                <Border Background="#F1F6FC" CornerRadius="13" Padding="4" Margin="0,0,0,12">
+                                    <UniformGrid Columns="3">
+                                        <Button Content="Tuần này"
+                                                Command="{Binding SelectLeaderboardPeriodCommand}"
+                                                CommandParameter="Tuần này">
                                             <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border x:Name="realmCard"
-                                                                        Width="180"
-                                                                        CornerRadius="18"
-                                                                        Padding="14,12"
-                                                                        Background="#FFFFFF"
-                                                                        BorderBrush="#E2E8F0"
-                                                                        BorderThickness="1.5"
-                                                                        Effect="{DynamicResource CardShadow}">
-                                                                    <StackPanel>
-                                                                        <!-- Top Row: Level Pill Badge + Selected Checkmark -->
-                                                                        <Grid Margin="0,0,0,8">
-                                                                            <Border Background="{Binding AccentColor}" CornerRadius="9" Padding="9,3" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                                                <TextBlock Text="{Binding LevelKey}" FontWeight="ExtraBold" FontSize="11.5" Foreground="White" />
-                                                                            </Border>
-                                                                            <!-- Selected Checkmark Circle -->
-                                                                            <Border Width="22" Height="22" CornerRadius="11" Background="#0284C7" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                                                    Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibility}}">
-                                                                                <TextBlock Text="✔" FontSize="11" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                                            </Border>
-                                                                        </Grid>
-
-                                                                        <!-- Oriental Architectural Illustration Container -->
-                                                                        <Border Height="76" CornerRadius="14" Margin="0,0,0,8" ClipToBounds="True">
-                                                                            <Border.Background>
-                                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                                                    <GradientStop Color="#F0F9FF" Offset="0" />
-                                                                                    <GradientStop Color="#E0F2FE" Offset="1" />
-                                                                                </LinearGradientBrush>
-                                                                            </Border.Background>
-                                                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                                                <TextBlock Text="{Binding Icon}" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                                                <TextBlock Text="🌸" FontSize="12" Opacity="0.5" HorizontalAlignment="Center" Margin="0,-2,0,0" />
-                                                                            </StackPanel>
-                                                                        </Border>
-
-                                                                        <!-- Realm Title & Subtitle -->
-                                                                        <TextBlock Text="{Binding WorldName}" FontSize="15" FontWeight="Bold" Foreground="#0F172A" TextTrimming="CharacterEllipsis" Margin="0,0,0,2" />
-                                                                        <TextBlock Text="{Binding Subtitle}" FontSize="12" Foreground="#64748B" TextTrimming="CharacterEllipsis" Margin="0,0,0,8" />
-
-                                                                        <!-- Mini Progress Bar -->
-                                                                        <ProgressBar Value="{Binding ProgressPercent, Mode=OneWay}"
-                                                                                     Maximum="100"
-                                                                                     Height="5"
-                                                                                     Foreground="#0284C7"
-                                                                                     Background="#E2E8F0"
-                                                                                     Margin="0,0,0,8" />
-
-                                                                        <!-- Bottom Stats: Stars + Levels with Trophy -->
-                                                                        <Grid>
-                                                                            <TextBlock Text="{Binding StarsText}" FontSize="12" FontWeight="Bold" Foreground="#D97706" />
-                                                                            <TextBlock Text="{Binding TrophyText}" FontSize="12" FontWeight="Bold" Foreground="#0284C7" HorizontalAlignment="Right" />
-                                                                        </Grid>
-                                                                    </StackPanel>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter TargetName="realmCard" Property="BorderBrush" Value="#0284C7" />
-                                                                        <Setter TargetName="realmCard" Property="Effect" Value="{StaticResource CardHoverShadow}" />
-                                                                    </Trigger>
-                                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                                        <Setter TargetName="realmCard" Property="BorderBrush" Value="#0284C7" />
-                                                                        <Setter TargetName="realmCard" Property="BorderThickness" Value="2" />
-                                                                        <Setter TargetName="realmCard" Property="Background" Value="#F0F9FF" />
-                                                                    </DataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
+                                                <Style TargetType="Button" BasedOn="{StaticResource LeaderboardTabStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsWeekTabActive}" Value="True">
+                                                            <Setter Property="Background" Value="#1D7BE5" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
                                         </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
+                                        <Button Content="Tháng này"
+                                                Command="{Binding SelectLeaderboardPeriodCommand}"
+                                                CommandParameter="Tháng này">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource LeaderboardTabStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsMonthTabActive}" Value="True">
+                                                            <Setter Property="Background" Value="#1D7BE5" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Content="Tất cả"
+                                                Command="{Binding SelectLeaderboardPeriodCommand}"
+                                                CommandParameter="Tất cả">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource LeaderboardTabStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsAllTabActive}" Value="True">
+                                                            <Setter Property="Background" Value="#1D7BE5" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </UniformGrid>
+                                </Border>
 
-                        <!-- Right Arrow Button > -->
-                        <Button Grid.Column="2"
-                                Click="ScrollRight_Click"
-                                Cursor="Hand"
-                                Width="36" Height="36"
-                                Margin="8,0,0,0"
-                                Background="White"
-                                BorderBrush="#E2E8F0"
-                                BorderThickness="1"
-                                VerticalAlignment="Center">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="18">
-                                        <TextBlock Text="&gt;" FontSize="16" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,0,0" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </Grid>
-                </StackPanel>
+                                <!-- Top 5 Entries -->
+                                <ItemsControl ItemsSource="{Binding LeaderboardEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#EFF3F9" BorderThickness="0,0,0,1" Padding="4,9">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="32" />
+                                                        <ColumnDefinition Width="38" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
 
-                <!-- 3. CURRENT SELECTED WORLD BANNER (HSK 1 • ĐẢO KHỞI NGUYÊN) -->
-                <Border CornerRadius="20"
-                        Margin="0,0,0,22"
-                        Padding="24,20"
-                        BorderBrush="#BAE6FD"
-                        BorderThickness="1.2"
-                        ClipToBounds="True"
-                        Effect="{DynamicResource CardShadow}">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#F0F8FF" Offset="0.0" />
-                            <GradientStop Color="#E0F2FE" Offset="0.55" />
-                            <GradientStop Color="#F8FAFC" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.Background>
+                                                    <!-- Rank Medal or Number -->
+                                                    <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <Border Width="24" Height="24" CornerRadius="12"
+                                                                Background="{Binding RankBadgeBg}"
+                                                                BorderBrush="{Binding RankBadgeBorder}"
+                                                                BorderThickness="1.2"
+                                                                Visibility="{Binding IsTopThree, Converter={StaticResource BoolToVisibility}}">
+                                                            <TextBlock Text="{Binding Rank}" FontSize="11.5" FontWeight="ExtraBold" Foreground="{Binding RankBadgeFg}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Border>
+                                                        <TextBlock Text="{Binding Rank}" FontSize="13.5" FontWeight="Bold" Foreground="#5A6E8C" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsTopThree}" Value="True">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Grid>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                                                    <!-- Vector Avatar -->
+                                                    <views:DashboardArtworkControl Grid.Column="1"
+                                                                                   ArtworkKey="{Binding AvatarKind}"
+                                                                                   Width="30" Height="30"
+                                                                                   HorizontalAlignment="Left"
+                                                                                   VerticalAlignment="Center" />
 
-                        <!-- Left: Mountain with Flag Emblem -->
-                        <Border Grid.Column="0" Width="68" Height="68" CornerRadius="18"
-                                Background="#E0F2FE"
-                                BorderBrush="#7DD3FC"
-                                BorderThickness="2"
-                                Margin="0,0,18,0">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="🏔️" FontSize="30" HorizontalAlignment="Center" />
-                                <TextBlock Text="🚩" FontSize="14" Margin="0,-16,-12,0" HorizontalAlignment="Center" />
+                                                    <!-- Player Name -->
+                                                    <TextBlock Grid.Column="2"
+                                                               Text="{Binding Name}"
+                                                               FontSize="13"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#223859"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               VerticalAlignment="Center" />
+
+                                                    <!-- Flame + Score -->
+                                                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Viewbox Width="13" Height="13" Margin="0,0,5,0" VerticalAlignment="Center">
+                                                            <Path Data="{StaticResource LucideFlame}" Fill="#FB923C" Stroke="#EA580C" StrokeThickness="1.6" />
+                                                        </Viewbox>
+                                                        <TextBlock Text="{Binding ScoreText}"
+                                                                   FontSize="12.5"
+                                                                   FontWeight="ExtraBold"
+                                                                   Foreground="#223859"
+                                                                   VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </StackPanel>
                         </Border>
 
-                        <!-- Title, Badge & Description -->
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,16,0">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                                <TextBlock Text="{Binding SelectedWorld.LevelKey}" FontSize="22" FontWeight="ExtraBold" Foreground="#0F172A" Margin="0,0,8,0" />
-                                <TextBlock Text="•" FontSize="20" Foreground="#64748B" Margin="0,0,8,0" />
-                                <TextBlock Text="{Binding SelectedWorld.WorldName}" FontSize="22" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,12,0" />
-                                <!-- 160 từ vựng Badge -->
-                                <Border Background="#DCFCE7" CornerRadius="10" Padding="10,3" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding SelectedWorld.VocabCount, StringFormat='{}{0} từ vựng'}" FontSize="12" FontWeight="Bold" Foreground="#16A34A" />
-                                </Border>
+                        <!-- 2. Phần thưởng hấp dẫn Banner Card -->
+                        <Border CornerRadius="20"
+                                BorderBrush="#D0E1FC"
+                                BorderThickness="1.2"
+                                Padding="16,14"
+                                Effect="{StaticResource ArenaPanelShadow}">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#EEF5FF" Offset="0" />
+                                    <GradientStop Color="#E0ECFF" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Vector 3D-style Gift Box Illustration -->
+                                <Viewbox Grid.Column="0" Width="62" Height="62" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <Canvas Width="80" Height="80">
+                                        <!-- Soft shadow -->
+                                        <Ellipse Canvas.Left="14" Canvas.Top="64" Width="52" Height="10" Fill="#A5BCE0" Opacity="0.45" />
+                                        <!-- Box base -->
+                                        <Rectangle Canvas.Left="16" Canvas.Top="34" Width="48" Height="34" RadiusX="6" RadiusY="6" Fill="#F45B84" />
+                                        <!-- Vertical Ribbon -->
+                                        <Rectangle Canvas.Left="35" Canvas.Top="34" Width="10" Height="34" Fill="#FACC15" />
+                                        <!-- Lid -->
+                                        <Rectangle Canvas.Left="12" Canvas.Top="24" Width="56" Height="12" RadiusX="5" RadiusY="5" Fill="#FB7195" />
+                                        <Rectangle Canvas.Left="35" Canvas.Top="24" Width="10" Height="12" Fill="#FDE047" />
+                                        <!-- Bow Loops -->
+                                        <Path Fill="#FACC15" Data="M 40,24 C 30,10 20,16 26,24 Z" />
+                                        <Path Fill="#FACC15" Data="M 40,24 C 50,10 60,16 54,24 Z" />
+                                        <!-- Sparkles -->
+                                        <Ellipse Canvas.Left="10" Canvas.Top="12" Width="6" Height="6" Fill="#FBBF24" />
+                                        <Ellipse Canvas.Left="64" Canvas.Top="14" Width="5" Height="5" Fill="#60A5FA" />
+                                    </Canvas>
+                                </Viewbox>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,8,0">
+                                    <TextBlock Text="Phần thưởng hấp dẫn"
+                                               FontSize="14.5"
+                                               FontWeight="ExtraBold"
+                                               Foreground="#173258"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Text="Đang chờ bạn!"
+                                               FontSize="12.5"
+                                               Foreground="#5B7396"
+                                               Margin="0,2,0,0" />
+                                </StackPanel>
+
+                                <Button Grid.Column="2"
+                                        Command="{Binding OpenRewardsModalCommand}"
+                                        Cursor="Hand"
+                                        VerticalAlignment="Center"
+                                        FocusVisualStyle="{StaticResource ArenaFocusVisual}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="btnJoin" CornerRadius="16" Padding="13,9">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#FDE047" Offset="0" />
+                                                        <GradientStop Color="#FBBF24" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="Tham gia ngay" FontSize="12" FontWeight="ExtraBold" Foreground="#3E2C04" VerticalAlignment="Center" />
+                                                    <Viewbox Width="13" Height="13" Margin="5,1,0,0" VerticalAlignment="Center">
+                                                        <Path Data="{StaticResource LucideArrowRight}" Stroke="#3E2C04" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                                    </Viewbox>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="btnJoin" Property="Opacity" Value="0.92" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="btnJoin" Property="Opacity" Value="0.82" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ================================================================ -->
+        <!-- 3. MATCH SETUP MODAL (WHEN CLICKING ANY OF THE 3 ARENA MODES)     -->
+        <!-- ================================================================ -->
+        <Border Visibility="{Binding IsModeModalOpen, Converter={StaticResource BoolToVisibility}}"
+                Background="#7A0F172A"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF"
+                    BorderBrush="#DCE7F7"
+                    BorderThickness="1.5"
+                    CornerRadius="24"
+                    Width="480"
+                    Padding="28"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Effect="{StaticResource ArenaHeroShadow}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,14">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="42" Height="42" CornerRadius="14" Background="#EBF4FF" Margin="0,0,12,0">
+                                <Viewbox Width="21" Height="21">
+                                    <Path Data="{StaticResource LucideSwords}" Stroke="#1D7BE5" StrokeThickness="2.1" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                </Viewbox>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Text="{Binding SelectedMode.TagText}" FontSize="10.5" FontWeight="ExtraBold" Foreground="#2C7BE5" />
+                                <TextBlock Text="{Binding SelectedMode.Title}" FontSize="20" FontWeight="ExtraBold" Foreground="#173258" />
                             </StackPanel>
-
-                            <TextBlock Text="{Binding SelectedWorld.Description}" FontSize="13.5" Foreground="#475569" TextWrapping="Wrap" LineHeight="20" />
                         </StackPanel>
 
-                        <!-- Right: Tiến độ Vương Quốc Summary -->
-                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,20,0" HorizontalAlignment="Center">
-                            <TextBlock Text="Tiến độ Vương Quốc" FontSize="13" FontWeight="Bold" Foreground="#475569" HorizontalAlignment="Center" Margin="0,0,0,3" />
-                            <TextBlock Text="{Binding SelectedWorld.ProgressText}" FontSize="26" FontWeight="ExtraBold" Foreground="#0284C7" HorizontalAlignment="Center" Margin="0,0,0,4" />
-                            <ProgressBar Value="{Binding SelectedWorld.ProgressPercent, Mode=OneWay}"
-                                         Width="140" Height="7"
-                                         Maximum="100"
-                                         Foreground="#0284C7"
-                                         Background="#CBD5E1"
-                                         HorizontalAlignment="Center"
-                                         Margin="0,0,0,4" />
-                            <TextBlock Text="{Binding SelectedWorld.StarsText}" FontSize="13" FontWeight="Bold" Foreground="#D97706" HorizontalAlignment="Center" />
-                        </StackPanel>
-
-                        <!-- Far Right: "▶ Bắt đầu học" Action Button -->
-                        <Button Grid.Column="3"
-                                Command="{Binding PlayLevelCommand}"
+                        <Button Command="{Binding CloseModeModalCommand}"
                                 Cursor="Hand"
-                                Height="44"
-                                VerticalAlignment="Center">
+                                Width="34" Height="34"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border x:Name="startBtn"
-                                            Background="#0284C7"
-                                            CornerRadius="22"
-                                            Padding="24,0">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <TextBlock Text="▶ " FontSize="12" Foreground="White" VerticalAlignment="Center" Margin="0,0,4,0" />
-                                            <TextBlock Text="Bắt đầu học" FontSize="14.5" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
-                                        </StackPanel>
+                                    <Border Background="#F1F5F9" CornerRadius="17">
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource LucideX}" Stroke="#64748B" StrokeThickness="2.2" StrokeStartLineCap="Round" />
+                                        </Viewbox>
                                     </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="startBtn" Property="Background" Value="#0369A1" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="startBtn" Property="Background" Value="#075985" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
                     </Grid>
-                </Border>
 
-                <!-- 4. THE 10 MINI-LEVELS (10 ẢI THỬ THÁCH) -->
-                <StackPanel>
-                    <Grid Margin="0,0,0,16">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="⚔️ " FontSize="18" Foreground="#0284C7" VerticalAlignment="Center" />
-                            <TextBlock Text="Hành Trình 10 Ải Chinh Phục" FontSize="18" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <TextBlock Text="🏆 " FontSize="14" Foreground="#D97706" VerticalAlignment="Center" />
-                            <TextBlock Text="Vượt qua lần lượt từng ải để mở khóa Ải Trùm Cuối " FontSize="13" Foreground="#64748B" FontWeight="Medium" VerticalAlignment="Center" />
-                            <TextBlock Text="👑" FontSize="14" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
+                    <Border Background="#F5F9FF" BorderBrush="#E2ECFB" BorderThickness="1" CornerRadius="14" Padding="14,12" Margin="0,0,0,16">
+                        <TextBlock Text="{Binding SelectedMode.Description}" FontSize="13.5" Foreground="#4A6282" TextWrapping="Wrap" LineHeight="20" />
+                    </Border>
 
-                    <!-- 10 Sub-Levels Grid (2 Columns Responsive Layout) -->
-                    <ItemsControl ItemsSource="{Binding SelectedWorld.SubLevels}">
+                    <TextBlock Text="Chọn cấp độ thi đấu HSK:" FontSize="13.5" FontWeight="Bold" Foreground="#173258" Margin="0,0,0,10" />
+                    <ItemsControl ItemsSource="{Binding AvailableHskLevels}" Margin="0,0,0,20">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
+                                <UniformGrid Columns="3" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="0,0,16,16"
-                                        CornerRadius="18"
-                                        Background="#FFFFFF"
-                                        BorderBrush="#E2E8F0"
-                                        BorderThickness="1.2"
-                                        Padding="18,16"
-                                        Effect="{DynamicResource CardShadow}">
+                                <Button Command="{Binding DataContext.SelectMatchLevelCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        Cursor="Hand"
+                                        Margin="4">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="lvlPill"
+                                                    Background="#F4F7FC"
+                                                    BorderBrush="#DCE6F5"
+                                                    BorderThickness="1.2"
+                                                    CornerRadius="12"
+                                                    Padding="12,10">
+                                                <TextBlock x:Name="lvlText"
+                                                           Text="{Binding Level}"
+                                                           FontSize="13"
+                                                           FontWeight="Bold"
+                                                           Foreground="#334C70"
+                                                           HorizontalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="lvlPill" Property="BorderBrush" Value="#2C7BE5" />
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter TargetName="lvlPill" Property="Background" Value="#1D7BE5" />
+                                                    <Setter TargetName="lvlPill" Property="BorderBrush" Value="#1D7BE5" />
+                                                    <Setter TargetName="lvlText" Property="Foreground" Value="#FFFFFF" />
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <TextBlock Text="Cấp độ đang chọn: " FontSize="13" Foreground="#607696" VerticalAlignment="Center" />
+                        <Border Background="#EBF4FF" CornerRadius="8" Padding="10,4" Margin="4,0,0,0">
+                            <TextBlock Text="{Binding SelectedMatchLevel}" FontSize="13" FontWeight="ExtraBold" Foreground="#1D7BE5" />
+                        </Border>
+                    </StackPanel>
+
+                    <Button Command="{Binding StartArenaMatchCommand}" Height="46" Cursor="Hand" FocusVisualStyle="{StaticResource ArenaFocusVisual}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="14">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#3B9DF8" Offset="0" />
+                                            <GradientStop Color="#1D7BE5" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="Bắt đầu thi đấu" FontSize="14.5" FontWeight="ExtraBold" Foreground="White" VerticalAlignment="Center" />
+                                        <Viewbox Width="16" Height="16" Margin="8,1,0,0" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource LucideArrowRight}" Stroke="White" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                        </Viewbox>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- ================================================================ -->
+        <!-- 4. SEASON REWARDS & ACHIEVEMENT BADGES MODAL                      -->
+        <!-- ================================================================ -->
+        <Border Visibility="{Binding IsRewardsModalOpen, Converter={StaticResource BoolToVisibility}}"
+                Background="#7A0F172A"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF"
+                    BorderBrush="#DCE7F7"
+                    BorderThickness="1.5"
+                    CornerRadius="24"
+                    Width="500"
+                    Padding="28"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Effect="{StaticResource ArenaHeroShadow}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,16">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="42" Height="42" CornerRadius="14" Background="#FFF6DF" Margin="0,0,12,0">
+                                <Viewbox Width="22" Height="22">
+                                    <Path Data="{StaticResource LucideTrophy}" Fill="#FBBF24" Stroke="#D97706" StrokeThickness="1.7" StrokeLineJoin="Round" />
+                                </Viewbox>
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Text="MÙA 7 • THÁCH ĐẤU" FontSize="10.5" FontWeight="ExtraBold" Foreground="#D97706" />
+                                <TextBlock Text="Phần thưởng &amp; Huy hiệu" FontSize="20" FontWeight="ExtraBold" Foreground="#173258" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Command="{Binding CloseRewardsModalCommand}"
+                                Cursor="Hand"
+                                Width="34" Height="34"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="#F1F5F9" CornerRadius="17">
+                                        <Viewbox Width="16" Height="16">
+                                            <Path Data="{StaticResource LucideX}" Stroke="#64748B" StrokeThickness="2.2" StrokeStartLineCap="Round" />
+                                        </Viewbox>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+
+                    <!-- Season Top 100 Highlight -->
+                    <Border CornerRadius="16" Padding="16,14" BorderBrush="#FDE68A" BorderThickness="1.2" Margin="0,0,0,16">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFF8E2" Offset="0" />
+                                <GradientStop Color="#FFEFCA" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="Chinh phục Top 100 Mùa 7" FontSize="15" FontWeight="ExtraBold" Foreground="#78350F" />
+                            <TextBlock Text="Nhận ngay Huy hiệu Chiến Binh Mùa 7 độc quyền + 500 Kim Cương + 1,000 EXP thưởng cuối mùa." FontSize="12.5" Foreground="#92400E" TextWrapping="Wrap" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Huy hiệu của bạn" FontSize="14" FontWeight="Bold" Foreground="#173258" Margin="0,0,0,10" />
+                    <ItemsControl ItemsSource="{Binding Badges}" Margin="0,0,0,18">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#F8FAFD" BorderBrush="#E4ECF7" BorderThickness="1" CornerRadius="12" Padding="12,10" Margin="0,0,0,8">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-
-                                        <!-- Left: Rosette Ribbon Award Medal (#1, #2, #3, ...) -->
-                                        <Grid Grid.Column="0" Width="52" Height="58" Margin="0,0,16,0" VerticalAlignment="Center">
-                                            <!-- Ribbon Tails -->
-                                            <Path Data="M 16,36 L 8,56 L 18,50 L 26,56 L 24,36 Z" Fill="{Binding RibbonColor}" Opacity="0.85" />
-                                            <Path Data="M 26,36 L 24,56 L 34,50 L 44,56 L 36,36 Z" Fill="{Binding RibbonColor}" Opacity="0.85" />
-
-                                            <!-- Rosette Medal Circle -->
-                                            <Border Width="44" Height="44" CornerRadius="22"
-                                                    Background="{Binding MedalBg}"
-                                                    BorderBrush="{Binding MedalBorder}"
-                                                    BorderThickness="2"
-                                                    VerticalAlignment="Top"
-                                                    HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding MedalNumberText}" FontSize="15" FontWeight="ExtraBold" Foreground="{Binding MedalFg}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                            </Border>
-                                        </Grid>
-
-                                        <!-- Center: Title, Type Tag, Description & Stars + EXP -->
+                                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="10" Background="{Binding TintBg}" Margin="0,0,12,0">
+                                            <Viewbox Width="18" Height="18">
+                                                <Path Data="{StaticResource LucideMedal}" Stroke="{Binding IconColor}" StrokeThickness="2" StrokeLineJoin="Round" />
+                                            </Viewbox>
+                                        </Border>
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                                                <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center" Margin="0,0,8,0" TextTrimming="CharacterEllipsis" />
-                                                <!-- Type Tag (Soft Blue Badge) -->
-                                                <Border Background="#E0F2FE" CornerRadius="6" Padding="7,2" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding ChallengeType}" FontSize="11.5" FontWeight="Bold" Foreground="#0284C7" />
-                                                </Border>
-                                            </StackPanel>
-
-                                            <TextBlock Text="{Binding Description}" FontSize="13" Foreground="#64748B" TextTrimming="CharacterEllipsis" Margin="0,0,0,7" />
-
-                                            <!-- Stars & Rewards -->
-                                            <StackPanel Orientation="Horizontal">
-                                                <!-- 3 Stars -->
-                                                <StackPanel Orientation="Horizontal" Margin="0,0,12,0" VerticalAlignment="Center">
-                                                    <TextBlock Text="★" FontSize="15" Margin="0,0,1,0">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="Foreground" Value="#CBD5E1" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Star1Active}" Value="True">
-                                                                        <Setter Property="Foreground" Value="#F59E0B" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                    <TextBlock Text="★" FontSize="15" Margin="0,0,1,0">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="Foreground" Value="#CBD5E1" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Star2Active}" Value="True">
-                                                                        <Setter Property="Foreground" Value="#F59E0B" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                    <TextBlock Text="★" FontSize="15">
-                                                        <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Setter Property="Foreground" Value="#CBD5E1" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Star3Active}" Value="True">
-                                                                        <Setter Property="Foreground" Value="#F59E0B" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                </StackPanel>
-
-                                                <!-- Rewards -->
-                                                <TextBlock Text="{Binding RewardExp, StringFormat='+{0} EXP'}" FontSize="12.5" FontWeight="Bold" Foreground="#0284C7" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                                <TextBlock Text="{Binding RewardGems, StringFormat='+{0} 💎'}" FontSize="12.5" FontWeight="Bold" Foreground="#2563EB" VerticalAlignment="Center" />
-                                            </StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontSize="13.5" FontWeight="Bold" Foreground="#173258" />
+                                            <TextBlock Text="{Binding Subtitle}" FontSize="11.5" Foreground="#64748B" />
                                         </StackPanel>
-
-                                        <!-- Right: Action Button -->
-                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0">
-                                            <!-- Completed State (Light Mint Green Pill) -->
-                                            <Border Visibility="{Binding IsCompleted, Converter={StaticResource BoolToVisibility}}"
-                                                    Background="#E8F5EE"
-                                                    BorderBrush="#BEE5D0"
-                                                    BorderThickness="1"
-                                                    CornerRadius="16"
-                                                    Padding="14,7">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="✓ " FontSize="13" FontWeight="Bold" Foreground="#16A34A" VerticalAlignment="Center" />
-                                                    <TextBlock Text="Đã qua ải" FontSize="13" Foreground="#16A34A" FontWeight="Bold" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                            </Border>
-
-                                            <!-- Ready / Current State (Blue Button) -->
-                                            <Button Command="{Binding DataContext.PlayLevelCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}"
-                                                    Visibility="{Binding IsCurrent, Converter={StaticResource BoolToVisibility}}"
-                                                    Height="38"
-                                                    Cursor="Hand">
-                                                <Button.Template>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border Background="#0284C7"
-                                                                CornerRadius="19"
-                                                                Padding="18,0">
-                                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                                <TextBlock Text="▶ " FontSize="11" Foreground="White" VerticalAlignment="Center" />
-                                                                <TextBlock Text="CHƠI NGAY" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Button.Template>
-                                            </Button>
-
-                                            <!-- Locked State (Grey Pill) -->
-                                            <Border Visibility="{Binding IsLocked, Converter={StaticResource BoolToVisibility}}"
-                                                    Background="#F1F5F9"
-                                                    CornerRadius="14"
-                                                    Padding="14,7">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="🔒 Khóa" FontSize="12.5" Foreground="#94A3B8" FontWeight="Medium" />
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
+                                        <Border Grid.Column="2" CornerRadius="10" Padding="9,4" VerticalAlignment="Center"
+                                                Background="#DCFCE7"
+                                                Visibility="{Binding IsUnlocked, Converter={StaticResource BoolToVisibility}}">
+                                            <TextBlock Text="Đã mở" FontSize="11" FontWeight="Bold" Foreground="#15803D" />
+                                        </Border>
+                                        <Border Grid.Column="2" CornerRadius="10" Padding="9,4" VerticalAlignment="Center"
+                                                Background="#F1F5F9"
+                                                Visibility="{Binding IsUnlocked, Converter={StaticResource InverseBoolToVisibility}}">
+                                            <TextBlock Text="Chưa mở" FontSize="11" FontWeight="SemiBold" Foreground="#64748B" />
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
 
-            </StackPanel>
-        </ScrollViewer>
-
-        <!-- ============================================== -->
-        <!-- 5. INTERACTIVE LEVEL POPUP DIALOG MODAL        -->
-        <!-- ============================================== -->
-        <Border Visibility="{Binding IsLevelDetailOpen, Converter={StaticResource BoolToVisibility}}"
-                Background="#99000000"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-            <Border Background="#FFFFFF"
-                    BorderBrush="#E2E8F0"
-                    BorderThickness="1"
-                    CornerRadius="24"
-                    Width="500"
-                    Padding="30"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Effect="{DynamicResource CardShadow}">
-                <StackPanel>
-                    <!-- Header with Icon & Close Button -->
-                    <Grid Margin="0,0,0,16">
-                        <Border Width="68" Height="68" CornerRadius="20" Background="#E0F2FE" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding SelectedSubLevel.Icon}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <Button Command="{Binding CloseLevelDetailCommand}"
-                                Content="✕"
-                                FontSize="18"
-                                FontWeight="Bold"
-                                Foreground="#94A3B8"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Cursor="Hand" />
-                    </Grid>
-
-                    <!-- Title & Target HSK -->
-                    <TextBlock Text="{Binding SelectedSubLevel.Title}" FontSize="22" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,4" />
-                    <TextBlock Text="{Binding SelectedWorld.LevelKey, StringFormat='Vương Quốc: {0}'}" FontSize="14" FontWeight="SemiBold" Foreground="#0284C7" HorizontalAlignment="Center" Margin="0,0,0,14" />
-
-                    <!-- Description -->
-                    <Border Background="#F8FAFC" CornerRadius="12" Padding="16,12" Margin="0,0,0,16">
-                        <TextBlock Text="{Binding SelectedSubLevel.Description}" FontSize="14" Foreground="#475569" TextAlignment="Center" TextWrapping="Wrap" LineHeight="20" />
-                    </Border>
-
-                    <!-- Mission Checklist -->
-                    <TextBlock Text="Nhiệm vụ vượt ải:" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,8" />
-                    <StackPanel Margin="0,0,0,16">
-                        <TextBlock Text="✔ Trả lời đúng tối thiểu 8/10 câu hỏi thử thách" FontSize="13.5" Foreground="#475569" Margin="0,0,0,4" />
-                        <TextBlock Text="✔ Đạt 3 sao khi hoàn thành 100% không mắc lỗi" FontSize="13.5" Foreground="#475569" Margin="0,0,0,4" />
-                        <TextBlock Text="✔ Mở khóa ải kế tiếp trong hành trình" FontSize="13.5" Foreground="#475569" />
-                    </StackPanel>
-
-                    <!-- Rewards Card -->
-                    <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="14" Padding="14,10" Margin="0,0,0,20">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="⚡ " FontSize="16" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SelectedSubLevel.RewardExp, StringFormat='+{0} EXP'}" FontSize="15" FontWeight="Bold" Foreground="#B45309" VerticalAlignment="Center" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="💎 " FontSize="16" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SelectedSubLevel.RewardGems, StringFormat='+{0} Kim Cương'}" FontSize="15" FontWeight="Bold" Foreground="#1E40AF" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <!-- Action Play Button -->
-                    <Button Command="{Binding PlayLevelCommand}"
-                            Height="48"
-                            Cursor="Hand"
-                            HorizontalAlignment="Stretch">
+                    <Button Command="{Binding StartArenaMatchCommand}" Height="44" Cursor="Hand" FocusVisualStyle="{StaticResource ArenaFocusVisual}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="#0284C7" CornerRadius="24">
+                                <Border CornerRadius="14">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#FDE047" Offset="0" />
+                                            <GradientStop Color="#F59E0B" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <TextBlock Text="🚀 VÀO CHƠI NGAY" FontSize="15" FontWeight="Bold" Foreground="White" />
+                                        <TextBlock Text="Thi đấu ngay để tích điểm" FontSize="14" FontWeight="ExtraBold" Foreground="#3E2C04" VerticalAlignment="Center" />
+                                        <Viewbox Width="16" Height="16" Margin="8,1,0,0" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource LucideArrowRight}" Stroke="#3E2C04" StrokeThickness="2.3" StrokeStartLineCap="Round" StrokeLineJoin="Round" />
+                                        </Viewbox>
                                     </StackPanel>
                                 </Border>
                             </ControlTemplate>

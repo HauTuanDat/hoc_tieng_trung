@@ -1,0 +1,249 @@
+<UserControl x:Class="QuizApp.Views.DashboardArtworkControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             IsHitTestVisible="False">
+    <Grid>
+        <!-- ========================================================== -->
+        <!-- 1. HERO SCENIC BACKDROP + PANDA WITH 中文 BOOK             -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="HeroArt" Visibility="Collapsed" Stretch="UniformToFill" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Canvas Width="900" Height="235">
+                <!-- Soft misty mountains -->
+                <Path Fill="#D6E8FF" Opacity="0.72"
+                      Data="M 320,235 Q 420,125 535,175 Q 645,95 765,160 Q 845,115 900,148 L 900,235 Z" />
+                <Path Fill="#C2DCFC" Opacity="0.58"
+                      Data="M 410,235 Q 520,145 620,184 Q 730,120 845,172 L 900,158 L 900,235 Z" />
+
+                <!-- Lake reflection -->
+                <Path Fill="#DCEEFF" Opacity="0.7"
+                      Data="M 390,192 Q 615,178 900,194 L 900,235 L 390,235 Z" />
+
+                <!-- Center-Right Pagoda -->
+                <Path Fill="#6E94C4" Opacity="0.52"
+                      Data="M 556,42 L 560,54 H 552 Z
+                            M 536,58 Q 556,66 576,58 L 568,72 H 544 Z
+                            M 545,72 H 567 V 84 H 545 Z
+                            M 526,84 Q 556,94 586,84 L 575,100 H 537 Z
+                            M 539,100 H 573 V 114 H 539 Z
+                            M 516,114 Q 556,126 596,114 L 583,134 H 529 Z
+                            M 532,134 H 580 V 154 H 532 Z
+                            M 505,154 Q 556,168 607,154 L 592,178 H 520 Z
+                            M 516,178 H 596 V 192 H 516 Z" />
+
+                <!-- Distant Right Pagoda -->
+                <Path Fill="#88A5CE" Opacity="0.44"
+                      Data="M 806,82 L 809,90 H 803 Z
+                            M 792,94 Q 806,100 820,94 L 814,104 H 798 Z
+                            M 799,104 H 813 V 114 H 799 Z
+                            M 784,114 Q 806,122 828,114 L 820,127 H 792 Z
+                            M 794,127 H 818 V 142 H 794 Z
+                            M 776,142 Q 806,152 836,142 L 826,158 H 786 Z
+                            M 788,158 H 824 V 184 H 788 Z" />
+
+                <!-- Soft clouds -->
+                <Path Fill="#FFFFFF" Opacity="0.72"
+                      Data="M 385,172 Q 430,152 480,168 Q 520,155 562,175 Q 470,188 385,172 Z
+                            M 695,168 Q 740,150 792,164 Q 832,154 872,172 Q 785,186 695,168 Z" />
+
+                <!-- Cherry Blossom Branches & Petals (top corners) -->
+                <Path Stroke="#A6647B" StrokeThickness="3.5" StrokeStartLineCap="Round" Opacity="0.58"
+                      Data="M 0,18 Q 55,34 115,24 Q 152,18 182,8 M 58,31 Q 82,56 105,68" />
+                <Path Stroke="#A6647B" StrokeThickness="3.5" StrokeStartLineCap="Round" Opacity="0.58"
+                      Data="M 900,44 Q 852,66 806,54 Q 778,46 756,32" />
+                <!-- Blossoms left -->
+                <Ellipse Canvas.Left="28" Canvas.Top="14" Width="18" Height="18" Fill="#F7A7C6" Opacity="0.9" />
+                <Ellipse Canvas.Left="54" Canvas.Top="8" Width="22" Height="22" Fill="#F48FB6" Opacity="0.88" />
+                <Ellipse Canvas.Left="88" Canvas.Top="24" Width="17" Height="17" Fill="#FBC2D8" Opacity="0.9" />
+                <Ellipse Canvas.Left="118" Canvas.Top="10" Width="15" Height="15" Fill="#F7A7C6" Opacity="0.85" />
+                <Ellipse Canvas.Left="76" Canvas.Top="48" Width="14" Height="14" Fill="#FBC2D8" Opacity="0.85" />
+                <Ellipse Canvas.Left="14" Canvas.Top="44" Width="13" Height="13" Fill="#F48FB6" Opacity="0.75" />
+                <!-- Blossoms right -->
+                <Ellipse Canvas.Left="848" Canvas.Top="28" Width="20" Height="20" Fill="#F7A7C6" Opacity="0.9" />
+                <Ellipse Canvas.Left="816" Canvas.Top="44" Width="17" Height="17" Fill="#F48FB6" Opacity="0.86" />
+                <Ellipse Canvas.Left="782" Canvas.Top="36" Width="15" Height="15" Fill="#FBC2D8" Opacity="0.86" />
+                <Ellipse Canvas.Left="868" Canvas.Top="56" Width="15" Height="15" Fill="#FBC2D8" Opacity="0.82" />
+                <Ellipse Canvas.Left="462" Canvas.Top="48" Width="9" Height="9" Fill="#F48FB6" Opacity="0.65" />
+                <Ellipse Canvas.Left="624" Canvas.Top="34" Width="8" Height="8" Fill="#F7A7C6" Opacity="0.7" />
+                <Ellipse Canvas.Left="420" Canvas.Top="105" Width="7" Height="7" Fill="#FBC2D8" Opacity="0.75" />
+
+                <!-- 3D PANDA MASCOT WITH 中文 BOOK & CLOUD (transparent cutout) -->
+                <Image Canvas.Left="604"
+                       Canvas.Top="24"
+                       Width="228"
+                       Height="204"
+                       Source="pack://application:,,,/Assets/dashboard_panda_cutout.png"
+                       Stretch="Uniform"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 2. LESSON BANNER SILHOUETTE (Tiến độ học tập)              -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="LessonArt" Visibility="Collapsed" Stretch="UniformToFill" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Canvas Width="320" Height="150">
+                <Canvas.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0.4" EndPoint="0.85,0.6">
+                        <GradientStop Color="#00FFFFFF" Offset="0.0" />
+                        <GradientStop Color="#BBFFFFFF" Offset="0.45" />
+                        <GradientStop Color="#FFFFFFFF" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Canvas.OpacityMask>
+                <Path Fill="#CFE5FA" Data="M 0,132 Q 80,86 155,112 Q 235,70 320,98 L 320,150 L 0,150 Z" />
+                <Path Fill="#B3D4F6" Opacity="0.72" Data="M 75,146 Q 160,96 240,122 Q 285,100 320,114 L 320,150 L 75,150 Z" />
+                <Path Fill="#6898CE" Opacity="0.58"
+                      Data="M 228,34 L 231,42 H 225 Z
+                            M 213,46 Q 228,52 243,46 L 237,56 H 219 Z
+                            M 220,56 H 236 V 64 H 220 Z
+                            M 206,64 Q 228,72 250,64 L 242,76 H 214 Z
+                            M 216,76 H 240 V 86 H 216 Z
+                            M 198,86 Q 228,96 258,86 L 248,100 H 208 Z
+                            M 210,100 H 246 V 120 H 210 Z" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 3. FEATURED HSK 1 BLUE SCENIC ART                          -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="FeaturedHsk1Art" Visibility="Collapsed" Stretch="UniformToFill" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Canvas Width="260" Height="150">
+                <Canvas.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0.3" EndPoint="0.85,0.7">
+                        <GradientStop Color="#00FFFFFF" Offset="0.0" />
+                        <GradientStop Color="#FFFFFFFF" Offset="0.95" />
+                    </LinearGradientBrush>
+                </Canvas.OpacityMask>
+                <Path Fill="#A9D5FA" Opacity="0.7" Data="M 10,138 Q 75,92 140,118 Q 200,76 260,104 L 260,150 L 10,150 Z" />
+                <Path Fill="#7AB8F1" Opacity="0.6" Data="M 70,150 Q 145,104 210,124 Q 238,112 260,120 L 260,150 Z" />
+                <Path Fill="#3B82D6" Opacity="0.46"
+                      Data="M 185,48 L 188,56 H 182 Z
+                            M 171,60 Q 185,66 199,60 L 193,70 H 177 Z
+                            M 178,70 H 192 V 79 H 178 Z
+                            M 164,79 Q 185,87 206,79 L 198,91 H 172 Z
+                            M 174,91 H 196 V 114 H 174 Z" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 4. FEATURED HSK 4 PURPLE SCENIC ART                        -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="FeaturedHsk4Art" Visibility="Collapsed" Stretch="UniformToFill" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Canvas Width="260" Height="150">
+                <Canvas.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0.3" EndPoint="0.85,0.7">
+                        <GradientStop Color="#00FFFFFF" Offset="0.0" />
+                        <GradientStop Color="#FFFFFFFF" Offset="0.95" />
+                    </LinearGradientBrush>
+                </Canvas.OpacityMask>
+                <Path Fill="#D5B5FB" Opacity="0.72" Data="M 10,138 Q 78,94 146,118 Q 204,80 260,108 L 260,150 L 10,150 Z" />
+                <Path Fill="#BA8CF7" Opacity="0.58" Data="M 75,150 Q 150,106 215,126 Q 240,116 260,124 L 260,150 Z" />
+                <Path Fill="#7C3AED" Opacity="0.45"
+                      Data="M 186,40 L 189,48 H 183 Z
+                            M 173,52 Q 186,58 199,52 L 193,61 H 179 Z
+                            M 180,61 H 192 V 69 H 180 Z
+                            M 166,69 Q 186,77 206,69 L 199,80 H 173 Z
+                            M 175,80 H 197 V 90 H 175 Z
+                            M 159,90 Q 186,99 213,90 L 204,104 H 168 Z
+                            M 170,104 H 202 V 122 H 170 Z" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 5. FEATURED XNK CARGO SHIP ART                             -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="FeaturedXnkArt" Visibility="Collapsed" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Canvas Width="230" Height="115">
+                <!-- Crane -->
+                <Path Stroke="#4D9E6F" StrokeThickness="2.8" Opacity="0.55"
+                      Data="M 150,94 V 20 H 186 V 94 M 132,32 H 214 M 202,32 V 48" />
+                <Rectangle Canvas.Left="192" Canvas.Top="48" Width="18" Height="10" RadiusX="1.5" RadiusY="1.5" Fill="#F59E0B" Opacity="0.85" />
+                <!-- Bridge -->
+                <Path Fill="#FFFFFF" Stroke="#2C6B4B" StrokeThickness="1.3"
+                      Data="M 62,48 H 88 V 78 H 62 Z M 68,36 H 84 V 48 H 68 Z" />
+                <!-- Containers -->
+                <Rectangle Canvas.Left="92" Canvas.Top="64" Width="22" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#EF4444" />
+                <Rectangle Canvas.Left="116" Canvas.Top="64" Width="22" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#3B82F6" />
+                <Rectangle Canvas.Left="140" Canvas.Top="64" Width="22" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#10B981" />
+                <Rectangle Canvas.Left="96" Canvas.Top="50" Width="22" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#F59E0B" />
+                <Rectangle Canvas.Left="120" Canvas.Top="50" Width="22" Height="12" RadiusX="1.5" RadiusY="1.5" Fill="#06B6D4" />
+                <!-- Hull -->
+                <Path Fill="#1E3A5F" Data="M 46,76 H 184 L 168,98 H 56 Z" />
+                <Path Fill="#DC2626" Data="M 53,92 H 172 L 168,98 H 56 Z" />
+                <Path Stroke="#3B82F6" StrokeThickness="2" Opacity="0.55"
+                      Data="M 32,102 Q 66,97 100,102 Q 134,107 168,102 Q 192,98 214,102" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 6. REWARD GOLD MEDAL + RIBBON + BLOSSOMS                   -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="RewardMedalArt" Visibility="Collapsed" Stretch="Uniform">
+            <Canvas Width="125" Height="125">
+                <!-- Cherry blossom accents -->
+                <Ellipse Canvas.Left="76" Canvas.Top="6" Width="18" Height="18" Fill="#F7A7C6" Opacity="0.85" />
+                <Ellipse Canvas.Left="98" Canvas.Top="16" Width="14" Height="14" Fill="#F48FB6" Opacity="0.85" />
+                <Ellipse Canvas.Left="96" Canvas.Top="86" Width="15" Height="15" Fill="#FBC2D8" Opacity="0.85" />
+                <Ellipse Canvas.Left="16" Canvas.Top="18" Width="10" Height="10" Fill="#F7A7C6" Opacity="0.7" />
+
+                <!-- Red Ribbon Tails -->
+                <Path Fill="#EF4444" Data="M 40,76 L 28,116 L 46,108 L 58,118 L 60,78 Z" />
+                <Path Fill="#DC2626" Data="M 66,78 L 68,118 L 80,108 L 98,116 L 86,76 Z" />
+
+                <!-- Gold Medal Ring -->
+                <Ellipse Canvas.Left="20" Canvas.Top="18" Width="84" Height="84" Fill="#FFE484" />
+                <Ellipse Canvas.Left="25" Canvas.Top="23" Width="74" Height="74">
+                    <Ellipse.Fill>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FFF7B2" Offset="0" />
+                            <GradientStop Color="#FBBF24" Offset="0.65" />
+                            <GradientStop Color="#D97706" Offset="1" />
+                        </RadialGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <!-- Star -->
+                <Path Fill="#FFFFFF" Opacity="0.96"
+                      Data="M 62,38 L 67.5,51 L 81.5,52.2 L 70.8,61.4 L 74,75 L 62,67.6 L 50,75 L 53.2,61.4 L 42.5,52.2 L 56.5,51 Z" />
+            </Canvas>
+        </Viewbox>
+
+        <!-- ========================================================== -->
+        <!-- 7. LEADERBOARD VECTOR AVATARS                              -->
+        <!-- ========================================================== -->
+        <Viewbox x:Name="AvatarPandaArt" Visibility="Collapsed" Stretch="Uniform">
+            <Canvas Width="32" Height="32">
+                <Ellipse Canvas.Left="1" Canvas.Top="1" Width="30" Height="30" Fill="#EAF4FD" />
+                <Ellipse Canvas.Left="6" Canvas.Top="6" Width="6" Height="6" Fill="#1E293B" />
+                <Ellipse Canvas.Left="20" Canvas.Top="6" Width="6" Height="6" Fill="#1E293B" />
+                <Ellipse Canvas.Left="7" Canvas.Top="8" Width="18" Height="16" Fill="#FFFFFF" />
+                <Ellipse Canvas.Left="10" Canvas.Top="13" Width="4.5" Height="5" Fill="#1E293B" />
+                <Ellipse Canvas.Left="17.5" Canvas.Top="13" Width="4.5" Height="5" Fill="#1E293B" />
+                <Ellipse Canvas.Left="11.5" Canvas.Top="14.5" Width="1.5" Height="1.5" Fill="#FFFFFF" />
+                <Ellipse Canvas.Left="19" Canvas.Top="14.5" Width="1.5" Height="1.5" Fill="#FFFFFF" />
+                <Ellipse Canvas.Left="14.5" Canvas.Top="17.5" Width="3" Height="2" Fill="#1E293B" />
+            </Canvas>
+        </Viewbox>
+
+        <Viewbox x:Name="AvatarGirlArt" Visibility="Collapsed" Stretch="Uniform">
+            <Canvas Width="32" Height="32">
+                <Ellipse Canvas.Left="1" Canvas.Top="1" Width="30" Height="30" Fill="#FCE7F3" />
+                <Path Fill="#EC4899" Data="M 8,16 A 8,8 0 0 1 24,16 V 24 H 8 Z" />
+                <Ellipse Canvas.Left="10" Canvas.Top="10" Width="12" Height="12" Fill="#FDE6D8" />
+                <Path Fill="#F472B6" Data="M 9,14 Q 16,8 23,14 Q 16,11 9,14 Z" />
+                <Ellipse Canvas.Left="12.5" Canvas.Top="15" Width="2" Height="2" Fill="#334155" />
+                <Ellipse Canvas.Left="17.5" Canvas.Top="15" Width="2" Height="2" Fill="#334155" />
+            </Canvas>
+        </Viewbox>
+
+        <Viewbox x:Name="AvatarBoyArt" Visibility="Collapsed" Stretch="Uniform">
+            <Canvas Width="32" Height="32">
+                <Ellipse Canvas.Left="1" Canvas.Top="1" Width="30" Height="30" Fill="#E0F2FE" />
+                <Path Fill="#475569" Data="M 9,13 A 7,6 0 0 1 23,13 V 16 H 9 Z" />
+                <Ellipse Canvas.Left="10" Canvas.Top="10" Width="12" Height="12" Fill="#FDE6D8" />
+                <Path Fill="#334155" Data="M 9,13 Q 16,7 23,13 Q 16,10 9,13 Z" />
+                <Ellipse Canvas.Left="12.5" Canvas.Top="15" Width="2" Height="2" Fill="#1E293B" />
+                <Ellipse Canvas.Left="17.5" Canvas.Top="15" Width="2" Height="2" Fill="#1E293B" />
+                <Path Fill="#3B82F6" Data="M 8,28 A 8,6 0 0 1 24,28 Z" />
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</UserControl>

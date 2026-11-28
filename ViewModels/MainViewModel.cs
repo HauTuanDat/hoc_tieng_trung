@@ -357,10 +357,10 @@ public class MainViewModel : ViewModelBase
 
     public void NavigateToGameMap()
     {
-        var vm = new GameMapViewModel(_hskService, onStartQuiz: StartHskQuiz, onBack: NavigateToDashboard);
+        var vm = new GameMapViewModel(_hskService, onStartQuiz: StartHskQuiz, onBack: NavigateToDashboard, user: CurrentUser);
         CurrentViewModel = vm;
         ActiveViewName = "GameMap";
-        CurrentTopicTitle = "Đấu trường HSK • Bản đồ chinh phục";
+        CurrentTopicTitle = "Đấu trường HSK • Mùa 7 - Thách Đấu";
     }
 
     public void StartHskQuiz(string level, string mode)

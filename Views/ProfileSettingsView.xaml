@@ -4,213 +4,687 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:QuizApp.ViewModels"
+             xmlns:views="clr-namespace:QuizApp.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:ProfileSettingsViewModel}"
-             Background="{DynamicResource WindowBackgroundBrush}">
+             Background="#F6FAF7">
+
+    <UserControl.Resources>
+        <!-- Soft Card Shadow -->
+        <DropShadowEffect x:Key="SettingsCardShadow"
+                          BlurRadius="20"
+                          ShadowDepth="4"
+                          Direction="270"
+                          Color="#1E3A2F"
+                          Opacity="0.06" />
+
+        <DropShadowEffect x:Key="SwitchThumbShadow"
+                          BlurRadius="6"
+                          ShadowDepth="1.5"
+                          Direction="270"
+                          Color="#0F172A"
+                          Opacity="0.18" />
+
+        <!-- Lucide Vector Icons (24x24) -->
+        <Geometry x:Key="IconSettings">M 12.22,2 H 11.78 A 2,2 0 0 0 9.78,4 V 4.18 A 2,2 0 0 1 8.78,5.91 L 8.35,6.16 A 2,2 0 0 1 6.35,6.16 L 6.2,6.08 A 2,2 0 0 0 3.47,6.81 L 3.25,7.19 A 2,2 0 0 0 3.98,9.92 L 4.13,10.02 A 2,2 0 0 1 5.13,11.74 V 12.25 A 2,2 0 0 1 4.13,13.99 L 3.98,14.08 A 2,2 0 0 0 3.25,16.81 L 3.47,17.19 A 2,2 0 0 0 6.2,17.92 L 6.35,17.84 A 2,2 0 0 1 8.35,17.84 L 8.78,18.09 A 2,2 0 0 1 9.78,19.82 V 20 A 2,2 0 0 0 11.78,22 H 12.22 A 2,2 0 0 0 14.22,20 V 19.82 A 2,2 0 0 1 15.22,18.09 L 15.65,17.84 A 2,2 0 0 1 17.65,17.84 L 17.8,17.92 A 2,2 0 0 0 20.53,17.19 L 20.75,16.8 A 2,2 0 0 0 20.02,14.07 L 19.87,13.99 A 2,2 0 0 1 18.87,12.25 V 11.75 A 2,2 0 0 1 19.87,10.01 L 20.02,9.92 A 2,2 0 0 0 20.75,7.19 L 20.53,6.81 A 2,2 0 0 0 17.8,6.08 L 17.65,6.16 A 2,2 0 0 1 15.65,6.16 L 15.22,5.91 A 2,2 0 0 1 14.22,4.18 V 4 A 2,2 0 0 0 12.22,2 Z M 12,9 A 3,3 0 1 0 15,12 A 3,3 0 0 0 12,9 Z</Geometry>
+        <Geometry x:Key="IconMail">M 4,4 H 20 A 2,2 0 0 1 22,6 V 18 A 2,2 0 0 1 20,20 H 4 A 2,2 0 0 1 2,18 V 6 A 2,2 0 0 1 4,4 Z M 22,7 L 13.03,12.7 A 1.94,1.94 0 0 1 10.97,12.7 L 2,7</Geometry>
+        <Geometry x:Key="IconPencil">M 17,3 A 2.85,2.83 0 1 1 21,7 L 7.5,20.5 L 2,22 L 3.5,16.5 Z M 15,5 L 19,9</Geometry>
+        <Geometry x:Key="IconShield">M 20,13 C 20,18 16.5,20.5 12.34,21.95 A 1,1 0 0 1 11.68,21.95 C 7.5,20.5 4,18 4,13 V 6 A 1,1 0 0 1 5,5 C 7,5 9.5,3.8 11.24,2.28 A 1.17,1.17 0 0 1 12.76,2.28 C 14.51,3.81 17,5 19,5 A 1,1 0 0 1 20,6 Z</Geometry>
+        <Geometry x:Key="IconLock">M 5,11 H 19 A 2,2 0 0 1 21,13 V 20 A 2,2 0 0 1 19,22 H 5 A 2,2 0 0 1 3,20 V 13 A 2,2 0 0 1 5,11 Z M 7,11 V 7 A 5,5 0 0 1 17,7 V 11 M 12,15 V 17</Geometry>
+        <Geometry x:Key="IconLogOut">M 9,21 H 5 A 2,2 0 0 1 3,19 V 5 A 2,2 0 0 1 5,3 H 9 M 16,17 L 21,12 L 16,7 M 21,12 H 9</Geometry>
+        <Geometry x:Key="IconChevronRight">M 9,18 L 15,12 L 9,6</Geometry>
+        <Geometry x:Key="IconBell">M 6,8 A 6,6 0 0 1 18,8 C 18,15 21,17 21,17 H 3 C 3,17 6,15 6,8 M 10.3,21 A 1.94,1.94 0 0 0 13.7,21</Geometry>
+        <Geometry x:Key="IconGraduationCap">M 21.42,10.922 A 1,1 0 0 0 21.42,9.082 L 12.90,5.21 A 2,2 0 0 0 11.10,5.21 L 2.58,9.08 A 1,1 0 0 0 2.58,10.92 L 11.10,14.79 A 2,2 0 0 0 12.90,14.79 Z M 22,10 V 16 M 6,12.5 V 16 A 6,3 0 0 0 18,16 V 12.5</Geometry>
+        <Geometry x:Key="IconTrophy">M 6,9 H 4.5 A 2.5,2.5 0 0 1 4.5,4 H 6 M 18,9 H 19.5 A 2.5,2.5 0 0 0 19.5,4 H 18 M 4,22 H 20 M 10,14.66 V 17 C 10,17.55 9.53,17.98 9.03,18.21 C 7.85,18.75 7,20.24 7,22 M 14,14.66 V 17 C 14,17.55 14.47,17.98 14.97,18.21 C 16.15,18.75 17,20.24 17,22 M 18,2 H 6 V 9 A 6,6 0 0 0 18,9 Z</Geometry>
+        <Geometry x:Key="IconCalendar">M 8,2 V 6 M 16,2 V 6 M 3,10 H 21 M 5,4 H 19 A 2,2 0 0 1 21,6 V 20 A 2,2 0 0 1 19,22 H 5 A 2,2 0 0 1 3,20 V 6 A 2,2 0 0 1 5,4 Z M 8,14 H 8.01 M 12,14 H 12.01 M 16,14 H 16.01 M 8,18 H 8.01 M 12,18 H 12.01 M 16,18 H 16.01</Geometry>
+
+        <!-- Focus Visual -->
+        <Style x:Key="SettingsFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderBrush="#15803D" BorderThickness="2" CornerRadius="14" Margin="-3" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- White Settings Card Style -->
+        <Style x:Key="SettingsCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#E3ECE6" />
+            <Setter Property="BorderThickness" Value="1.2" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="24" />
+            <Setter Property="Effect" Value="{StaticResource SettingsCardShadow}" />
+        </Style>
+
+        <!-- Edit Profile Mint Pill Button -->
+        <Style x:Key="EditProfilePillStyle" TargetType="Button">
+            <Setter Property="Height" Value="42" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource SettingsFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="pillBorder"
+                                Background="#EEF8F2"
+                                BorderBrush="#C5E5D1"
+                                BorderThickness="1.2"
+                                CornerRadius="12"
+                                Padding="18,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Viewbox Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center">
+                                    <Path Data="{StaticResource IconPencil}"
+                                          Stroke="#15803D"
+                                          StrokeThickness="2"
+                                          StrokeStartLineCap="Round"
+                                          StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round" />
+                                </Viewbox>
+                                <TextBlock Text="{TemplateBinding Content}"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1E293B"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="pillBorder" Property="Background" Value="#E1F3E8" />
+                                <Setter TargetName="pillBorder" Property="BorderBrush" Value="#86CFA6" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="pillBorder" Property="Background" Value="#D3ECDD" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="pillBorder" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Security Action Row Button Style -->
+        <Style x:Key="SecurityRowButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="52" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource SettingsFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="rowBg"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="rowBg" Property="Background" Value="#F4F9F6" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="rowBg" Property="Background" Value="#EAF3EE" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Danger Action Row Button Style ("Đăng xuất") -->
+        <Style x:Key="DangerRowButtonStyle" TargetType="Button" BasedOn="{StaticResource SecurityRowButtonStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="rowBg"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="rowBg" Property="Background" Value="#FEF2F2" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="rowBg" Property="Background" Value="#FEE2E2" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Pill Toggle Switch Style (CheckBox) -->
+        <Style x:Key="PillToggleSwitchStyle" TargetType="CheckBox">
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource SettingsFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="track"
+                                Width="50"
+                                Height="28"
+                                CornerRadius="14"
+                                Background="#CBD5E1"
+                                Padding="3">
+                            <Ellipse x:Name="thumb"
+                                     Width="22"
+                                     Height="22"
+                                     Fill="#FFFFFF"
+                                     HorizontalAlignment="Left"
+                                     Effect="{StaticResource SwitchThumbShadow}">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform x:Name="thumbTranslate" X="0" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="track" Property="Background" Value="#15803D" />
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="thumbTranslate"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="22"
+                                                             Duration="0:0:0.20">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="thumbTranslate"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="0"
+                                                             Duration="0:0:0.14">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="track" Property="Opacity" Value="0.92" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="track" Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <Grid Margin="32,24" MaxWidth="1100">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.1*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Border Padding="{Binding PagePadding, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <StackPanel MaxWidth="1180" HorizontalAlignment="Stretch">
 
-            <!-- ============================================== -->
-            <!-- LEFT COLUMN: Profile Card, Stats & Saved Vocab -->
-            <!-- ============================================== -->
-            <StackPanel Grid.Column="0" Margin="0,0,24,0">
-                <!-- 1. Profile Header Card -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,0,16" Effect="{DynamicResource CardShadow}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                <!-- ============================================================ -->
+                <!-- 1. PAGE HEADER                                               -->
+                <!-- ============================================================ -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,22" VerticalAlignment="Center">
+                    <Viewbox Width="38" Height="38" Margin="0,0,14,0" VerticalAlignment="Center">
+                        <Path Data="{StaticResource IconSettings}"
+                              Fill="#15803D"
+                              Stroke="#15803D"
+                              StrokeThickness="0.6" />
+                    </Viewbox>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Cài đặt"
+                                   FontSize="27"
+                                   FontWeight="ExtraBold"
+                                   Foreground="#0F172A"
+                                   LineHeight="30" />
+                        <TextBlock Text="Tùy chỉnh trải nghiệm học tập của bạn"
+                                   FontSize="13.5"
+                                   Foreground="#64748B"
+                                   Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
 
-                        <!-- Avatar -->
-                        <Border Grid.Column="0" Width="64" Height="64" CornerRadius="32" Background="{DynamicResource PrimaryTintBrush}" BorderBrush="{DynamicResource PrimaryLightBorderBrush}" BorderThickness="2" Margin="0,0,16,0">
-                            <TextBlock Text="🐼" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <!-- ============================================================ -->
+                <!-- 2. TWO-COLUMN SETTINGS GRID                                  -->
+                <!-- ============================================================ -->
+                <Grid x:Name="SettingsColumnsGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.05*" />
+                        <ColumnDefinition x:Name="SettingsColGap" Width="24" />
+                        <ColumnDefinition x:Name="SettingsColRight" Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- ======================================================== -->
+                    <!-- LEFT COLUMN: Thông tin tài khoản + Bảo mật               -->
+                    <!-- ======================================================== -->
+                    <StackPanel Grid.Column="0" Grid.Row="0">
+
+                        <!-- CARD 1: THÔNG TIN TÀI KHOẢN -->
+                        <Border Style="{StaticResource SettingsCardStyle}" Margin="0,0,0,20">
+                            <StackPanel>
+                                <!-- Section Title -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20" VerticalAlignment="Center">
+                                    <Border Width="4" Height="18" Background="#15803D" CornerRadius="2" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="Thông tin tài khoản"
+                                               FontSize="17"
+                                               FontWeight="Bold"
+                                               Foreground="#0F172A"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Avatar & User Summary Row -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="24" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Circular Panda Avatar + Edit Badge -->
+                                    <Grid Grid.Column="0" Width="132" Height="132" VerticalAlignment="Center">
+                                        <Border Width="128"
+                                                Height="128"
+                                                CornerRadius="64"
+                                                Background="#E4F6EC"
+                                                BorderBrush="#CFEAD9"
+                                                BorderThickness="1.5"
+                                                views:ProfileSettingsView.IsCircularClip="True">
+                                            <Image Source="pack://application:,,,/Assets/dashboard_panda_cutout.png"
+                                                   Width="172"
+                                                   Height="154"
+                                                   Stretch="Uniform"
+                                                   Margin="-22,12,-22,-38"
+                                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                                        </Border>
+
+                                        <!-- Floating Green Pencil Edit Badge -->
+                                        <Button Command="{Binding ToggleEditProfileCommand}"
+                                                Width="34"
+                                                Height="34"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Margin="0,0,4,4"
+                                                Cursor="Hand"
+                                                BorderThickness="0"
+                                                ToolTip="Chỉnh sửa hồ sơ"
+                                                FocusVisualStyle="{StaticResource SettingsFocusVisual}">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="badgeBg"
+                                                            CornerRadius="17"
+                                                            Background="#15803D"
+                                                            BorderBrush="#FFFFFF"
+                                                            BorderThickness="2.5">
+                                                        <Viewbox Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <Path Data="{StaticResource IconPencil}"
+                                                                  Stroke="White"
+                                                                  StrokeThickness="2.2"
+                                                                  StrokeStartLineCap="Round"
+                                                                  StrokeEndLineCap="Round"
+                                                                  StrokeLineJoin="Round" />
+                                                        </Viewbox>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="badgeBg" Property="Background" Value="#166534" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="badgeBg" Property="Opacity" Value="0.85" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </Grid>
+
+                                    <!-- User Name, Email & Edit Profile Button -->
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding FullName, TargetNullValue='Minh Đạt'}"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Foreground="#0F172A"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,0,0,6" />
+
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16" VerticalAlignment="Center">
+                                            <Viewbox Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center">
+                                                <Path Data="{StaticResource IconMail}"
+                                                      Stroke="#64748B"
+                                                      StrokeThickness="1.9"
+                                                      StrokeStartLineCap="Round"
+                                                      StrokeEndLineCap="Round"
+                                                      StrokeLineJoin="Round" />
+                                            </Viewbox>
+                                            <TextBlock Text="{Binding Email, TargetNullValue='minhdat@gmail.com'}"
+                                                       FontSize="14.5"
+                                                       Foreground="#64748B"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+
+                                        <Button Content="Chỉnh sửa hồ sơ"
+                                                Style="{StaticResource EditProfilePillStyle}"
+                                                Command="{Binding ToggleEditProfileCommand}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Profile Update Feedback -->
+                                <TextBlock Text="{Binding ProfileMessage}"
+                                           Visibility="{Binding HasProfileMessage, Converter={StaticResource BoolToVisibility}}"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#15803D"
+                                           Margin="0,12,0,0" />
+
+                                <!-- Inline Collapsible Edit Profile Panel -->
+                                <Border Visibility="{Binding IsEditingProfile, Converter={StaticResource BoolToVisibility}}"
+                                        Background="#F8FBF9"
+                                        BorderBrush="#DCECE2"
+                                        BorderThickness="1"
+                                        CornerRadius="14"
+                                        Padding="16"
+                                        Margin="0,18,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Cập nhật thông tin cá nhân"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   Foreground="#0F172A"
+                                                   Margin="0,0,0,12" />
+
+                                        <TextBlock Text="Họ và tên" FontSize="12.5" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                 Style="{StaticResource ModernTextBox}"
+                                                 Margin="0,0,0,10" />
+
+                                        <TextBlock Text="Email" FontSize="12.5" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                                 Style="{StaticResource ModernTextBox}"
+                                                 Margin="0,0,0,14" />
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Content="Hủy"
+                                                    Command="{Binding CancelEditProfileCommand}"
+                                                    Style="{StaticResource OutlineButton}"
+                                                    Margin="0,0,10,0"
+                                                    Padding="16,8" />
+                                            <Button Content="Lưu thay đổi"
+                                                    Command="{Binding SaveProfileCommand}"
+                                                    Style="{DynamicResource PrimaryButton}"
+                                                    Padding="18,8" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
                         </Border>
 
-                        <!-- User Info -->
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding FullName}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,2" />
-                            <TextBlock Text="{Binding Email}" FontSize="13.5" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,6" />
-                            <Border Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left">
-                                <TextBlock Text="⭐ Thành viên Premium" FontSize="13" FontWeight="Bold" Foreground="#B45309" />
-                            </Border>
-                        </StackPanel>
-
-                        <!-- Edit Profile Button -->
-                        <Button Grid.Column="2" Command="{Binding SaveProfileCommand}" Style="{StaticResource OutlineButton}" Padding="14,8" VerticalAlignment="Center">
-                            <TextBlock Text="✏ Chỉnh sửa hồ sơ" FontSize="13.5" FontWeight="SemiBold" />
-                        </Button>
-                    </Grid>
-                </Border>
-
-                <!-- 2. Learning Stats 4-Card UniformGrid -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Margin="0,0,0,16" Effect="{DynamicResource CardShadow}">
-                    <StackPanel>
-                        <TextBlock Text="Thống kê học tập" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,14" />
-                        <UniformGrid Columns="2">
-                            <!-- Stat 1 -->
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="12" Padding="14,12" Margin="0,0,8,8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="🎙" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding WordsCount, StringFormat='{}{0:#,0}'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Từ vựng đã học" FontSize="13.5" Foreground="{DynamicResource TextMutedBrush}" />
-                                    </StackPanel>
+                        <!-- CARD 2: BẢO MẬT -->
+                        <Border Style="{StaticResource SettingsCardStyle}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12" VerticalAlignment="Center">
+                                    <Viewbox Width="20" Height="20" Margin="0,0,10,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconShield}"
+                                              Fill="#15803D"
+                                              Stroke="#15803D"
+                                              StrokeThickness="1.2" />
+                                    </Viewbox>
+                                    <TextBlock Text="Bảo mật"
+                                               FontSize="17"
+                                               FontWeight="Bold"
+                                               Foreground="#0F172A"
+                                               VerticalAlignment="Center" />
                                 </StackPanel>
-                            </Border>
 
-                            <!-- Stat 2 -->
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="12" Padding="14,12" Margin="8,0,0,8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="🎧" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding ListeningCount}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Bài nghe" FontSize="13.5" Foreground="{DynamicResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
+                                <!-- Row 1: Đổi mật khẩu -->
+                                <Button Style="{StaticResource SecurityRowButtonStyle}"
+                                        Command="{Binding ToggleChangePasswordCommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Viewbox Width="18" Height="18" Margin="0,0,14,0" VerticalAlignment="Center">
+                                                <Path Data="{StaticResource IconLock}"
+                                                      Stroke="#334155"
+                                                      StrokeThickness="2"
+                                                      StrokeStartLineCap="Round"
+                                                      StrokeEndLineCap="Round"
+                                                      StrokeLineJoin="Round" />
+                                            </Viewbox>
+                                            <TextBlock Text="Đổi mật khẩu"
+                                                       FontSize="15"
+                                                       FontWeight="Medium"
+                                                       Foreground="#0F172A"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <Viewbox Width="17" Height="17" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource IconChevronRight}"
+                                                  Stroke="#64748B"
+                                                  StrokeThickness="2.2"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  StrokeLineJoin="Round" />
+                                        </Viewbox>
+                                    </Grid>
+                                </Button>
 
-                            <!-- Stat 3 -->
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="12" Padding="14,12" Margin="0,8,8,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✍" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding WritingCount}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Bài viết" FontSize="13.5" Foreground="{DynamicResource TextMutedBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
+                                <!-- Inline Collapsible Change Password Panel -->
+                                <Border Visibility="{Binding IsChangingPassword, Converter={StaticResource BoolToVisibility}}"
+                                        Background="#F8FBF9"
+                                        BorderBrush="#DCECE2"
+                                        BorderThickness="1"
+                                        CornerRadius="14"
+                                        Padding="16"
+                                        Margin="0,8,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="Mật khẩu hiện tại" FontSize="12.5" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding OldPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,10" />
 
-                            <!-- Stat 4 -->
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="12" Padding="14,12" Margin="8,8,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📖" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding ReadingCount}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" />
-                                        <TextBlock Text="Bài đọc" FontSize="13.5" Foreground="{DynamicResource TextMutedBrush}" />
+                                        <TextBlock Text="Mật khẩu mới (tối thiểu 6 ký tự)" FontSize="12.5" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,10" />
+
+                                        <TextBlock Text="Xác nhận mật khẩu mới" FontSize="12.5" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding ConfirmNewPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12" />
+
+                                        <Grid>
+                                            <Button Command="{Binding ChangePasswordCommand}"
+                                                    Content="Cập nhật mật khẩu"
+                                                    Style="{DynamicResource PrimaryButton}"
+                                                    Padding="16,9"
+                                                    FontSize="13.5"
+                                                    HorizontalAlignment="Left" />
+                                            <TextBlock Text="{Binding PasswordMessage}"
+                                                       FontSize="12.5"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#15803D"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       TextWrapping="Wrap" />
+                                        </Grid>
                                     </StackPanel>
-                                </StackPanel>
-                            </Border>
-                        </UniformGrid>
+                                </Border>
+
+                                <Border Height="1" Background="#EDF2EF" Margin="8,4" />
+
+                                <!-- Row 2: Đăng xuất -->
+                                <Button Style="{StaticResource DangerRowButtonStyle}"
+                                        Command="{Binding LogoutCommand}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Viewbox Width="18" Height="18" Margin="0,0,14,0" VerticalAlignment="Center">
+                                                <Path Data="{StaticResource IconLogOut}"
+                                                      Stroke="#DC2626"
+                                                      StrokeThickness="2"
+                                                      StrokeStartLineCap="Round"
+                                                      StrokeEndLineCap="Round"
+                                                      StrokeLineJoin="Round" />
+                                            </Viewbox>
+                                            <TextBlock Text="Đăng xuất"
+                                                       FontSize="15"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#DC2626"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <Viewbox Width="17" Height="17" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Path Data="{StaticResource IconChevronRight}"
+                                                  Stroke="#64748B"
+                                                  StrokeThickness="2.2"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"
+                                                  StrokeLineJoin="Round" />
+                                        </Viewbox>
+                                    </Grid>
+                                </Button>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
-                </Border>
 
-                <!-- 3. Saved Vocabulary Quick View -->
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="20" Effect="{DynamicResource CardShadow}">
-                    <StackPanel>
-                        <TextBlock Text="Từ vựng đã lưu" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,12" />
+                    <!-- ======================================================== -->
+                    <!-- RIGHT COLUMN: Tùy chọn thông báo                         -->
+                    <!-- ======================================================== -->
+                    <StackPanel x:Name="RightColumnPanel" Grid.Column="2" Grid.Row="0">
+                        <Border Style="{StaticResource SettingsCardStyle}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,18" VerticalAlignment="Center">
+                                    <Viewbox Width="20" Height="20" Margin="0,0,10,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconBell}"
+                                              Fill="#15803D"
+                                              Stroke="#15803D"
+                                              StrokeThickness="1.2" />
+                                    </Viewbox>
+                                    <TextBlock Text="Tùy chọn thông báo"
+                                               FontSize="17"
+                                               FontWeight="Bold"
+                                               Foreground="#0F172A"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
 
-                        <!-- Sub tabs -->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <Border Background="{DynamicResource PrimaryTintBrush}" CornerRadius="6" Padding="10,4" Margin="0,0,6,0">
-                                <TextBlock Text="Đang học (12)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" />
-                            </Border>
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="6" Padding="10,4" Margin="0,0,6,0">
-                                <TextBlock Text="Đã học (1.248)" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" />
-                            </Border>
-                            <Border Background="{DynamicResource SubCardBackgroundBrush}" CornerRadius="6" Padding="10,4">
-                                <TextBlock Text="Đánh dấu (28)" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" />
-                            </Border>
-                        </StackPanel>
+                                <!-- Row 1: Nhắc nhở học mỗi ngày -->
+                                <Grid Margin="0,4,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                        <!-- Vocab Items List -->
-                        <Grid Margin="0,0,0,8">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="你好" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="nǐ hǎo" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="Xin chào" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
+                                    <Viewbox Grid.Column="0" Width="21" Height="21" Margin="0,0,16,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconGraduationCap}"
+                                              Fill="#334155"
+                                              Stroke="#334155"
+                                              StrokeThickness="0.8" />
+                                    </Viewbox>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                        <TextBlock Text="Nhắc nhở học mỗi ngày"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#0F172A" />
+                                        <TextBlock Text="Nhận thông báo nhắc học hàng ngày"
+                                                   FontSize="12.5"
+                                                   Foreground="#64748B"
+                                                   Margin="0,3,0,0"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Column="2"
+                                              Style="{StaticResource PillToggleSwitchStyle}"
+                                              IsChecked="{Binding IsDailyReminderEnabled}"
+                                              VerticalAlignment="Center" />
+                                </Grid>
+
+                                <Border Height="1" Background="#EDF2EF" Margin="0,0,0,16" />
+
+                                <!-- Row 2: Thông báo thành tích -->
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Viewbox Grid.Column="0" Width="20" Height="20" Margin="0,0,17,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconTrophy}"
+                                              Fill="#334155"
+                                              Stroke="#334155"
+                                              StrokeThickness="0.8" />
+                                    </Viewbox>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                        <TextBlock Text="Thông báo thành tích"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#0F172A" />
+                                        <TextBlock Text="Nhận thông báo khi đạt thành tích"
+                                                   FontSize="12.5"
+                                                   Foreground="#64748B"
+                                                   Margin="0,3,0,0"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Column="2"
+                                              Style="{StaticResource PillToggleSwitchStyle}"
+                                              IsChecked="{Binding IsAchievementNotificationEnabled}"
+                                              VerticalAlignment="Center" />
+                                </Grid>
+
+                                <Border Height="1" Background="#EDF2EF" Margin="0,0,0,16" />
+
+                                <!-- Row 3: Thông báo sự kiện -->
+                                <Grid Margin="0,0,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Viewbox Grid.Column="0" Width="20" Height="20" Margin="0,0,17,0" VerticalAlignment="Center">
+                                        <Path Data="{StaticResource IconCalendar}"
+                                              Stroke="#334155"
+                                              StrokeThickness="2"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round" />
+                                    </Viewbox>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                        <TextBlock Text="Thông báo sự kiện"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#0F172A" />
+                                        <TextBlock Text="Nhận thông báo về các sự kiện mới"
+                                                   FontSize="12.5"
+                                                   Foreground="#64748B"
+                                                   Margin="0,3,0,0"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Column="2"
+                                              Style="{StaticResource PillToggleSwitchStyle}"
+                                              IsChecked="{Binding IsEventNotificationEnabled}"
+                                              VerticalAlignment="Center" />
+                                </Grid>
                             </StackPanel>
-                            <TextBlock Text="›" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" />
-                        </Grid>
-                        <Border Height="1" Background="{DynamicResource BorderLightBrush}" Margin="0,0,0,8" />
-
-                        <Grid Margin="0,0,0,8">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="谢谢" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="xièxie" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="Cảm ơn" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
-                            </StackPanel>
-                            <TextBlock Text="›" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" />
-                        </Grid>
-                        <Border Height="1" Background="{DynamicResource BorderLightBrush}" Margin="0,0,0,8" />
-
-                        <Grid>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="学习" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="xuéxí" FontSize="13" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,12,0" />
-                                <TextBlock Text="Học tập, học" FontSize="13" Foreground="{DynamicResource TextMutedBrush}" />
-                            </StackPanel>
-                            <TextBlock Text="›" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Right" />
-                        </Grid>
+                        </Border>
                     </StackPanel>
-                </Border>
+                </Grid>
+
             </StackPanel>
-
-            <!-- ============================================== -->
-            <!-- RIGHT COLUMN: Preferences & Settings           -->
-            <!-- ============================================== -->
-            <StackPanel Grid.Column="1">
-                <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource BorderLightBrush}" BorderThickness="1" CornerRadius="16" Padding="24" Effect="{DynamicResource CardShadow}">
-                    <StackPanel>
-                        <TextBlock Text="Tùy chọn &amp; Cài đặt" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,16" />
-
-                        <!-- Audio Toggle -->
-                        <Grid Margin="0,0,0,14">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="🔊 " FontSize="14" VerticalAlignment="Center" />
-                                <TextBlock Text="Âm thanh hiệu ứng" FontSize="13.5" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" />
-                            </StackPanel>
-                            <CheckBox IsChecked="{Binding IsSoundEnabled}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        </Grid>
-
-                        <!-- Volume Slider -->
-                        <StackPanel Margin="0,0,0,16">
-                            <Grid Margin="0,0,0,6">
-                                <TextBlock Text="Âm lượng" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" />
-                                <TextBlock Text="{Binding VolumeLevel, StringFormat='{}{0:0}%'}" FontSize="12.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" />
-                            </Grid>
-                            <Slider Value="{Binding VolumeLevel}" Minimum="0" Maximum="100" />
-                        </StackPanel>
-
-                        <!-- Change Password Form -->
-                        <Border Height="1" Background="{DynamicResource BorderLightBrush}" Margin="0,0,0,14" />
-                        <TextBlock Text="Đổi mật khẩu tài khoản" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8" />
-
-                        <TextBlock Text="Mật khẩu hiện tại" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                        <TextBox Text="{Binding OldPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,8" />
-
-                        <TextBlock Text="Mật khẩu mới (tối thiểu 6 ký tự)" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                        <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,8" />
-
-                        <TextBlock Text="Xác nhận mật khẩu mới" FontSize="13.5" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4" />
-                        <TextBox Text="{Binding ConfirmNewPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}" Margin="0,0,0,10" />
-
-                        <Grid Margin="0,0,0,14">
-                            <Button Command="{Binding ChangePasswordCommand}" Content="Cập nhật mật khẩu" Style="{DynamicResource PrimaryButton}" Padding="18,10" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Left" />
-                            <TextBlock Text="{Binding PasswordMessage}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        </Grid>
-
-                        <!-- Logout Button -->
-                        <Border Height="1" Background="{DynamicResource BorderLightBrush}" Margin="0,0,0,16" />
-                        <Button Command="{Binding LogoutCommand}"
-                                Style="{StaticResource OutlineButton}"
-                                Height="42"
-                                BorderBrush="{DynamicResource PrimaryLightBorderBrush}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="➜] " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,6,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Đăng xuất tài khoản" FontSize="13.5" FontWeight="Bold" Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </Grid>
+        </Border>
     </ScrollViewer>
 </UserControl>
-

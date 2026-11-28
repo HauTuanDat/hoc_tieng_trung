@@ -1,8 +1,79 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Threading;
+using QuizApp.Models;
 using QuizApp.Services;
 
 namespace QuizApp.ViewModels;
+
+public class ArenaModeItem
+{
+    public string Id { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string Subtitle { get; set; } = string.Empty;
+    public string DurationText { get; set; } = string.Empty;
+    public string QuizMode { get; set; } = "MeaningToHanzi";
+    public string TagText { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+}
+
+public class ArenaLeaderboardItem
+{
+    public int Rank { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string ScoreText { get; set; } = string.Empty;
+    public string AvatarKind { get; set; } = "panda";
+    public string LevelTag { get; set; } = "HSK 3";
+    public string WinRateText { get; set; } = "80%";
+    public bool IsCurrentUser { get; set; }
+    public bool IsTop1 => Rank == 1;
+    public bool IsTop2 => Rank == 2;
+    public bool IsTop3 => Rank == 3;
+    public bool IsTopThree => Rank <= 3;
+    public string RankBadgeBg => Rank switch
+    {
+        1 => "#FACC15",
+        2 => "#CBD5E1",
+        3 => "#EA9A64",
+        _ => "Transparent"
+    };
+    public string RankBadgeBorder => Rank switch
+    {
+        1 => "#EAB308",
+        2 => "#94A3B8",
+        3 => "#C26E38",
+        _ => "Transparent"
+    };
+    public string RankBadgeFg => Rank switch
+    {
+        1 => "#713F12",
+        2 => "#334155",
+        3 => "#7C2D12",
+        _ => "#64748B"
+    };
+}
+
+public class ArenaHskLevelOption : ViewModelBase
+{
+    private bool _isSelected;
+    public string Level { get; set; } = "HSK 1";
+
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
+    }
+}
+
+public class ArenaBadgeItem
+{
+    public string Title { get; set; } = string.Empty;
+    public string Subtitle { get; set; } = string.Empty;
+    public string IconKey { get; set; } = "medal";
+    public bool IsUnlocked { get; set; }
+    public string TintBg { get; set; } = "#FFF5DF";
+    public string IconColor { get; set; } = "#D97706";
+}
 
 public class GameSubLevelItem : ViewModelBase
 {
@@ -69,36 +140,6 @@ public class GameSubLevelItem : ViewModelBase
         get => _highScore;
         set => SetProperty(ref _highScore, value);
     }
-
-    public string StatusBadgeText
-    {
-        get
-        {
-            if (IsCompleted) return "Đã hoàn thành";
-            if (IsCurrent) return "Ải hiện tại • Sẵn sàng!";
-            return "Đang khóa";
-        }
-    }
-
-    public string StatusBadgeBg
-    {
-        get
-        {
-            if (IsCompleted) return "#E8F5EE";
-            if (IsCurrent) return "#FEF3C7";
-            return "#F1F5F9";
-        }
-    }
-
-    public string StatusBadgeFg
-    {
-        get
-        {
-            if (IsCompleted) return "#198754";
-            if (IsCurrent) return "#D97706";
-            return "#64748B";
-        }
-    }
 }
 
 public class HskWorldBoardItem : ViewModelBase
@@ -113,13 +154,8 @@ public class HskWorldBoardItem : ViewModelBase
     public string Subtitle { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int VocabCount { get; set; }
-    public string Icon { get; set; } = "🌱";
     public string AccentColor { get; set; } = "#198754";
-    public string TintBg { get; set; } = "#E8F5EE";
-    public string GradientStart { get; set; } = "#198754";
-    public string GradientEnd { get; set; } = "#157347";
     public bool IsLocked { get; set; }
-
     public ObservableCollection<GameSubLevelItem> SubLevels { get; } = new();
 
     public bool IsSelected
@@ -153,10 +189,9 @@ public class HskWorldBoardItem : ViewModelBase
         }
     }
 
-    public int MaxStars => 30; // 10 levels * 3
-    public string StarsText => $"{TotalStarsEarned}/{MaxStars} ⭐";
+    public int MaxStars => 30;
+    public string StarsText => $"{TotalStarsEarned}/{MaxStars}";
     public string ProgressText => $"{CompletedLevelsCount}/10 Ải";
-    public string TrophyText => $"{CompletedLevelsCount}/10 Ải 🏆";
     public double ProgressPercent => CompletedLevelsCount * 10.0;
 }
 
@@ -165,84 +200,137 @@ public class GameMapViewModel : ViewModelBase
     private readonly IHskService _hskService;
     private readonly Action<string, string> _onStartQuiz;
     private readonly Action _onBack;
+    private readonly DispatcherTimer _seasonTimer;
 
-    private HskWorldBoardItem? _selectedWorld;
-    private GameSubLevelItem? _selectedSubLevel;
-    private bool _isLevelDetailOpen;
+    private TimeSpan _seasonRemaining = new(12, 8, 24, 17);
 
     // Player stats
     private string _playerName = "Minh Đạt";
     private int _playerLevel = 7;
     private int _playerExp = 2460;
     private int _expToNextLevel = 3000;
-    private int _totalStars = 68;
-    private int _streakDays = 7;
+    private int _currentRank = 128;
+    private int _rankDelta = 12;
+    private int _matchesPlayed = 42;
+    private int _winRatePercent = 76;
+    private int _bestWinStreak = 12;
+    private int _currentScore = 2860;
     private int _gems = 350;
 
-    public GameMapViewModel(IHskService hskService, Action<string, string> onStartQuiz, Action onBack)
+    // Leaderboard state
+    private string _selectedLeaderboardPeriod = "Tuần này";
+
+    // Modal state
+    private bool _isModeModalOpen;
+    private bool _isRewardsModalOpen;
+    private ArenaModeItem? _selectedMode;
+    private string _selectedMatchLevel = "HSK 3";
+
+    private HskWorldBoardItem? _selectedWorld;
+
+    public GameMapViewModel(IHskService hskService, Action<string, string> onStartQuiz, Action onBack, User? user = null)
     {
         _hskService = hskService;
         _onStartQuiz = onStartQuiz;
         _onBack = onBack;
 
-        SelectWorldCommand = new RelayCommand(param =>
+        if (user != null)
         {
-            if (param is HskWorldBoardItem world)
+            if (!string.IsNullOrWhiteSpace(user.FullName))
             {
-                SelectWorld(world);
+                _playerName = user.FullName;
             }
-            else if (param is string levelKey)
+            if (!string.IsNullOrWhiteSpace(user.CurrentLevel))
             {
-                var found = Worlds.FirstOrDefault(w => w.LevelKey.Equals(levelKey, StringComparison.OrdinalIgnoreCase));
-                if (found != null) SelectWorld(found);
+                SelectedMatchLevel = user.CurrentLevel;
+            }
+            if (user.StreakDays > 0)
+            {
+                _bestWinStreak = Math.Max(_bestWinStreak, user.StreakDays);
+            }
+        }
+
+        SelectLeaderboardPeriodCommand = new RelayCommand(param =>
+        {
+            if (param is string period)
+            {
+                SelectedLeaderboardPeriod = period;
             }
         });
 
-        SelectSubLevelCommand = new RelayCommand(param =>
+        OpenModeModalCommand = new RelayCommand(param =>
         {
-            if (param is GameSubLevelItem subLevel)
+            if (param is string modeId)
             {
-                SelectedSubLevel = subLevel;
-                IsLevelDetailOpen = true;
+                SelectedMode = ArenaModes.FirstOrDefault(m => m.Id == modeId) ?? ArenaModes.FirstOrDefault();
+                IsModeModalOpen = true;
+            }
+            else if (param is ArenaModeItem mode)
+            {
+                SelectedMode = mode;
+                IsModeModalOpen = true;
             }
         });
 
-        CloseLevelDetailCommand = new RelayCommand(() => IsLevelDetailOpen = false);
+        CloseModeModalCommand = new RelayCommand(() => IsModeModalOpen = false);
 
-        PlayLevelCommand = new RelayCommand(param =>
+        SelectMatchLevelCommand = new RelayCommand(param =>
         {
-            var level = param as GameSubLevelItem ?? SelectedSubLevel;
-            if (level != null && !level.IsLocked)
+            if (param is ArenaHskLevelOption opt)
             {
-                IsLevelDetailOpen = false;
-                _onStartQuiz(level.TargetHsk, "MeaningToHanzi");
+                SelectedMatchLevel = opt.Level;
+            }
+            else if (param is string lvl)
+            {
+                SelectedMatchLevel = lvl;
             }
         });
+
+        StartArenaMatchCommand = new RelayCommand(() =>
+        {
+            string quizMode = SelectedMode?.QuizMode ?? "MeaningToHanzi";
+            string targetLevel = string.IsNullOrWhiteSpace(SelectedMatchLevel) ? "HSK 1" : SelectedMatchLevel;
+            IsModeModalOpen = false;
+            IsRewardsModalOpen = false;
+            _onStartQuiz(targetLevel, quizMode);
+        });
+
+        OpenRewardsModalCommand = new RelayCommand(() => IsRewardsModalOpen = true);
+        CloseRewardsModalCommand = new RelayCommand(() => IsRewardsModalOpen = false);
 
         BackCommand = new RelayCommand(_onBack);
 
-        InitializeWorlds();
+        InitializeArenaData();
+        LoadLeaderboard();
+
+        _seasonTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+        _seasonTimer.Tick += (_, _) =>
+        {
+            if (_seasonRemaining.TotalSeconds > 1)
+            {
+                _seasonRemaining = _seasonRemaining.Subtract(TimeSpan.FromSeconds(1));
+                OnPropertyChanged(nameof(SeasonCountdownText));
+            }
+        };
+        _seasonTimer.Start();
     }
 
+    public ObservableCollection<ArenaModeItem> ArenaModes { get; } = new();
+    public ObservableCollection<ArenaLeaderboardItem> LeaderboardEntries { get; } = new();
+    public ObservableCollection<ArenaBadgeItem> Badges { get; } = new();
+    public ObservableCollection<ArenaHskLevelOption> AvailableHskLevels { get; } = new()
+    {
+        new ArenaHskLevelOption { Level = "HSK 1" },
+        new ArenaHskLevelOption { Level = "HSK 2" },
+        new ArenaHskLevelOption { Level = "HSK 3", IsSelected = true },
+        new ArenaHskLevelOption { Level = "HSK 4" },
+        new ArenaHskLevelOption { Level = "HSK 5" },
+        new ArenaHskLevelOption { Level = "HSK 6" }
+    };
     public ObservableCollection<HskWorldBoardItem> Worlds { get; } = new();
-
-    public HskWorldBoardItem? SelectedWorld
-    {
-        get => _selectedWorld;
-        set => SetProperty(ref _selectedWorld, value);
-    }
-
-    public GameSubLevelItem? SelectedSubLevel
-    {
-        get => _selectedSubLevel;
-        set => SetProperty(ref _selectedSubLevel, value);
-    }
-
-    public bool IsLevelDetailOpen
-    {
-        get => _isLevelDetailOpen;
-        set => SetProperty(ref _isLevelDetailOpen, value);
-    }
 
     public string PlayerName
     {
@@ -259,28 +347,82 @@ public class GameMapViewModel : ViewModelBase
     public int PlayerExp
     {
         get => _playerExp;
-        set => SetProperty(ref _playerExp, value);
+        set
+        {
+            if (SetProperty(ref _playerExp, value))
+            {
+                OnPropertyChanged(nameof(ExpPercent));
+                OnPropertyChanged(nameof(ExpProgressText));
+            }
+        }
     }
 
     public int ExpToNextLevel
     {
         get => _expToNextLevel;
-        set => SetProperty(ref _expToNextLevel, value);
+        set
+        {
+            if (SetProperty(ref _expToNextLevel, value))
+            {
+                OnPropertyChanged(nameof(ExpPercent));
+                OnPropertyChanged(nameof(ExpProgressText));
+            }
+        }
     }
 
-    public double ExpPercent => ExpToNextLevel > 0 ? (double)PlayerExp / ExpToNextLevel * 100 : 0;
+    public double ExpPercent => ExpToNextLevel > 0 ? Math.Clamp((double)PlayerExp / ExpToNextLevel * 100.0, 0, 100) : 0;
+    public string ExpProgressText => $"{PlayerExp:N0} / {ExpToNextLevel:N0} EXP";
 
-    public int TotalStars
+    public string CurrentRankText => $"Top {_currentRank}";
+    public string RankDeltaText => $"+{_rankDelta}";
+
+    public int MatchesPlayed
     {
-        get => _totalStars;
-        set => SetProperty(ref _totalStars, value);
+        get => _matchesPlayed;
+        set => SetProperty(ref _matchesPlayed, value);
     }
 
-    public int StreakDays
+    public int WinRatePercent
     {
-        get => _streakDays;
-        set => SetProperty(ref _streakDays, value);
+        get => _winRatePercent;
+        set
+        {
+            if (SetProperty(ref _winRatePercent, value))
+            {
+                OnPropertyChanged(nameof(WinRateText));
+            }
+        }
     }
+
+    public string WinRateText => $"{WinRatePercent}%";
+
+    public int BestWinStreak
+    {
+        get => _bestWinStreak;
+        set
+        {
+            if (SetProperty(ref _bestWinStreak, value))
+            {
+                OnPropertyChanged(nameof(BestWinStreakText));
+            }
+        }
+    }
+
+    public string BestWinStreakText => $"{BestWinStreak} trận";
+
+    public int CurrentScore
+    {
+        get => _currentScore;
+        set
+        {
+            if (SetProperty(ref _currentScore, value))
+            {
+                OnPropertyChanged(nameof(CurrentScoreText));
+            }
+        }
+    }
+
+    public string CurrentScoreText => CurrentScore.ToString("N0");
 
     public int Gems
     {
@@ -288,256 +430,145 @@ public class GameMapViewModel : ViewModelBase
         set => SetProperty(ref _gems, value);
     }
 
-    public ICommand SelectWorldCommand { get; }
-    public ICommand SelectSubLevelCommand { get; }
-    public ICommand CloseLevelDetailCommand { get; }
-    public ICommand PlayLevelCommand { get; }
+    public string SeasonTitle => "Mùa 7 - Thách Đấu";
+    public string SeasonCountdownText =>
+        $"{(int)_seasonRemaining.TotalDays} ngày  {_seasonRemaining.Hours:D2}:{_seasonRemaining.Minutes:D2}:{_seasonRemaining.Seconds:D2}";
+
+    public string SelectedLeaderboardPeriod
+    {
+        get => _selectedLeaderboardPeriod;
+        set
+        {
+            if (SetProperty(ref _selectedLeaderboardPeriod, value))
+            {
+                OnPropertyChanged(nameof(IsWeekTabActive));
+                OnPropertyChanged(nameof(IsMonthTabActive));
+                OnPropertyChanged(nameof(IsAllTabActive));
+                LoadLeaderboard();
+            }
+        }
+    }
+
+    public bool IsWeekTabActive => SelectedLeaderboardPeriod == "Tuần này";
+    public bool IsMonthTabActive => SelectedLeaderboardPeriod == "Tháng này";
+    public bool IsAllTabActive => SelectedLeaderboardPeriod == "Tất cả";
+
+    public bool IsModeModalOpen
+    {
+        get => _isModeModalOpen;
+        set => SetProperty(ref _isModeModalOpen, value);
+    }
+
+    public bool IsRewardsModalOpen
+    {
+        get => _isRewardsModalOpen;
+        set => SetProperty(ref _isRewardsModalOpen, value);
+    }
+
+    public ArenaModeItem? SelectedMode
+    {
+        get => _selectedMode;
+        set => SetProperty(ref _selectedMode, value);
+    }
+
+    public string SelectedMatchLevel
+    {
+        get => _selectedMatchLevel;
+        set
+        {
+            if (SetProperty(ref _selectedMatchLevel, value))
+            {
+                foreach (var item in AvailableHskLevels)
+                {
+                    item.IsSelected = item.Level == value;
+                }
+            }
+        }
+    }
+
+    public HskWorldBoardItem? SelectedWorld
+    {
+        get => _selectedWorld;
+        set => SetProperty(ref _selectedWorld, value);
+    }
+
+    public ICommand SelectLeaderboardPeriodCommand { get; }
+    public ICommand OpenModeModalCommand { get; }
+    public ICommand CloseModeModalCommand { get; }
+    public ICommand SelectMatchLevelCommand { get; }
+    public ICommand StartArenaMatchCommand { get; }
+    public ICommand OpenRewardsModalCommand { get; }
+    public ICommand CloseRewardsModalCommand { get; }
     public ICommand BackCommand { get; }
 
-    private void SelectWorld(HskWorldBoardItem world)
+    private void InitializeArenaData()
     {
-        foreach (var w in Worlds)
+        ArenaModes.Clear();
+        ArenaModes.Add(new ArenaModeItem
         {
-            w.IsSelected = (w == world);
-        }
-        SelectedWorld = world;
+            Id = "quick",
+            Title = "Thi đấu nhanh",
+            Subtitle = "Thử thách trong 3 phút",
+            DurationText = "3 phút/trận",
+            QuizMode = "HanziToMeaning",
+            TagText = "GHÉP TRẬN TỨC THÌ",
+            Description = "Phản xạ nhanh 20 câu hỏi Hán tự và nghĩa tiếng Việt trong 3 phút để tích điểm hạng tức thì."
+        });
+        ArenaModes.Add(new ArenaModeItem
+        {
+            Id = "tournament",
+            Title = "Chế độ giải đấu",
+            Subtitle = "Tranh tài xếp hạng",
+            DurationText = "5 phút/trận",
+            QuizMode = "MeaningToHanzi",
+            TagText = "SÂN CHƠI CẠNH TRANH",
+            Description = "Thi đấu tính điểm xếp hạng chính thức Mùa 7. Vượt ngưỡng 80% để nhận thưởng huy hiệu & EXP x2."
+        });
+        ArenaModes.Add(new ArenaModeItem
+        {
+            Id = "special",
+            Title = "Thử thách đặc biệt",
+            Subtitle = "Vượt qua các chủ đề khó",
+            DurationText = "5 phút/trận",
+            QuizMode = "PinyinToMeaning",
+            TagText = "CHỦ ĐỀ NÂNG CAO",
+            Description = "Chinh phục bộ câu hỏi tổng hợp Pinyin, từ đồng nghĩa và ngữ cảnh chuyên sâu theo cấp độ HSK."
+        });
+
+        Badges.Clear();
+        Badges.Add(new ArenaBadgeItem { Title = "Tân Binh Tỏa Sáng", Subtitle = "Hoàn thành 10 trận đấu đầu tiên", IconKey = "medal", IsUnlocked = true, TintBg = "#FEF3C7", IconColor = "#D97706" });
+        Badges.Add(new ArenaBadgeItem { Title = "Chuỗi Thắng Rực Lửa", Subtitle = "Đạt chuỗi thắng 10 trận liên tiếp", IconKey = "flame", IsUnlocked = true, TintBg = "#FFEDD5", IconColor = "#EA580C" });
+        Badges.Add(new ArenaBadgeItem { Title = "Phản Xạ Siêu Tốc", Subtitle = "Đạt độ chính xác trên 90% ở Thi đấu nhanh", IconKey = "zap", IsUnlocked = true, TintBg = "#E0F2FE", IconColor = "#0284C7" });
+        Badges.Add(new ArenaBadgeItem { Title = "Chinh Phục Top 100", Subtitle = "Lọt vào bảng vàng Top 100 mùa giải", IconKey = "crown", IsUnlocked = false, TintBg = "#F1F5F9", IconColor = "#94A3B8" });
     }
 
-    private void InitializeWorlds()
+    private void LoadLeaderboard()
     {
-        Worlds.Clear();
+        LeaderboardEntries.Clear();
 
-        var definitions = new[]
+        if (SelectedLeaderboardPeriod == "Tháng này")
         {
-            (1, "HSK 1", "Đảo Khởi Nguyên", "Khởi đầu nhập môn", "Làm quen 150 chữ Hán căn bản, phát âm chuẩn Pinyin và các câu chào hỏi thường nhật.", 160, "🏯", "#0284C7", "#E0F2FE", "#0284C7", "#38BDF8", false),
-            (2, "HSK 2", "Rừng Giao Tiếp", "Phản xạ sinh hoạt", "Nắm vững 300 từ vựng cho sinh hoạt, mua sắm, gọi món và chỉ đường đời sống.", 300, "🌿", "#10B981", "#DCFCE7", "#10B981", "#34D399", false),
-            (3, "HSK 3", "Thung Lũng Tự Tin", "Hội thoại lưu loát", "Nâng tầm 600 từ vựng, tự tin trò chuyện công việc, sở thích, trường học và du lịch.", 600, "🏛️", "#8B5CF6", "#EDE9FE", "#8B5CF6", "#A78BFA", false),
-            (4, "HSK 4", "Đỉnh Núi Bứt Phá", "Trung cao cấp", "Làm chủ 1.200 từ vựng, thảo luận đa dạng các chủ đề văn hóa, xã hội và công sở.", 1200, "🧱", "#F59E0B", "#FEF3C7", "#F59E0B", "#FBBF24", false),
-            (5, "HSK 5", "Thành Trì Tinh Hoa", "Đọc hiểu nâng cao", "Chinh phục 2.500 từ vựng, đọc hiểu báo chí, xem phim không cần phụ đề và viết luận sắc bén.", 2500, "🗼", "#7C3AED", "#F3E8FF", "#7C3AED", "#A855F7", false),
-            (6, "HSK 6", "Hoàng Cung", "Lưu loát đỉnh cao", "5.000 từ vựng tinh hoa, khả năng biểu đạt cảm xúc và tư duy tự nhiên như người bản xứ.", 5000, "🏙️", "#059669", "#E6F4EA", "#059669", "#10B981", false),
-            (7, "HSK 7", "Điện Thái Cực", "Học thuật & Dịch thuật", "Hệ HSK 3.0 cao cấp: Nghiên cứu tài liệu chuyên sâu, biên dịch chuẩn xác các tài liệu học thuật.", 7000, "🔮", "#4F46E5", "#EEF2FF", "#4F46E5", "#6366F1", true),
-            (8, "HSK 8", "Tháp Đế Vương", "Lý luận & Chuyên ngành", "Văn bản cổ điển, phân tích lý luận xã hội, kinh tế & luật pháp sâu rộng bằng tiếng Hán.", 9000, "👑", "#EA580C", "#FFEDD5", "#EA580C", "#FB923C", true),
-            (9, "HSK 9", "Cửu Thiên Bất Bại", "Bậc Thầy Ngôn Ngữ", "Đỉnh cao tuyệt đối của HSK 3.0: Lưu loát vượt bậc, tư duy như một học giả ngôn ngữ thực thụ.", 11000, "🌌", "#9333EA", "#FDF2F8", "#9333EA", "#C084FC", true)
-        };
-
-        foreach (var def in definitions)
-        {
-            var world = new HskWorldBoardItem
-            {
-                HskLevel = def.Item1,
-                LevelKey = def.Item2,
-                WorldName = def.Item3,
-                Subtitle = def.Item4,
-                Description = def.Item5,
-                VocabCount = def.Item6,
-                Icon = def.Item7,
-                AccentColor = def.Item8,
-                TintBg = def.Item9,
-                GradientStart = def.Item10,
-                GradientEnd = def.Item11,
-                IsLocked = def.Item12
-            };
-
-            // Build exactly 10 sub-levels for each HSK
-            BuildSubLevelsForWorld(world);
-
-            Worlds.Add(world);
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 1, Name = "HauTuanDat", ScoreText = "48.2k", AvatarKind = "panda", LevelTag = "HSK 5", WinRateText = "91%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 2, Name = "NgọcThắng", ScoreText = "44.6k", AvatarKind = "panda", LevelTag = "HSK 4", WinRateText = "88%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 3, Name = "LýVănThuan", ScoreText = "41.9k", AvatarKind = "panda", LevelTag = "HSK 4", WinRateText = "86%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 4, Name = "MaiDat", ScoreText = "38.4k", AvatarKind = "girl", LevelTag = "HSK 3", WinRateText = "82%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 5, Name = "DatK22", ScoreText = "35.1k", AvatarKind = "boy", LevelTag = "HSK 3", WinRateText = "79%" });
         }
-
-        // Default select HSK 1
-        SelectWorld(Worlds[0]);
-    }
-
-    private void BuildSubLevelsForWorld(HskWorldBoardItem world)
-    {
-        string[] levelTitles = new[]
+        else if (SelectedLeaderboardPeriod == "Tất cả")
         {
-            "Nhập Môn Bắt Chữ",
-            "Từ Vựng Nền Tảng",
-            "Siêu Tốc Bắt Cặp",
-            "Ghép Câu Thần Tốc",
-            "Luyện Tai Tinh Mắt",
-            "Điền Chữ Vào Chỗ Trống",
-            "Phản Xạ Đối Thoại",
-            "Giải Mã Gõ Pinyin",
-            "Vượt Ải Tốc Độ",
-            "⚔️ ĐẠI CHIẾN TRÙM CUỐI"
-        };
-
-        string[] levelDescs = new[]
-        {
-            "Nhận diện mặt chữ Hán và phát âm chuẩn Pinyin",
-            "Ghi nhớ nghĩa và từ loại trọng tâm của bài",
-            "Phản xạ tìm cặp từ đồng nghĩa & trái nghĩa",
-            "Sắp xếp cấu trúc câu đúng quy tắc ngữ pháp",
-            "Nghe hội thoại thực tế và chọn đáp án chính xác",
-            "Điền lượng từ, liên từ và phó từ vào chỗ trống",
-            "Hoàn thành các đoạn đối thoại tình huống thực tế",
-            "Thử thách gõ Pinyin chuyển đổi mặt chữ chuẩn xác",
-            "Thử thách tính giờ sinh tử: Trả lời không dừng!",
-            "Ải Boss tổng kết: Thử thách toàn diện nhận vương miện 👑"
-        };
-
-        string[] types = new[]
-        {
-            "Nhận diện chữ",
-            "Nghĩa từ vựng",
-            "Nối từ siêu tốc",
-            "Xếp câu",
-            "Luyện nghe",
-            "Điền khuyết",
-            "Đối thoại",
-            "Luyện gõ",
-            "Speed Run",
-            "Đại chiến Boss"
-        };
-
-        string[] icons = new[] { "🎯", "📚", "⚡", "🧩", "🎧", "✍️", "🗣️", "⌨️", "⏱️", "👑" };
-
-        int completedCount = 0;
-        int totalStars = 0;
-
-        for (int i = 1; i <= 10; i++)
-        {
-            bool isBoss = (i == 10);
-            int exp = isBoss ? 250 : 50 + (i * 10);
-            int gems = isBoss ? 50 : 10;
-
-            // Generate realistic progress depending on HSK level
-            bool isCompleted = false;
-            bool isCurrent = false;
-            bool isLocked = false;
-            int stars = 0;
-            int highScore = 0;
-
-            if (world.HskLevel == 1)
-            {
-                if (i <= 6)
-                {
-                    isCompleted = true;
-                    stars = i <= 4 ? 3 : 2;
-                    highScore = i <= 4 ? 100 : 85;
-                    completedCount++;
-                    totalStars += stars;
-                }
-                else if (i == 7)
-                {
-                    isCurrent = true;
-                }
-                else
-                {
-                    isLocked = true;
-                }
-            }
-            else if (world.HskLevel == 2)
-            {
-                if (i <= 3)
-                {
-                    isCompleted = true;
-                    stars = 3;
-                    highScore = 100;
-                    completedCount++;
-                    totalStars += stars;
-                }
-                else if (i == 4)
-                {
-                    isCurrent = true;
-                }
-                else
-                {
-                    isLocked = true;
-                }
-            }
-            else if (world.HskLevel == 3)
-            {
-                if (i == 1)
-                {
-                    isCurrent = true;
-                }
-                else
-                {
-                    isLocked = true;
-                }
-            }
-            else
-            {
-                isLocked = true;
-            }
-
-            string medalBg = "#FEF3C7";
-            string medalBorder = "#F59E0B";
-            string medalFg = "#B45309";
-            string ribbonColor = "#F59E0B";
-
-            if (i == 1)
-            {
-                medalBg = "#FEF3C7";
-                medalBorder = "#F59E0B";
-                medalFg = "#B45309";
-                ribbonColor = "#F59E0B";
-            }
-            else if (i == 2)
-            {
-                medalBg = "#EFF6FF";
-                medalBorder = "#3B82F6";
-                medalFg = "#1D4ED8";
-                ribbonColor = "#3B82F6";
-            }
-            else if (i == 3)
-            {
-                medalBg = "#FFEDD5";
-                medalBorder = "#EA580C";
-                medalFg = "#C2410C";
-                ribbonColor = "#EA580C";
-            }
-            else if (i == 4)
-            {
-                medalBg = "#F3E8FF";
-                medalBorder = "#8B5CF6";
-                medalFg = "#6D28D9";
-                ribbonColor = "#8B5CF6";
-            }
-            else if (i == 10)
-            {
-                medalBg = "#FEF3C7";
-                medalBorder = "#EAB308";
-                medalFg = "#B45309";
-                ribbonColor = "#EAB308";
-            }
-            else
-            {
-                medalBg = "#F1F5F9";
-                medalBorder = "#94A3B8";
-                medalFg = "#475569";
-                ribbonColor = "#94A3B8";
-            }
-
-            var subLevel = new GameSubLevelItem
-            {
-                LevelNumber = i,
-                Title = $"Ải {i}: {levelTitles[i - 1]}",
-                Description = levelDescs[i - 1],
-                ChallengeType = types[i - 1],
-                Icon = icons[i - 1],
-                IsBossLevel = isBoss,
-                RewardExp = exp,
-                RewardGems = gems,
-                TargetHsk = world.LevelKey,
-                IsCompleted = isCompleted,
-                IsCurrent = isCurrent,
-                IsLocked = isLocked,
-                StarsEarned = stars,
-                HighScore = highScore,
-                MedalBg = medalBg,
-                MedalBorder = medalBorder,
-                MedalFg = medalFg,
-                RibbonColor = ribbonColor
-            };
-
-            world.SubLevels.Add(subLevel);
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 1, Name = "HauTuanDat", ScoreText = "152k", AvatarKind = "panda", LevelTag = "HSK 6", WinRateText = "94%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 2, Name = "LýVănThuan", ScoreText = "128k", AvatarKind = "panda", LevelTag = "HSK 5", WinRateText = "90%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 3, Name = "NgọcThắng", ScoreText = "114k", AvatarKind = "panda", LevelTag = "HSK 5", WinRateText = "87%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 4, Name = "MaiDat", ScoreText = "97.5k", AvatarKind = "girl", LevelTag = "HSK 4", WinRateText = "84%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 5, Name = "DatK22", ScoreText = "89.2k", AvatarKind = "boy", LevelTag = "HSK 4", WinRateText = "81%" });
         }
-
-        world.CompletedLevelsCount = completedCount;
-        world.TotalStarsEarned = totalStars;
+        else
+        {
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 1, Name = "HauTuanDat", ScoreText = "12.5k", AvatarKind = "panda", LevelTag = "HSK 5", WinRateText = "92%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 2, Name = "LýVănThuan", ScoreText = "11.8k", AvatarKind = "panda", LevelTag = "HSK 4", WinRateText = "89%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 3, Name = "NgọcThắng", ScoreText = "10.9k", AvatarKind = "panda", LevelTag = "HSK 4", WinRateText = "86%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 4, Name = "MaiDat", ScoreText = "9.7k", AvatarKind = "girl", LevelTag = "HSK 3", WinRateText = "81%" });
+            LeaderboardEntries.Add(new ArenaLeaderboardItem { Rank = 5, Name = "DatK22", ScoreText = "8.9k", AvatarKind = "boy", LevelTag = "HSK 3", WinRateText = "78%" });
+        }
     }
 }

@@ -6,6 +6,16 @@ using QuizApp.Services;
 
 namespace QuizApp.ViewModels;
 
+public class LeaderboardEntry
+{
+    public int Rank { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public int StreakDays { get; set; }
+    public string AvatarKind { get; set; } = "panda";
+    public string RankColor { get; set; } = "#536780";
+    public bool IsTopThree => Rank <= 3;
+}
+
 public class DashboardViewModel : ViewModelBase
 {
     private readonly IHskService _hskService;
@@ -31,9 +41,12 @@ public class DashboardViewModel : ViewModelBase
     private string _importStatusMessage = string.Empty;
     private double _importProgressPercent;
     private string _excelFilePath;
+    private string _selectedLeaderboardPeriod = "Tuần này";
 
     public ObservableCollection<HskLevelProgress> HskLevels { get; } = new();
     public ObservableCollection<HskLevelProgress> AdvancedLevels { get; } = new();
+    public ObservableCollection<LeaderboardEntry> LeaderboardEntries { get; } = new();
+    public string[] LeaderboardPeriods { get; } = { "Tuần này", "Tháng này", "Tất cả" };
 
     public ICommand StartQuizCommand { get; }
     public ICommand StartQuizHanziCommand { get; }
@@ -137,6 +150,7 @@ public class DashboardViewModel : ViewModelBase
 
         ImportExcelCommand = new RelayCommand(async () => await ExecuteImportAsync(), () => !IsImporting);
         RefreshCommand = new RelayCommand(async () => await LoadDashboardDataAsync());
+        LoadLeaderboard();
     }
 
     public User CurrentUser
@@ -145,16 +159,89 @@ public class DashboardViewModel : ViewModelBase
         set => SetProperty(ref _currentUser, value);
     }
 
-    public int TotalVocabularies
-    {
-        get => _totalVocabularies;
-        set => SetProperty(ref _totalVocabularies, value);
-    }
-
     public int MasteredVocabularies
     {
         get => _masteredVocabularies;
-        set => SetProperty(ref _masteredVocabularies, value);
+        set
+        {
+            if (SetProperty(ref _masteredVocabularies, value))
+            {
+                OnPropertyChanged(nameof(OverallProgressPercent));
+                OnPropertyChanged(nameof(DailyGoalVocabCount));
+                OnPropertyChanged(nameof(DailyGoalVocabText));
+                OnPropertyChanged(nameof(DailyGoalPercent));
+                OnPropertyChanged(nameof(DailyGoalStatusText));
+            }
+        }
+    }
+
+    public int TotalVocabularies
+    {
+        get => _totalVocabularies;
+        set
+        {
+            if (SetProperty(ref _totalVocabularies, value))
+            {
+                OnPropertyChanged(nameof(OverallProgressPercent));
+            }
+        }
+    }
+
+    public int OverallProgressPercent
+    {
+        get
+        {
+            if (TotalVocabularies <= 0) return 0;
+            return (int)Math.Clamp(Math.Round(MasteredVocabularies * 100.0 / TotalVocabularies), 0, 100);
+        }
+    }
+
+    public int DailyGoalVocabCount => Math.Min(10, Math.Max(0, MasteredVocabularies));
+    public int DailyGoalExerciseCount => Math.Min(3, Math.Max(0, ListeningCount + WritingCount + ReadingCount + SentenceCount));
+    public string DailyGoalVocabText => $"{DailyGoalVocabCount}/10";
+    public string DailyGoalExerciseText => $"{DailyGoalExerciseCount}/3";
+
+    public int DailyGoalPercent
+    {
+        get
+        {
+            double ratio = (DailyGoalVocabCount / 10.0 + DailyGoalExerciseCount / 3.0) / 2.0;
+            return (int)Math.Clamp(Math.Round(ratio * 100.0), 0, 100);
+        }
+    }
+
+    public string DailyGoalStatusText =>
+        DailyGoalPercent <= 0
+            ? "Chưa hoàn thành bài nào"
+            : $"Đã hoàn thành {DailyGoalPercent}% mục tiêu hôm nay";
+
+    public string SelectedLeaderboardPeriod
+    {
+        get => _selectedLeaderboardPeriod;
+        set
+        {
+            if (SetProperty(ref _selectedLeaderboardPeriod, value))
+            {
+                LoadLeaderboard();
+            }
+        }
+    }
+
+    private void LoadLeaderboard()
+    {
+        LeaderboardEntries.Clear();
+        int bonus = SelectedLeaderboardPeriod switch
+        {
+            "Tháng này" => 24,
+            "Tất cả" => 65,
+            _ => 0
+        };
+
+        LeaderboardEntries.Add(new LeaderboardEntry { Rank = 1, Name = "HauTuanDat", StreakDays = 152 + bonus, AvatarKind = "panda", RankColor = "#F0A51F" });
+        LeaderboardEntries.Add(new LeaderboardEntry { Rank = 2, Name = "LyVanThuan", StreakDays = 128 + bonus, AvatarKind = "panda", RankColor = "#8795A9" });
+        LeaderboardEntries.Add(new LeaderboardEntry { Rank = 3, Name = "NgocThang", StreakDays = 97 + bonus, AvatarKind = "panda", RankColor = "#C47B4D" });
+        LeaderboardEntries.Add(new LeaderboardEntry { Rank = 4, Name = "MaiDat", StreakDays = 91 + bonus, AvatarKind = "girl", RankColor = "#536780" });
+        LeaderboardEntries.Add(new LeaderboardEntry { Rank = 5, Name = "DatK22", StreakDays = 76 + bonus, AvatarKind = "boy", RankColor = "#536780" });
     }
 
     public int CurrentStreak
